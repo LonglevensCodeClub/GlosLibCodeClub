@@ -17,7 +17,8 @@ class Dungeon:
 
     ###########################################################
     #
-    # Construct a room with the given dimensions. Place torches
+    # Construct a room wit
+    # the given dimensions. Place torches
     # around the walls, optionally put a random piece of
     # treasure in the room.
     #

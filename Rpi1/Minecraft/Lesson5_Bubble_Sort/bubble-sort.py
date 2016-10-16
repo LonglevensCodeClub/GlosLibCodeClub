@@ -5,6 +5,14 @@ import time
 
 mc = Minecraft.create()
 
+x, y, z = mc.player.getPos()
+mc.setBlocks(x,
+			 y,
+			 z,
+			 x+10000,
+			 y+10000,
+			 z+100000,
+			 46, 1)
 class Canvas:        
     def __init__(self):
         self.x, self.y, self.z = mc.player.getPos()
@@ -64,18 +72,18 @@ class Canvas:
                          self.x - self.halfWidth + x,
                          self.y + y,
                          self.drawZ,
-                         material)
+                         material, 1)
             x += 1
                     
 
-myCanvas = Canvas()
-myData = random.sample(range(0, myCanvas.height), 20)
+#myCanvas = Canvas()
+#myData = random.sample(range(0, myCanvas.height), 20)
 
-for top in reversed(range(0, len(myData))):
-    for current in range(0, top):
-        if (myData[current] > myData[current + 1]):
-            swap = myData[current]
-            myData[current] = myData[current+1]
-            myData[current+1] = swap
-        myCanvas.drawColumns(myData, block.BRICK_BLOCK)
-        time.sleep(0.05)
+#for top in reversed(range(0, len(myData))):
+#    for current in range(0, top):
+#        if (myData[current] > myData[current + 1]):
+#            swap = myData[current]
+#            myData[current] = myData[current+1]
+#            myData[current+1] = swap
+#        myCanvas.drawColumns(myData,46)
+#        time.sleep(0.05)
