@@ -13,8 +13,8 @@ def randomcolor():
 
 def randomplace():
 	penup()
-	x = randint(-200, 200)
-	y = randint(-100, 100)
+	x = randint(-1, 1)
+	y = randint(-1, 1)
 	goto(x, y)
 	pendown()
 	
@@ -22,12 +22,57 @@ def randomheading():
 	setheading(randint (1, 360))
 	
 shape("turtle")
-turtlesize(9)
+turtlesize(1)
 
-while True:
+#while True:
+	#randomcolor()
+	#randomplace()
+	#randomheading()
+	#stamp()
+	
+def drawrectangle():
+   randomcolor()
+   randomplace()
+   hideturtle()
+   length = randint(10, 100)
+   height = randint(10, 100)
+   begin_fill()
+   forward(length)
+   right(90) 
+   forward(height)
+   right(90)
+   forward(length)
+   right(90)
+   forward(height)
+   right(90)
+   end_fill()
+clear()
+setheading(0)
+
+def drawcircle():
+	length = randint(10, 100)
 	randomcolor()
 	randomplace()
-	randomheading()
-	stamp()
+	dot(length) 
 
+#for i in range(20):
+#	drawcircle()
+	
+def draw_randomshape(size, color):
+	randomcolor()
+	randomplace()
+	angle = 120
+	begin_fill()
+
+	for side in range(5):
+		forward(size)
+		right(angle)
+		forward(size)
+		right(72 - angle)
+	end_fill()
+	return
+
+for i in range(50):
+	draw_randomshape(100, "purple")
+   
 done() # holds the screen at end

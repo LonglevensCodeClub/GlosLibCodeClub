@@ -23,17 +23,33 @@ def randomheading():
 	setheading(randint(1, 360))
 	
 shape("turtle")
-turtlesize(15)
+turtlesize(1)
 
-while True:
+#for i in range(1, 30):
+#	randomcolor()
+#	randomplace()
+#	randomheading()
+#	stamp()
+
+shape ("turtle")
+speed(0)
+
+# This is a function to draw rectangles
+def drawrectangle():
 	randomcolor()
 	randomplace()
-	randomheading()
-	stamp()
-	randomcolor()
-	randomplace()
-	randomheading()
-	stamp()
+	hideturtle()
+	length=randint(10,100)  
+	height=randint(10,100)
+	begin_fill()
+	forward(length)
+	right((90)
+	forward(height)
+	right(90)
 
-done() # always at end
+	
+	
+	
+
+done() # always\ at end
 
