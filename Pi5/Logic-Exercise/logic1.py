@@ -12,20 +12,20 @@ from logicUtils import *
 # this function is then called below
 #
 ##########
-def checkHunger():
-	hungry = askQuestion("Are you hungry?")
+def checkfat():
+	fat = askQuestion(" are you fat")
 
-	print("Hungry: " + str(hungry))
+	print("fat: " + str(fat))
 
-	if (hungry):
-		# Should you eat something? Print a message to tell you the answer.
-		print("You should eat something!")
+	if (fat):
+		# go on a diet? Print a message to tell you the answer.
+		print("go on a diet!")
 	else:
-		# Should you eat something? Print a message to tell you the answer.
-		print("Perhaps just drink some water!")
+		# go on a diet? Print a message to tell you the answer.
+		print("yes you are")
 
 ## You can comment this out when you just want to run your own questions below
-checkHunger()
+checkfat()
 
 ##########
 #

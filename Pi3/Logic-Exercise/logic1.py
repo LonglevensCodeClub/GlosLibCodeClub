@@ -25,7 +25,7 @@ def checkHunger():
 		print("Perhaps just drink some water!")
 
 ## You can comment this out when you just want to run your own questions below
-checkHunger()
+#checkHunger()
 
 ##########
 #
@@ -37,3 +37,18 @@ checkHunger()
 #	* 'i'm glad you are comfortable'
 #
 ##########
+
+#("are you thirsty
+def checkThirst():
+	thirsty = askQuestion("Are you thirsty?")
+
+	print("thirsty: " + str(thirsty))
+
+	if (thirsty):
+		# Should you eat something? Print a message to tell you the answer.
+		print("You should drink something!")
+	else:
+		# Should you eat something? Print a message to tell you the answer.
+		print("Perhaps just go on Holliday instead then!")
+
+checkThirst()
