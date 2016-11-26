@@ -50,7 +50,7 @@ for i  in range(30):
 clear()
 setheading(0)
 
-#for i in range(0):
+#for i in range(50):
 while True:
 	drawrectangle()
 	
