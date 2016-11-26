@@ -27,7 +27,7 @@ def checkSchoolDay():
 		print("It's not a school day!")
 		
 ## You can comment this out when you just want to run your own questions below
-checkSchoolDay()
+#checkSchoolDay()
 
 ##########
 #
@@ -44,3 +44,17 @@ checkSchoolDay()
 #	* 'i'm glad you have had some fresh air'
 #
 ##########
+
+def checkifwearingbra():
+	woman = askQuestion("Are you a woman?")
+	bra = askQuestion("Are you wearing a bra?")
+     
+	print("Woman: " + str(woman))
+	print("bra: " + str(bra))
+    
+	if (woman and bra):
+		print("Your a woman with a bra!")
+	else:
+		print("Your not a woman with a bra?Thats illegal!")
+		
+checkifwearingbra()

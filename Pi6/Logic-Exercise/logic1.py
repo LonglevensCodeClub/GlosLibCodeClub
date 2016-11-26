@@ -13,16 +13,17 @@ from logicUtils import *
 #
 ##########
 def checkHunger():
-	hungry = askQuestion("Are you hungry?")
+	hungry = askQuestion("do u like pie?")
 
 	print("Hungry: " + str(hungry))
 
 	if (hungry):
 		# Should you eat something? Print a message to tell you the answer.
-		print("You should eat something!")
+		print("then your life is complete!")
 	else:
 		# Should you eat something? Print a message to tell you the answer.
-		print("Perhaps just drink some water!")
+		print("im calling a mental hospital!")
+	
 
 ## You can comment this out when you just want to run your own questions below
 checkHunger()
@@ -37,3 +38,4 @@ checkHunger()
 #	* 'i'm glad you are comfortable'
 #
 ##########
+

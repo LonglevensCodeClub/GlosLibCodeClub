@@ -14,6 +14,11 @@ from logicUtils import *
 ##########
 def checkSchoolDay():
 	weekday = askQuestion("Is it a weekday?")
+	
+	if (not weekday):
+		print("It's not a school day!")
+		return
+			
 	termtime = askQuestion("Is it school term time?")
 
 	print("Weekday: " + str(weekday))
