@@ -25,7 +25,7 @@ def checkHunger():
 		print("Perhaps just drink some water!")
 
 ## You can comment this out when you just want to run your own questions below
-checkHunger()
+#checkHunger()
 
 ##########
 #
@@ -37,3 +37,17 @@ checkHunger()
 #	* 'i'm glad you are comfortable'
 #
 ##########
+
+def checkCleverness():
+	cleverness = askQuestion("are you stupid?")
+	
+	print("Cleverness: " +str(cleverness))
+
+	if (cleverness):
+		# Are you stupid? Print a message to tell you the answer.
+		print("I am an idiot!")
+	else:
+		#  Print a message to tell you the answer.
+		print("I am an idiot!")
+checkCleverness()
+
