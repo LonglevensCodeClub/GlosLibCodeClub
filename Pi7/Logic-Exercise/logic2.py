@@ -26,8 +26,8 @@ def checkSchoolDay():
 		# Should you be going to school ? Print a message to tell you the answer.
 		print("It's not a school day!")
 		
-## You can comment this out when you just want to run your own questions below
-checkSchoolDay()
+##  You can comment this out when you just want to run your own questions below
+# checkSchoolDay()
 
 ##########
 #
@@ -44,3 +44,18 @@ checkSchoolDay()
 #	* 'i'm glad you have had some fresh air'
 #
 ##########
+
+def checkcodeclub():
+	saturday = askQuestion("Is it saturday?")
+	time = askQuestion("Is it beetwin 11:30 and12:30?")
+
+	print("saturday: " + str(saturday))
+	print("time: " + str(time))
+
+	if (saturday and time):
+		# Should you be at the libary ? Print a message to tell you the answer.
+		print("It's code club today!")
+	else:
+		# Should you be at the libary ? Print a message to tell you the answer.
+		print("It's not code club today!")
+checkcodeclub()
