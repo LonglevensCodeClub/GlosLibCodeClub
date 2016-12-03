@@ -13,16 +13,16 @@ from logicUtils import *
 #
 ##########
 def checkHunger():
-	hungry = askQuestion("Are you hungry?")
+	hungry = askQuestion("Are you feeling cold?")
 
-	print("Hungry: " + str(hungry))
+	print("cold: " + str(hungry))
 
 	if (hungry):
 		# Should you eat something? Print a message to tell you the answer.
-		print("You should eat something!")
+		print("You should put on a jumper!")
 	else:
 		# Should you eat something? Print a message to tell you the answer.
-		print("Perhaps just drink some water!")
+		print("i'm glad you are comfortable!")
 
 ## You can comment this out when you just want to run your own questions below
 checkHunger()
