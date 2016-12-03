@@ -27,7 +27,7 @@ def checkSchoolDay():
 		print("It's not a school day!")
 		
 ## You can comment this out when you just want to run your own questions below
-checkSchoolDay()
+#checkSchoolDay()
 
 ##########
 #
@@ -44,3 +44,18 @@ checkSchoolDay()
 #	* 'i'm glad you have had some fresh air'
 #
 ##########
+
+def checkholiday():
+	holidays = askQuestion ("is it the holidays?")
+	weekday = askQuestion("is it a weekday?")
+	
+	print("holidays: "+ str(holidays))
+	print("weekday: "+ str(weekday))
+		
+	if (holidays and weekday):
+		print("you shouldn't be at school!")
+	else:
+		print("go to school!")
+	
+
+checkholiday()
