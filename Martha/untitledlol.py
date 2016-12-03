@@ -26,6 +26,7 @@ for x in range(100):
 		color('purple')
 		forward(7)
 		color('pink')
+		color('red')
 		right(85)
 		color('brown')
 		back(55)
