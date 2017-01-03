@@ -65,7 +65,7 @@ def makeHouse(mc, x, y, z):
 
 mc = init()
 x, y, z = mc.player.getTilePos()
-# This next line will be left in place for the children to see how yo build a house.
+# This next line will be left in place for the children to see how to build a house.
 #makeHouse(mc, x+8, y, z+4)
 
 # These lines will be deleted before being given to the children - this will be their exercise.

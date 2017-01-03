@@ -11,8 +11,10 @@ countX = 5
 countZ = 2
 delay=0.3
 
-## Clear a big space
+## Connect to Minecraft
 mc = minecraft.Minecraft.create()
+
+## Clear a big space
 mc.setBlocks(-10, -10, -10,
 			countX * groundsSize.x,
 			groundsSize.y,
