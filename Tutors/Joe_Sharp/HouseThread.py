@@ -23,7 +23,7 @@ class HouseThread(threading.Thread):
 						  self.groundsOrigin.z + self.groundsSize.z - 1,
 						  block.AIR)
 						  
-		# Create a floor
+		# Create a grounds (garden)
 		floorOrigin = vec3.Vec3(self.groundsOrigin.x,
 								self.groundsOrigin.y - 1, 
 								self.groundsOrigin.z)
@@ -46,7 +46,20 @@ class HouseThread(threading.Thread):
 						  houseOrigin.x + self.houseSize.x - 1,
 						  houseOrigin.y + self.houseSize.y - 1,
 						  houseOrigin.z + self.houseSize.z - 1,
-						  block.WOOD_PLANKS)
+						  block.BRICK_BLOCK)
+		time.sleep(self.delay)
+						  
+		# Create a floor (inside only)
+		floorOrigin = vec3.Vec3(self.groundsOrigin.x,
+								self.groundsOrigin.y - 1, 
+								self.groundsOrigin.z)
+		self.mc.setBlocks(houseOrigin.x,
+						  houseOrigin.y - 1,
+						  houseOrigin.z,
+						  houseOrigin.x + self.houseSize.x - 1,
+						  houseOrigin.y - 1,
+						  houseOrigin.z + self.houseSize.z - 1,
+						  block.STONE)
 		time.sleep(self.delay)
 		
 		# Carve out house interior
@@ -85,11 +98,6 @@ class HouseThread(threading.Thread):
 						  roofOrigin.x + self.houseSize.x - 1,
 						  roofOrigin.y,
 						  roofOrigin.z + self.houseSize.z - 1,
-						  block.GRASS)
+						  block.WOOD_PLANKS)
 		time.sleep(self.delay)
-		
-		self.mc.setBlock(self.groundsOrigin.x,
-						 self.groundsOrigin.y, 
-						 self.groundsOrigin.z, 
-						 block.OBSIDIAN)
 
