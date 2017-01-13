@@ -65,10 +65,32 @@ def makeHouse(mc, x, y, z):
 
 mc = init()
 x, y, z = mc.player.getTilePos()
-# This next line will be left in place for the children to see how yo build a house.
-#makeHouse(mc, x+8, y, z+4)
+makeHouse(mc, x+7, y, z+4+h*10)
 
-# These lines will be deleted before being given to the children - this will be their exercise.
-for i in range(6):
-    makeHouse(mc, x+7, y, z+4+10*i)
-    makeHouse(mc, x-8, y, z+4+10*i)
+
+##################################################
+#
+#  Exercises:
+#
+# 1. Run this code and explore the world in Minecraft, see the road
+#    and the house.
+#
+# 2. Make a copy of the above line of code "makeHouse..." and
+#    change it so that a secod house is build on the other side of the road.
+#
+# 3. Wrap both of the "makeHouse..." lines in a for loop to create 
+#    a row of houses along each side of the road. You should be able to make
+#    6 houses spaced 10 blocks apart. You will have to change the arguments
+#    supplied to both "makeHouse..." calls. Refer to last week's "Steps"
+#    exercise for an example of building things inside a for loop.
+#
+# 4. Copy and Paste the whole "makeHouse..." function and change the name
+#    of it to something else (for example "makeShop"). Now change the code
+#    inside the copied function so that it creates your new design (for
+#    example, a shop will have large windows, a pavement all the way across
+#    the front and an awning.
+#
+# 5. Change your for loop so that is uses both "makeHouse" and "makeShop"
+#    (for example the houses on one side of the street and the sops on the
+#    other).
+#
