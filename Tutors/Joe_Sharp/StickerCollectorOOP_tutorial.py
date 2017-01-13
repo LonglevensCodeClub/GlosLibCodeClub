@@ -1,10 +1,20 @@
 from random import randint
 
+class Packet():
+	def __init__(self, book):
+		self.stickers = set()
+		while len(self.stickers) < book.packetSize:
+			s = randint(1, book.collectionSize)
+			self.stickers.add(s)
+
 class StickerBook():
 	def __init__(self, name, collectionSize, packetSize):
 		self.name = name
 		self.collectionSize = collectionSize
 		self.packetSize = packetSize
+		
+	def printPacket(self):
+		return Packet(self)
 		
 class StickerCollection():
 	def __init__(self, book):
@@ -17,8 +27,8 @@ class StickerCollection():
 		
 	def buyPacket(self):
 		self.packetsBought += 1
-		for x in range(self.book.packetSize):
-			s = randint(1, self.book.collectionSize)
+		packet = self.book.printPacket()
+		for s in packet.stickers:
 			self.receiveSticker(s)
 				
 	def receiveSticker(self, whichSticker):
@@ -37,7 +47,7 @@ class StickerCollection():
 		# Check that both people still need stickers, quit early
 		if self.isComplete() or other.isComplete():
 			return
-		
+				
 		# Compose a set of stickers that can be swapped
 		iHaveTheyNeed = set()
 		theyHaveINeed = set()
@@ -49,8 +59,8 @@ class StickerCollection():
 				# Do I have a spare?
 				if (self.stickers[x] > 0):
 					iHaveTheyNeed.add(x)
-			elif (x in self.stickers) and (x not in other.stickers):
-				if (self.stickers[x] > 0):
+			elif (x in other.stickers) and (x not in self.stickers):
+				if (other.stickers[x] > 0):
 					theyHaveINeed.add(x)
 			
 		# While there are stickers left in both piles
@@ -70,11 +80,10 @@ class StickerCollection():
 	def isComplete(self):
 		return len(self.stickers) == self.book.collectionSize
 
-def testSingleCollector():
-	for x in range(5):
-
+def testSingleCollector(numberTests, collectionSize, packetSize):
+	for x in range(numberTests):
 		# Create a book called 'Pokemon'
-		pokemonBook = StickerBook(name="Pokemon", collectionSize=20, packetSize=3)	
+		pokemonBook = StickerBook(name="Pokemon", collectionSize=collectionSize, packetSize=packetSize)	
 
 		# Create a single collection of that book
 		myPokemonCollection = StickerCollection(book=pokemonBook)
@@ -85,9 +94,9 @@ def testSingleCollector():
 		print("Collection Complete {} packets bought".format(myPokemonCollection.packetsBought))
 
 ## New code starting here
-def testMultipleCollectors(numberCollectors):
+def testMultipleCollectors(numberCollectors, collectionSize, packetSize):
 	# Create a single book called 'World Cup 2014'
-	worldCupBook = StickerBook(name="World Cup 2014", collectionSize=20, packetSize=3)	
+	worldCupBook = StickerBook(name="World Cup 2014", collectionSize=collectionSize, packetSize=packetSize)	
 		
 	# Create an empty list of collections
 	collections = []
@@ -119,8 +128,11 @@ def testMultipleCollectors(numberCollectors):
 		numberPacketsBought += c.packetsBought
 	return numberPacketsBought / len(collections)
 	
-for x in range(1, 30):
-	howMany = 0
-	for y in range(10):
-		howMany += testMultipleCollectors(x)
-	print("How many average with {} collectors {}".format(x, howMany / y))
+def testMultipleCollectorsBatch(tests, minNumberCollectors, maxNumberCollectors, collectionSize, packetSize):
+	for x in range(1, tests):
+		howMany = 0
+		for y in range(minNumberCollectors, maxNumberCollectors):
+			howMany += testMultipleCollectors(x, collectionSize, packetSize)
+		print("How many average with {} collectors {}".format(x, howMany / y))
+	
+testMultipleCollectorsBatch(10, 1, 10, 400, 6)
