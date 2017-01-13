@@ -65,7 +65,7 @@ def makeHouse(mc, x, y, z):
 
 mc = init()
 x, y, z = mc.player.getTilePos()
-makeHouse(mc, x+7, y, z+4+h*10)
+makeHouse(mc, x+7, y, z+4)
 
 
 ##################################################

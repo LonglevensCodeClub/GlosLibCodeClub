@@ -1,47 +1,53 @@
+from CommandLineMenu import CommandLineMenu
+
 class CaesarCipher:
+	ALL_LETTERS = None
+	
+	# Singleton to contain the list of ALL_LETTERS
+	@staticmethod
+	def allLetters():
+		if not CaesarCipher.ALL_LETTERS:
+			# Generate all the allowed letters in a list
+			allLetterCodes = range(ord('a'), ord('z'))
+			
+			# Map the codes to actual letters using the chr() function
+			allLetterCodesMapped = map(chr, allLetterCodes)
+			
+			# Turn the map into a list
+			CaesarCipher.ALL_LETTERS = list(allLetterCodesMapped)
+		return CaesarCipher.ALL_LETTERS
+	
 	def __init__(self, key):
 		self.key = key
-
-		# Generate all the allowed letters in a list
-		allLetterCodes = range(ord('a'), ord('z'))
-		
-		# Map the codes to actual letters using the chr() function
-		allLetterCodesMapped = map(chr, allLetterCodes)
-		
-		# Turn the map into a list
-		self.allLetters = list(allLetterCodesMapped)
-		
-		# We will print it out to demonstrate the alphabet generation works
-		#print("All Letters {}".format(self.allLetters))
 		
 	def encryptLetter(self, plainLetter):
 		# find index of the letter
-		index = self.allLetters.index(plainLetter) 
+		index = CaesarCipher.allLetters().index(plainLetter) 
 		
 		# apply the key
 		index += self.key 
 		
 		# wrap around
-		index %= len(self.allLetters) 
+		index %= len(CaesarCipher.allLetters()) 
 		
 		# Return the letter identified by the modified index
-		return self.allLetters[index]
+		return CaesarCipher.allLetters()[index]
 		
 	def decryptLetter(self, cipherLetter):
 		# find index of the letter
-		index = self.allLetters.index(cipherLetter)
+		index = CaesarCipher.allLetters().index(cipherLetter)
 		
 		# apply the key
 		index -= self.key 
 		
 		# force more than zero (in case we wrapped backwards)
-		index += len(self.allLetters) 
+		index += len(CaesarCipher.allLetters()) 
 		
 		# wrap around using modulus
-		index %= len(self.allLetters) 
+		index %= len(CaesarCipher.allLetters()) 
 		
 		# Return the letter identified by the modified index
-		return self.allLetters[index]
+		return CaesarCipher.allLetters()[index]
 
 	# Given a plain text word
 	# Encrypts with our key and returns the cipher text
@@ -64,7 +70,7 @@ class CaesarCipher:
 			plainText += p
 			
 		return plainText
-
+		
 def testEncryptWord(plainText, key, expected):
 	# When
 	c = CaesarCipher(key)
@@ -81,8 +87,38 @@ def testDecryptWord(cipherText, key, expected):
 	# Then
 	assert expected == result, "Incorrect '{}'!='{}'".format(expected, result)
 
-testEncryptWord("hello", 5, "mjqqt")
-testDecryptWord("mehbs", 15, "world")
+def runTests():
+	testEncryptWord("hello", 5, "mjqqt")
+	testDecryptWord("mehbs", 15, "world")
+	print("All Tests of Caesar Cipher Passed")
+runTests()
 
-print("All Tests Passed!")
+def encryptWord():
+	plainText = input("Enter the word to encrypt: ")
+	key = int(input("Enter the key: "))
+	c = CaesarCipher(key = key)
+	cipherText = c.encryptWord(plainText)
+	print("Encrypted cipher text: {}".format(cipherText))
+
+def decryptWord():
+	cipherText = input("Enter the word to decrypt: ")
+	key = int(input("Enter the key: "))
+	c = CaesarCipher(key = key)
+	plainText = c.decryptWord(cipherText)
+	print("Decrypted plain text: {}".format(plainText))
+	
+def bruteForceDecryptWord():
+	cipherText = input("Enter the word to decrypt: ")
+	for key in range(len(CaesarCipher.allLetters())):
+		c = CaesarCipher(key = key)
+		plainText = c.decryptWord(cipherText)
+		print("Decrypted plain text for key {}: {}"\
+			.format(str(key).zfill(2), plainText))
+
+menu = CommandLineMenu(title="Caesar Cipher") \
+	.withQuitOption('q') \
+	.withOption('e', 'Encrypt Word', encryptWord) \
+	.withOption('d', 'Decrypt Word', decryptWord) \
+	.withOption('b', 'Brute Force Decrypt', bruteForceDecryptWord) \
+	.run()
 

@@ -60,8 +60,9 @@ w.onkey(spacebar, "space")
 ## Stay at end
 w.listen()
 
+step = 63
 while True:
-	step = 63
 	step = updateFrame(step)
+	step += 1
 	w.getcanvas().update_idletasks()
 	w.getcanvas().update()
