@@ -73,16 +73,18 @@ makeHouse(mc, x+7, y, z+4)
 #  Exercises:
 #
 # 1. Run this code and explore the world in Minecraft, see the road
-#    and the house.
+#    and the house that have been built.
 #
 # 2. Make a copy of the above line of code "makeHouse..." and
-#    change it so that a secod house is build on the other side of the road.
+#    change it so that a second house is build on the other side of the road.
+#    Hint: You will have to change the location of the new house.
 #
 # 3. Wrap both of the "makeHouse..." lines in a for loop to create 
 #    a row of houses along each side of the road. You should be able to make
 #    6 houses spaced 10 blocks apart. You will have to change the arguments
-#    supplied to both "makeHouse..." calls. Refer to last week's "Steps"
-#    exercise for an example of building things inside a for loop.
+#    supplied to both "makeHouse..." calls so that the houses are built
+#    all along the road. Refer to last week's "Steps" exercise for an
+#    example of building things inside a for loop.
 #
 # 4. Copy and Paste the whole "makeHouse..." function and change the name
 #    of it to something else (for example "makeShop"). Now change the code
@@ -91,6 +93,6 @@ makeHouse(mc, x+7, y, z+4)
 #    the front and an awning.
 #
 # 5. Change your for loop so that is uses both "makeHouse" and "makeShop"
-#    (for example the houses on one side of the street and the sops on the
+#    (for example the houses on one side of the street and the shops on the
 #    other).
 #
