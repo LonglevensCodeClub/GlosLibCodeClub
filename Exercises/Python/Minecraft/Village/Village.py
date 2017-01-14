@@ -29,9 +29,9 @@ def init():
 ###########################################################
 def makeHouse(mc, x, y, z):
     # Build the shell
-    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.GLASS.BLOCK.id)
+    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.BRICK_BLOCK.id)
     mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
-	
+
     # Add the roof
     mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
     mc.setBlocks(x+3, y+3, z-3, x+3, y+3, z+3, block.STAIRS_WOOD.id, 1)
@@ -41,10 +41,10 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x+1, y+5, z-3, x+1, y+5, z+3, block.STAIRS_WOOD.id, 1)
 
     # Fill in each end of the roof
-    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.GLASS_BLOCK.id)
-    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.GLASS_BLOCK.id)
-    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.GLASS_BLOCK.id)
-    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.GLASS_BLOCK.id)
+    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.BRICK_BLOCK.id)
     
     # Add doors front and rear and pathways
     mc.setBlock(x-2, y, z-1, block.DOOR_WOOD.id, 0)
