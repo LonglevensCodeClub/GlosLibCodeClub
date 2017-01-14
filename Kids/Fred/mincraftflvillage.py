@@ -21,12 +21,6 @@ def init():
     mc.player.setPos(x, 0, z)
     return mc
 
-###########################################################
-#
-# Construct a House centered on coordinates x, y, z.
-# The house is 6 blocks deep and 7 blocks wide.
-#
-###########################################################
 def makeHouse(mc, x, y, z):
     # Build the shell
     mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.BRICK_BLOCK.id)
@@ -60,12 +54,55 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x, y+1, z-3, x+1, y+1, z-3, block.GLASS.id)
     mc.setBlocks(x, y+1, z+3, x+1, y+1, z+3, block.GLASS.id)
 
+###########################################################
+#
+# Construct a House centered on coordinates x, y, z.
+# The house is 6 blocks deep and 7 blocks wide.
+#
+###########################################################
+def makeShop(mc, x, y, z):
+    # Build the shell
+    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.OBSIDIAN.id)
+    mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
+
+    # Add the roof
+    mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
+    mc.setBlocks(x+3, y+3, z-3, x+3, y+3, z+3, block.STAIRS_WOOD.id, 1)
+    mc.setBlocks(x-1, y+4, z-3, x-1, y+4, z+3, block.STAIRS_WOOD.id, 0)
+    mc.setBlocks(x+2, y+4, z-3, x+2, y+4, z+3, block.STAIRS_WOOD.id, 1)
+    mc.setBlocks(x, y+5, z-3, x, y+5, z+3, block.STAIRS_WOOD.id, 0)
+    mc.setBlocks(x+1, y+5, z-3, x+1, y+5, z+3, block.STAIRS_WOOD.id, 1)
+
+    # Fill in each end of the roof
+    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.OBSIDIAN.id)
+    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.OBSIDIAN.id)
+    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.OBSIDIAN.id)
+    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.OBSIDIAN.id)
+    
+    # Add doors front and rear and pathways
+    mc.setBlock(x-2, y, z-1, block.DOOR_WOOD.id, 0)
+    mc.setBlock(x-2, y+1, z-1, block.DOOR_WOOD.id, 8)
+    mc.setBlock(x+3, y, z+1, block.DOOR_WOOD.id, 2)
+    mc.setBlock(x+3, y+1, z+1, block.DOOR_WOOD.id, 10)
+    mc.setBlocks(x-3, y-1, z-1, x-4, y-1, z-1, block.STONE.id)
+    mc.setBlocks(x+4, y-1, z+1, x+5, y-1, z+1, block.STONE.id)
+
+    # Add Windows
+    mc.setBlocks(x-2, y+1, z, x-2, y+1, z+1, block.AIR.id)
+    mc.setBlocks(x+3, y+1, z, x+3, y+1, z-1, block.AIR.id)
+    mc.setBlocks(x, y+1, z-3, x+1, y+1, z-3, block.AIR.id)
+    mc.setBlocks(x, y+1, z+3, x+1, y+1, z+3, block.AIR.id)
+
+
 
 
 
 mc = init()
 x, y, z = mc.player.getTilePos()
-makeHouse(mc, x+7, y, z+4)
+for step in range(10):
+    makeHouse(mc, x+7, y, z+4+step*10)
+    makeShop(mc, x-8, y, z+4+step*10)
+
 
 
 ##################################################
@@ -95,4 +132,4 @@ makeHouse(mc, x+7, y, z+4)
 # 5. Change your for loop so that is uses both "makeHouse" and "makeShop"
 #    (for example the houses on one side of the street and the shops on the
 #    other).
-#
+#fgyfgvbrjhfru.frhef.rhuiru8g
