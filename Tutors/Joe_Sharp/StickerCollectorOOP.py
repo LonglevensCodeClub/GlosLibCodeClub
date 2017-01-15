@@ -2,11 +2,21 @@ from functools import reduce
 from random import randint
 
 class Packet():
-	def __init__(self, book):
-		self.stickers = set()
-		while len(self.stickers) < book.packetSize:
+	def __init__(self, stickers):
+		self.stickers = stickers
+			
+	@classmethod
+	def fromRandomSelection(cls, book):
+		stickers = set()
+		while len(stickers) < book.packetSize:
 			s = randint(1, book.collectionSize)
-			self.stickers.add(s)
+			stickers.add(s)
+		return cls(stickers)
+		
+	@classmethod
+	def fromSpecifiedStickers(cls, book, stickers):
+		return cls(stickers)
+		
 
 class StickerBook():
 	def __init__(self, name, collectionSize, packetSize):
@@ -18,7 +28,7 @@ class StickerBook():
 		return "Sticker Book {} with {} stickers in packets of {}".format(self.name, self.collectionSize, self.packetSize)
 		
 	def printPacket(self):
-		return Packet(self)
+		return Packet.fromRandomSelection(self)
 		
 class StickerCollection():
 	def __init__(self, book):
@@ -40,12 +50,13 @@ class StickerCollection():
 		else:
 			self.stickers[whichSticker] = 1
 			
-	def giveAwaySticker(self, whichSticker):
+	def giveAwaySticker(self, whichSticker, recipient):
 		if (whichSticker in self.stickers):
 			self.stickers[whichSticker] -= 1
 			if (self.stickers[whichSticker] == 0):
 				del(self.stickers[whichSticker])
-				return True
+			recipient.receiveSticker(whichSticker)
+			return True
 		return False
 		
 	def getSwaps(self):
@@ -95,13 +106,8 @@ class GroupOfCollections():
 			fromFirst = firstHasSecondNeeds.pop()
 			fromSecond = secondHasFirstNeeds.pop()
 			
-			# First gives sticker to second
-			if first.giveAwaySticker(fromFirst):
-				second.receiveSticker(fromFirst)
-			
-			# Second gives sticker to first
-			if second.giveAwaySticker(fromSecond):
-				first.receiveSticker(fromSecond)
+			first.giveAwaySticker(fromFirst, second)
+			second.giveAwaySticker(fromSecond, first)
 				
 			swapsMade += 1
 			
@@ -118,33 +124,4 @@ class GroupOfCollections():
 				return False
 		return True
 
-def testSingleCollector(numberTests, collectionSize, packetSize):
-	for x in range(numberTests):
-		# Create a book called 'Pokemon'
-		pokemonBook = StickerBook(name="Pokemon", collectionSize=collectionSize, packetSize=packetSize)	
 
-		# Create a single collection of that book
-		myPokemonCollection = StickerCollection(book=pokemonBook)
-
-		while not myPokemonCollection.isComplete():
-			myPokemonCollection.buyPacket()
-
-		print("Collection Complete {} packets bought".format(myPokemonCollection.packetsBought))
-
-## New code starting here
-def testMultipleCollectors(numberCollectors, collectionSize, packetSize):
-	# Create a single book called 'World Cup 2014'
-	worldCupBook = StickerBook(name="World Cup 2014", collectionSize=collectionSize, packetSize=packetSize)	
-	collectors = GroupOfCollections(numberCollectors=numberCollectors, book=worldCupBook)
-		
-	x = 0
-	while not collectors.isComplete() and x < 500:
-		collectors.buyPackets()
-		x += 1
-	
-	return collectors
-	
-for numberCollectors in range(1, 8):
-	collectors = testMultipleCollectors(numberCollectors, 100, 6)
-	av = collectors.getPacketsBought() / numberCollectors
-	print("Average Packets Bought by {} collectors: {}, Swaps made: {}".format(numberCollectors, av, collectors.swapsMade))
