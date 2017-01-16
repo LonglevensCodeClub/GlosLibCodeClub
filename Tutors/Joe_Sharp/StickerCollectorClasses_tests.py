@@ -1,5 +1,5 @@
 import unittest
-from StickerCollectorOOP import *
+from StickerCollectorClasses import *
 
 class TestCollectionMethods(unittest.TestCase):
 	
@@ -40,7 +40,34 @@ class TestCollectionMethods(unittest.TestCase):
 		self.assertEqual(1, collection2.stickers[8])
 		
 	def testSwaps(self):
-		pass
+		collection1 = StickerCollection(book=self.book)
+		collection2 = StickerCollection(book=self.book)
+		
+		# Give collection1 a swap of 8
+		collection1.receiveSticker(1)
+		collection1.receiveSticker(5)
+		collection1.receiveSticker(8)
+		collection1.receiveSticker(8)
+		
+		# Give collection2 a swap of 9
+		collection2.receiveSticker(1)
+		collection2.receiveSticker(6)
+		collection2.receiveSticker(9)
+		collection2.receiveSticker(9)
+		collection2.receiveSticker(10)
+		collection2.receiveSticker(10)
+		
+		group = GroupOfCollections.withBookCollectionsAndSwapFunction(book=self.book,
+								collections=[collection1, collection2],
+								swapFunction=SwapFunctions.transactionalSwap)
+		group.runSwaps()
+		
+		expected1 = set([1, 5, 8])
+		self.assertTrue(expected1 < collection1.stickers.keys())
+		self.assertTrue(9 in collection1.stickers or 10 in collection1.stickers)
+		
+		expected2 = set([1, 6, 8, 9, 10])
+		self.assertEqual(expected2, collection2.stickers.keys())
 
 if __name__ == '__main__':
     unittest.main()
