@@ -31,8 +31,10 @@ class StickerBook():
 		return Packet.fromRandomSelection(self)
 		
 class StickerCollection():
-	def __init__(self, book):
+	def __init__(self, book, collectionId=None, observer=None):
+		self.collectionId = collectionId
 		self.book = book
+		self.observer=observer
 		self.stickers = dict()
 		self.packetsBought = 0
 		
@@ -49,6 +51,8 @@ class StickerCollection():
 			self.stickers[whichSticker] += 1
 		else:
 			self.stickers[whichSticker] = 1
+		if self.observer:
+			self.observer(self.collectionId, whichSticker, self.stickers[whichSticker])
 			
 	def giveAwaySticker(self, whichSticker, recipient):
 		if (whichSticker in self.stickers):
@@ -77,7 +81,7 @@ class GroupOfCollections():
 	def withBookCountAndSwapFunction(cls, book, numberCollections, swapFunction):
 		collections = []
 		for x in range(numberCollections):
-			c = StickerCollection(book=book)
+			c = StickerCollection(collectionId=x, book=book)
 			collections.append(c)
 			
 		return cls(book, collections, swapFunction)
