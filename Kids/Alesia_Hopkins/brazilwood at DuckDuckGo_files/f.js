@@ -1,0 +1,1 @@
+Spice.failed("embed");
