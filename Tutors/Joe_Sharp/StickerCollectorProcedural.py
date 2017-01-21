@@ -1,6 +1,6 @@
 from random import randint
 
-def collectStickers(bookSize):
+def collectStickers(bookSize, observer=None):
 	stickersBought = 0
 	stickers = dict()
 	
@@ -11,11 +11,10 @@ def collectStickers(bookSize):
 			stickers[s] += 1
 		else:
 			stickers[s] = 1
+		if observer:
+			observer(s, stickers[s])
 	
-	return stickersBought
+	return stickers, stickersBought
 	
-myBookSize = 400
-x = collectStickers(myBookSize)
-print("Bought {} stickers for a collection of {}".format(x, myBookSize))
 
 
