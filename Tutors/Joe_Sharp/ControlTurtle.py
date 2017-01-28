@@ -6,7 +6,7 @@ player = turtle.Turtle()
 player.shape("turtle")
 
 # Create a list of turtles to chase
-computerColours=["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
+computerColours=["red", "orange", "yellow", "green", "blue", "violet"]
 computers = []
 
 # Get hold of screen

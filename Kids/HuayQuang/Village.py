@@ -15,10 +15,10 @@ def init():
     if z > 70:
         # We need room along the z axis for the steet
         z = 70
-    mc.setBlocks(x-15, -1, z-2, x+15, 50, z+58, block.AIR.id)
-    mc.setBlocks(x-15, -1, z-2, x+15, -1, z+58, block.GRASS.id)
-    mc.setBlocks(x-2, -1, z-2, x+2, -1, z+58, block.STONE.id)
-    mc.player.setPos(x, 0, z)
+    mc.setBlocks(x-15, y+50, z-2, x+15, 50, z+58, block.AIR.id)
+    mc.setBlocks(x-15, y-1, z-2, x+15, y-1, z+58, block.GRASS.id)
+    mc.setBlocks(x-2, y-1, z-2, x+2, y-1, z+58, block.STONE.id)
+    #mc.player.setPos(x, 0, z)
     return mc
 
 ###########################################################
@@ -29,7 +29,7 @@ def init():
 ###########################################################
 def makeHouse(mc, x, y, z):
     # Build the shell
-    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, 13)
     mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
 
     # Add the roof
@@ -41,10 +41,10 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x+1, y+5, z-3, x+1, y+5, z+3, block.STAIRS_WOOD.id, 1)
 
     # Fill in each end of the roof
-    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.BRICK_BLOCK.id)
-    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.BRICK_BLOCK.id)
-    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.BRICK_BLOCK.id)
-    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, 13)
+    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, 13)
+    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, 13)
+    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, 13)
     
     # Add doors front and rear and pathways
     mc.setBlock(x-2, y, z-1, block.DOOR_WOOD.id, 0)
@@ -60,12 +60,19 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x, y+1, z-3, x+1, y+1, z-3, block.GLASS.id)
     mc.setBlocks(x, y+1, z+3, x+1, y+1, z+3, block.GLASS.id)
 
-
+    # make floor
+    mc.setBlocks(x-2, y-1, z-3, x+3, y-1, z+3, 5)
+    mc.setBlocks(x-2, y-2, z-3, x+3, y-2, z+3, 46, 1)
 
 
 mc = init()
 x, y, z = mc.player.getTilePos()
-makeHouse(mc, x+7, y, z+4)
+mc.setBlock(x, y-1, z, 56)
+z = z+4 
+for i in range(0,7):
+    makeHouse(mc, x+7, y, z)
+    makeHouse(mc, x-8, y, z)
+    z = z+8
 
 
 ##################################################

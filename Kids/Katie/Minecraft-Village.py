@@ -29,9 +29,9 @@ def init():
 ###########################################################
 def makeHouse(mc, x, y, z):
     # Build the shell
-    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.GLASS.id)
     mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
-
+	
     # Add the roof
     mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
     mc.setBlocks(x+3, y+3, z-3, x+3, y+3, z+3, block.STAIRS_WOOD.id, 1)
@@ -41,10 +41,10 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x+1, y+5, z-3, x+1, y+5, z+3, block.STAIRS_WOOD.id, 1)
 
     # Fill in each end of the roof
-    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.BRICK_BLOCK.id)
-    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.BRICK_BLOCK.id)
-    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.BRICK_BLOCK.id)
-    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.GLASS.id)
+    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.GLASS.id)
+    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.GLASS.id)
+    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.GLASS.id)
     
     # Add doors front and rear and pathways
     mc.setBlock(x-2, y, z-1, block.DOOR_WOOD.id, 0)
@@ -65,17 +65,19 @@ def makeHouse(mc, x, y, z):
 
 mc = init()
 x, y, z = mc.player.getTilePos()
-makeHouse(mc, x+7, y, z+4)
-
+for village in range(10):
+   makeHouse(mc, x+7, y, z+4+village*10)
+   makeHouse(mc, x-7, y, z+4+village*10)
+	
 
 ##################################################
-#
+
 #  Exercises:
 #
-# 1. Run this code and explore the world in Minecraft, see the road
-#    and the house that have been built.
-#
-# 2. Make a copy of the above line of code "makeHouse..." and
+	# 1. Run this code and explore the world in Minecraft, see the road
+	#    and the house that have been built.
+	#
+	# 2. Make a copy of the above line of code "makeHouse..." and
 #    change it so that a second house is build on the other side of the road.
 #    Hint: You will have to change the location of the new house.
 #

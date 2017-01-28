@@ -1,10 +1,14 @@
 from random import randint
 
-def collectStickers(bookSize):
-
-	stickers = dict()
+def collectStickers(bookSize, observer=None):
 	stickersBought = 0
-
+	stickers = dict()
+	
+	# Tell the observer about the existence of all stickers
+	if observer:
+		for x in range(1, bookSize):
+			observer(x, 0)
+			
 	while not (len(stickers) == bookSize):
 		stickersBought += 1
 		s = randint(1, bookSize)
@@ -12,19 +16,9 @@ def collectStickers(bookSize):
 			stickers[s] += 1
 		else:
 			stickers[s] = 1
-
+			
+		# Update the observer
+		if observer:
+			observer(s, stickers[s])
+	
 	return stickersBought
-
-attempts=100
-myBookSize=400
-totalStickers=0
-
-for x in range(attempts):
-	b = collectStickers(bookSize=400)
-	print("Bought {} stickers to collect {}".format(b, myBookSize))
-	totalStickers+=b
-
-average = totalStickers / attempts
-
-print("Bought an average of {} stickers to collect {} in {} attempts".format(average, myBookSize, attempts))
-
