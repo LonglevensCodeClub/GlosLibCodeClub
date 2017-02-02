@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>My First Page</title>
+		
+		<script>
+			console.log("Hello from JavaScript")
+			
+			function sayHello() {
+				var now = new Date()
+				console.log("Hello from Function " + now.getTime())
+				alert('Hello from your first function!')
+			}
+			
+			function addNumbers() {
+				txtNum1 = document.getElementById('number1')
+				txtNum2 = document.getElementById('number2')
+				txtAns = document.getElementById('answer')
+				
+				num1 = parseInt(txtNum1.value)
+				num2 = parseInt(txtNum2.value)
+				sum = num1 + num2
+				
+				txtAns.value = sum
+				
+				console.log("Adding Numbers, Answer=" + sum)
+			}
+		</script>
+		
+		
+	</head>
+	<body>
+		<h1>Hello from HTML</h1>
+		
+		<button onclick="sayHello()">Say Hello</button>
+		
+		<fieldset>
+			<label>Number 1</label>
+			<input type="text" id="number1" />
+			<br>
+			<label>Number 2</label>
+			<input type="text" id="number2" />
+			<br>
+			<label>Answer</label>
+			<input id='answer' readonly='readonly'/>
+		</fieldset>
+		
+		<button onclick="addNumbers()">Add Numbers</button>
+	</body>
+</html>
