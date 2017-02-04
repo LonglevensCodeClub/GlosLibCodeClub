@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>My First Page</title>
+        <script type="text/javascript">
+            
+            console.log("Hello from JavaScript")
+        
+        function sayHello() {
+            
+            console.log("The user clicked on the button")
+       
+            txtName = document.getElementById("txtName")
+       
+            txtOutput = document.getElementById("txtOutput")
+       
+            txtOutput.innerText = "Hello " + txtName.value
+       
+        }
+        </script>
+    </head>
+    
+    <body>
+        <h1>Say Hello App</h1>
+
+
+     <fieldset>
+        <label for="txtName">Name</label>
+        <input type="text" id="txtName" value="Me" />
+     </fieldset>
+
+     <button onclick="sayHello()">Say Hello</button>
+
+     <h2 id="txtOutput"></h2>
+
+    </body>
+</html>
