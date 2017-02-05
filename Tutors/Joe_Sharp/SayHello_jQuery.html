@@ -16,22 +16,17 @@
 		<script type="text/javascript">
 			// jQuery has a magic function that gets called when the page is loaded
 			$().ready(function() {
-		
-				console.log("Page Loaded");
 				
 				// Build our function to call when the button is clicked
-				var sayHello = function sayHello() {				
-					// Signal the button click to the console
-					console.log("The user clicked on the button")
-					
+				var sayHello = function sayHello() {									
 					// Get reference to input text box for name
-					txtName = $("#txtName")
+					var txtName = $("#txtName")
 					
 					// Get reference to the output header
-					txtOutput = $("#txtOutput")
+					var txtOutput = $("#txtOutput")
 									
 					// Set the output to say hello
-					txtOutput.html("Hello " + txtName.val())
+					txtOutput.text("Hello " + txtName.val())
 				}
 				
 				// We register the click function like this
