@@ -20,22 +20,13 @@
 				console.log("Page Loaded");
 				
 				// Build our function to call when the button is clicked
-				var sayHello = function sayHello() {				
+				var myExampleClick = function myExampleClick() {				
 					// Signal the button click to the console
 					console.log("The user clicked on the button")
-					
-					// Get reference to input text box for name
-					txtName = $("#txtName")
-					
-					// Get reference to the output header
-					txtOutput = $("#txtOutput")
-									
-					// Set the output to say hello
-					txtOutput.html("Hello " + txtName.val())
 				}
 				
 				// We register the click function like this
-				$("#cmdSayHello").click(sayHello)
+				$("#cmdExampleButton").click(myExampleClick)
 			});
 		</script>
 	</head>
@@ -43,15 +34,16 @@
 		<div class="container">
 			<h1>Say Hello App with jQuery and Bootstrap</h1>
 			
+			<!-- This is an example form -->
 			<form>
 				<div class="form-group">
 					<label for="txtName">Name</label>
 					<input class="form-control" type="text" id="txtName" value="Me" />
 				</div>
-				<button type="button" class="btn btn-default" id="cmdSayHello">Say Hello</button>
+				
+				<!-- This is an example button -->
+				<button type="button" class="btn btn-default" id="cmdExampleButton">Say Hello</button>
 			</form>
-		
-			<h2 id="txtOutput"></h2>
 		</div>
 	</body>
 </html>

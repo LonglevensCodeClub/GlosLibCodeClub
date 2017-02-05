@@ -14,36 +14,42 @@
 				crossorigin="anonymous"></script>
 		
 		<script>		
-			function calculate() {
-				var txtNum1 = $('#number1')
-				var txtNum2 = $('#number2')
-				var cmbOperation = $('#cmbOperation')
-				var txtAns = $('#answer')
-				
-				var num1 = parseInt(txtNum1.val())
-				var num2 = parseInt(txtNum2.val())
-				var operation = cmbOperation.val()
-				
-				console.log("Calculate Num1=" + num1 + ", num2=" + num2 + ", op=" + operation)
-				
-				var answer = 0
-				switch (operation) {
-					case "add":
-						answer = num1 + num2;
-						break;
-					case "subtract":
-						answer = num1 - num2;
-						break;
-					case "multiply":
-						answer = num1 * num2;
-						break;
-					case "divide":
-						answer = num1 / num2;
-						break;
+			// jQuery has a magic function that gets called when the page is loaded
+			$().ready(function() {
+				var calculate = function calculate() {
+					var txtNum1 = $('#number1')
+					var txtNum2 = $('#number2')
+					var cmbOperation = $('#cmbOperation')
+					var txtAns = $('#answer')
+					
+					var num1 = parseInt(txtNum1.val())
+					var num2 = parseInt(txtNum2.val())
+					var operation = cmbOperation.val()
+					
+					console.log("Calculate Num1=" + num1 + ", num2=" + num2 + ", op=" + operation)
+					
+					var answer = 0
+					switch (operation) {
+						case "add":
+							answer = num1 + num2;
+							break;
+						case "subtract":
+							answer = num1 - num2;
+							break;
+						case "multiply":
+							answer = num1 * num2;
+							break;
+						case "divide":
+							answer = num1 / num2;
+							break;
+					}
+					
+					txtAns.val(answer)
 				}
 				
-				txtAns.val(answer)
-			}
+				// We register the click function like this
+				$("#cmdCalculate").click(calculate)
+			});
 		</script>
 		
 		
@@ -74,7 +80,7 @@
 					<label for="answer">Answer</label>
 					<input class="form-control" id='answer' readonly='readonly'/>
 				</div>
-				<button type="button" class="btn btn-default" onclick="calculate()">Calculate</button>
+				<button type="button" class="btn btn-default" id="cmdCalculate">Calculate</button>
 			</form>		
 		</div>
 	</body>
