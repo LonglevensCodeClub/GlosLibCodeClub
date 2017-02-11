@@ -1,0 +1,16 @@
+#!/usr/bin/python
+import time
+import mcpi.minecraft as minecraft
+from mcpi.block import *
+mc = minecraft.Minecraft.create("localhost")
+
+x,y,z = mc.player.getPos()
+mc.player.setPos(x+5,y,z)
+while True:
+	mc.setBlocks (x-1,y,z-1,x+1,y+30,z+1,12)
+	mc.setBlocks (x,y,z,x,y+31,z,46,1)
+	time.sleep(1.5)
+	if mc.events.pollBlockHits():
+		x1,y1,z1 = mc.player.getPos()
+		mc.setBlocks (x1-1,y1-1,z1-1,x1+1,y1+3,z1+1,49)
+		mc.setBlocks (x1,y1,z1,x1,y1+3,z1,0)

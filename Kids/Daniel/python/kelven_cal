@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+while True:
+	print ("")
+	print("1 - kelven to celceus")
+	print("2 - celceus to kelven")
+	print ("3 - end program")
+	ent=input("enter mode: ")
+
+	if ent == "1":
+		data=input("enter data in kelven: ")
+		end_data = int(data) - 273
+		print (str(end_data) + " C")
+	
+	if ent == "2":
+		data=input("enter data in celceus: ")
+		end_data = int(data) + 273
+		print (str(end_data) + " K")
+	if ent == "3":
+		break
+print ("")
+print ("end of program")
