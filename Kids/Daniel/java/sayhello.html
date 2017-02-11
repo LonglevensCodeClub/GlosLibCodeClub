@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>say hello app</title>
+		
+		<script type="text/javascript">
+			
+			function sayHello() {
+				console.log("the user clicked on the button");
+				txtName = document.getElementById("txtName");
+				txtOutput = document.getElementById("txtOutput");
+				name = txtName.value;
+				txtOutput.innerText = "hello " + name[0].toUpperCase() + name.substring(1).toLowerCase();
+				}
+			
+		</script>
+	</head>
+	<body>
+		<hl>Say hello app</hl>
+		<fieldset>
+			<label for="txtName">Name</label>
+			<input type="text" id="txtName" value="" />
+		</fieldset>
+		
+		<button onclick="sayHello()">say Hello</button>
+		
+		<h2 id="txtOutput"></h2>
+	</body>
+</html>
