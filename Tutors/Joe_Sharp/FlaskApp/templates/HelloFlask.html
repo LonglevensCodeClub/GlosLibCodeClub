@@ -15,38 +15,74 @@
 		
 		<script type="text/javascript">
 			// jQuery has a magic function that gets called when the page is loaded
-			$().ready(function() {
+			$().ready(function() {						
+				// Get reference to input text box for name
+				var txtItem = $("#txtItem")
+				
+				// Get reference to the output header
+				var listToDoItems = $("#listToDoItems")
+					
+				var refreshList = function refreshList() {
+					$.ajax({
+						type: "GET",
+						url: "http://localhost:5000/getToDo"
+					})
+					.done(function(data) {
+						listToDoItems.empty()
+						
+						// Set the output to say hello
+						console.log("To Do Returned " + JSON.stringify(data))
+						$.each(data, function(i, item) {
+							listToDoItems.append($("<li>").append(item))
+						});
+					})
+					.fail(function(data) {
+						console.log("Failed " + JSON.stringify(data))
+					});
+				}
+				
+				refreshList()
 				
 				// Build our function to call when the button is clicked
-				var sayHello = function sayHello() {									
-					// Get reference to input text box for name
-					var txtName = $("#txtName")
+				var addItem = function addItem() {				
+					var data = {
+						item : txtItem.val()
+					}
 					
-					// Get reference to the output header
-					var txtOutput = $("#txtOutput")
-									
-					// Set the output to say hello
-					txtOutput.text("Hello " + txtName.val())
+					// Post the new item
+					$.ajax({
+						type: "POST",
+						url: "http://localhost:5000/addToDo",
+						data: data
+					})
+					.done(function(data) {
+						refreshList();
+					})
+					.fail(function(data) {
+						console.log("Failed " + JSON.stringify(data))
+					});
 				}
 				
 				// We register the click function like this
-				$("#cmdSayHello").click(sayHello)
+				$("#cmdAddItem").click(addItem)
 			});
 		</script>
 	</head>
 	<body>
 		<div class="container">
-			<h1>Say Hello App with jQuery and Bootstrap</h1>
+			<h1>To Do List</h1>
 			
 			<form>
 				<div class="form-group">
-					<label for="txtName">Name</label>
-					<input class="form-control" type="text" id="txtName" value="Me" />
+					<label for="txtItem">Item</label>
+					<input class="form-control" type="text" id="txtItem" value="Go Shopping" />
 				</div>
-				<button type="button" class="btn btn-default" id="cmdSayHello">Say Hello</button>
+				<button type="button" class="btn btn-primary" id="cmdAddItem">Add</button>
 			</form>
 		
-			<h2 id="txtOutput"></h2>
+			<h2>To Do List</h2>
+			<ul id="listToDoItems">
+			</ul>
 		</div>
 	</body>
 </html>
