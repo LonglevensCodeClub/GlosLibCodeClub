@@ -1,0 +1,72 @@
+#!/usr/bin/python3
+##################################################
+def encryptword(word, key):
+	encrypted=""
+	for c in word:
+		x = ord(c)
+		dec = encryptLetter(c, key);
+		encrypted += dec
+	return encrypted
+
+def encryptLetter(letter, key):
+	x = ord(letter)
+	if letter == " ":
+		enc = ord(" ")
+	else:
+		enc = x + key
+		if enc > ord("z"):
+			enc = enc - 26
+	return chr(enc)
+##################################################
+def decryptLetter(letter, key):
+	x = ord(letter)
+	if letter == " ":
+		enc = ord(" ")
+	else:
+		enc = x - key
+		if enc < ord("a"):
+			enc = enc + 26
+	if mode == 2:
+		print (chr(enc))
+	return chr(enc)
+
+def decryptWord(word, key):
+	decrypted=""
+	for c in word:
+		x = ord(c)
+		dec = decryptLetter(c, key);
+		decrypted += dec
+	return decrypted
+##################################################
+print("")
+while True:
+	print ("1 - in-code")
+	print ("2 - de-code")
+	print ("3 - force de-code")
+	print ("4 - end")
+	mode = input("pick mode: ")
+	end =""
+	print ("")
+
+	if mode == "1":
+		key = int(input("enter key: "))
+		enter = input("enter text: ")
+		end = encryptword(enter, key)
+		print("")
+		print (end)
+		print("")
+	if mode == "2":
+		key = int(input("enter key: "))
+		enter = input("enter code: ")
+		end=decryptWord(enter, key)
+		print("")
+		print (end)
+		print("")
+	if mode == "3":
+		enter = input("enter code: ")
+		for key in range(0,25):
+			end=decryptWord(enter, key)
+			print (str(key) + " - " + end)
+			print ("")
+	if mode == "4":
+		break

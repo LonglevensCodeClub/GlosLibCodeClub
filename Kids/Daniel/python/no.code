@@ -1,0 +1,50 @@
+#!/usr/bin/python
+
+while True:
+	end = ""
+	print("1 - text to code")
+	print("2 - code to text")
+	print("3 - exit")
+	ent=raw_input(": ")
+
+	if ent == "1":
+		ent = raw_input("enter text: ")
+		key = raw_input("enter key: ")
+		first = True
+		for x in ent:
+			x = ord(x)
+			enc = x * int(key)
+			if not first:
+				end += ","
+			end += str(enc)
+			first = False
+		print("")
+		print(end)
+		print("")
+
+	if ent == "2":
+		ent = raw_input("enter code: ")
+		key = raw_input("enter key: ")
+		for x in ent.split(','):
+			if x == "":
+				continue
+			re = ""
+			for y in x:
+				if y == ",":
+					pass
+				else:
+					re += y
+			try:
+				enc = int(re) / int(key)
+				end += chr(enc)
+			except:
+				print("")
+				print("decoding error with '" + x + "'")
+				end += "(?)"
+		print("")
+		print(end)
+		print("")
+
+	if ent == "3":
+		print("")
+		break

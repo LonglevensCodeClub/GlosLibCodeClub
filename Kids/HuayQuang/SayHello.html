@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>My First Page</title>
+        
+        <!-- Latest compiled and minified CSS -->
+        <link	rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous">
+            
+            <!-- jQuery -->
+            <script src="https://code.jquery.com/jquery-3.1.1.js"
+                integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+                crossorigin="anonymous"></script>
+            
+            <script type="text/javascript">
+                // jQuery has a magic function that gets called when the page is loaded
+                $().ready(function() {
+                          // Your code goes here
+                          
+                          
+                          });
+                </script>
+            </head>
+    <body>
+        <div class="container">
+            <h1>Say Hello App with jQuery and Bootstrap</h1>
+            
+            <!-- Your HTML goes here -->
+            <form>
+                <div class="form-group">
+                    <label for="txtName">Name</label>
+                    <input class="form-control" type="text" id="txtName" value="Me" />
+                </div>
+                    
+                <button type="button" class="btn btn-default" id="cmdSayHello">Say Hello</button>
+           </form>
+            
+            <h2 id="txtOutput"></h2>
+        </div>
+    </body>
+</html>

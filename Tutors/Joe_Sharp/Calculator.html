@@ -1,49 +1,87 @@
 <html>
 	<head>
-		<title>My First Page</title>
+		<title>Calculator</title>
 		
-		<script>
-			console.log("Hello from JavaScript")
-			
-			function sayHello() {
-				var now = new Date()
-				console.log("Hello from Function " + now.getTime())
-				alert('Hello from your first function!')
-			}
-			
-			function addNumbers() {
-				txtNum1 = document.getElementById('number1')
-				txtNum2 = document.getElementById('number2')
-				txtAns = document.getElementById('answer')
+		<!-- Latest compiled and minified CSS -->
+		<link	rel="stylesheet"
+				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+				integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+				crossorigin="anonymous">
+		
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.1.1.js"
+				integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+				crossorigin="anonymous"></script>
+		
+		<script>		
+			// jQuery has a magic function that gets called when the page is loaded
+			$().ready(function() {
+				var calculate = function calculate() {
+					var txtNum1 = $('#number1')
+					var txtNum2 = $('#number2')
+					var cmbOperation = $('#cmbOperation')
+					var txtAns = $('#answer')
+					
+					var num1 = parseInt(txtNum1.val())
+					var num2 = parseInt(txtNum2.val())
+					var operation = cmbOperation.val()
+					
+					console.log("Calculate Num1=" + num1 + ", num2=" + num2 + ", op=" + operation)
+					
+					var answer = 0
+					switch (operation) {
+						case "add":
+							answer = num1 + num2;
+							break;
+						case "subtract":
+							answer = num1 - num2;
+							break;
+						case "multiply":
+							answer = num1 * num2;
+							break;
+						case "divide":
+							answer = num1 / num2;
+							break;
+					}
+					
+					txtAns.val(answer)
+				}
 				
-				num1 = parseInt(txtNum1.value)
-				num2 = parseInt(txtNum2.value)
-				sum = num1 + num2
-				
-				txtAns.value = sum
-				
-				console.log("Adding Numbers, Answer=" + sum)
-			}
+				// We register the click function like this
+				$("#cmdCalculate").click(calculate)
+			});
 		</script>
 		
 		
 	</head>
 	<body>
-		<h1>Hello from HTML</h1>
-		
-		<button onclick="sayHello()">Say Hello</button>
-		
-		<fieldset>
-			<label>Number 1</label>
-			<input type="text" id="number1" />
-			<br>
-			<label>Number 2</label>
-			<input type="text" id="number2" />
-			<br>
-			<label>Answer</label>
-			<input id='answer' readonly='readonly'/>
-		</fieldset>
-		
-		<button onclick="addNumbers()">Add Numbers</button>
+		<div class="container">
+			<h1>Calculator</h1>
+			
+			<form>
+				<div class="form-group">
+					<label for="number1">Number 1</label>
+					<input class="form-control" type="text" id="number1" />
+				</div>
+				<div class="form-group">
+					<label for="number2">Number 2</label>
+					<input class="form-control" type="text" id="number2" />
+				</div>
+				<div class="form-group">
+					<label for="cmbOperation">Operation</label>
+					<select class="form-control" id="cmbOperation">
+						<option value="add">Add</option>
+						<option value="subtract">Subtract</option>
+						<option value="multiply">Multiply</option>
+						<option value="divide">Divide</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="answer">Answer</label>
+					<input class="form-control" id='answer' readonly='readonly'/>
+				</div>
+				<button type="button" class="btn btn-default" id="cmdCalculate">Calculate</button>
+			</form>		
+		</div>
 	</body>
 </html>
