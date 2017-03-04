@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"> 
+	<head>
+		<meta charset="utf-8"/>
+		<title>Weather App</title>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link	rel="stylesheet"
+				href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+				integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+				crossorigin="anonymous">
+		
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.1.1.js"
+				integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+				crossorigin="anonymous"></script>
+		
+		<script type="text/javascript">
+			// jQuery has a magic function that gets called when the page is loaded
+			$().ready(function() {
+				
+				// This is the API key supplied to the server
+				var appKey = "a4b88fed562fd0bac79323596d4b0521"	
+				
+				// Get reference to input text box for name
+				var txtCityName = $("#txtCityName")
+				
+				// Get reference to the output header
+				var txtOutput = $("#txtOutput")
+				
+				// Get reference to the table body so we can append rows
+				var tblWeather = $("#tblWeather")
+					
+				
+				// Build our function to call when the button is clicked
+				var getWeather = function getWeather() {	
+									
+					$.ajax({
+						url: "http://api.openweathermap.org/data/2.5/weather?"
+							+ "q=" + txtCityName.val()
+							+ "&APPID=" + appKey
+					})
+					.done(function(data) {
+						// Set the output to say hello
+						txtOutput.text(JSON.stringify(data))
+						
+						var newRow = $("<tr>")
+						var cellLocation = $("<td>").text(data.name)
+						var cellGeo = $("<td>").text(data.coord.lat + ", " + data.coord.lon)
+						var conditions = ""
+						$.each(data.weather, function(i, w) {
+							conditions += w.description + ", "
+						})
+						var cellConditions = $("<td>").text(conditions)
+						var cellTemperature = $("<td>").text(data.main.temp)
+						var cellPressure = $("<td>").text(data.main.pressure)
+						var cellHumidity = $("<td>").text(data.main.humidity)
+						var cellWindSpeed = $("<td>").text(data.wind.speed)
+						
+						newRow.append(cellLocation)
+						newRow.append(cellGeo)
+						newRow.append(cellConditions)
+						newRow.append(cellTemperature)
+						newRow.append(cellPressure)
+						newRow.append(cellHumidity)
+						newRow.append(cellWindSpeed)
+						tblWeather.append(newRow)
+					})
+					.fail(function(data) {
+						console.log("Failed " + JSON.stringify(data))
+					});
+									
+				}
+				
+				// We register the click function like this
+				$("#cmdGetWeather").click(getWeather)
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Get the current weather</h1>
+			
+			<form>
+				<div class="form-group">
+					<label for="txtCityName">City Name</label>
+					<input class="form-control" type="text" id="txtCityName" placeholder="Type city name" value="London" />
+				</div>
+				<button type="button" class="btn btn-primary" id="cmdGetWeather">Get Weather</button>
+			</form>
+		
+			<h2>Responses</h2>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Location</th>
+						<th>GPS</th>
+						<th>Conditions</th>
+						<th>Temperature</th>
+						<th>Pressure</th>
+						<th>Humidity</th>
+						<th>Wind Speed</th>
+					</tr>
+				</thead>
+				<tbody id="tblWeather">
+					
+				</tbody>
+			</table>
+		
+			<h2>Last Raw Response from Server</h2>
+			<p id="txtOutput"></p>
+		</div>
+	</body>
+</html>

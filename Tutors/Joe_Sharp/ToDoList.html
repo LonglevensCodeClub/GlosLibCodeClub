@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+	<head>
+		<title>To Do List</title>
+		
+		<link rel="stylesheet" href="ToDoList.css">
+		
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.1.1.js"
+				integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+				crossorigin="anonymous"></script>
+		
+		<script type="text/javascript">
+			// jQuery has a magic function that gets called when the page is loaded
+			$().ready(function() {
+				// Get hold of the UI items
+				var toDoFields = $("#toDoFields");
+				var txtNewItem = $("#newItem");
+				
+				// This will be incremented as we add items
+				var itemId = 0;
+				
+				// Read the list of items from local storage
+				var toDoItems = null;
+				if (localStorage.getItem("toDoList") == null) {
+					toDoItems = ["Write a List", "Tick Something Off"]
+					localStorage.setItem("toDoList", JSON.stringify(toDoItems))
+				} else {
+					toDoItems = JSON.parse(localStorage.getItem("toDoList"));
+				}
+				
+				var showItem = function(newItem) {
+					var newItemId = "item" + itemId;
+					itemId += 1;
+					
+					// Build a label
+					var newLabel = $("<label>", {
+						"for": newItemId
+					}).text(newItem).addClass("strikethrough");
+					
+					// Build a new checkbox
+					var newCheckBox = $("<input>", {
+						"id": newItemId,
+						"type": "checkbox"
+					});
+					
+					// Append the new label and a newline to our fieldset
+					toDoFields.append(newCheckBox);
+					toDoFields.append(newLabel);
+					toDoFields.append($("<br>"));
+					
+					// Reset focus to text field, clear its value
+					txtNewItem.focus();
+					txtNewItem.val("");
+				}
+				
+				var addItem = function(newItem) {
+					toDoItems.push(newItem);
+					localStorage.setItem("toDoList", JSON.stringify(toDoItems))
+					
+					showItem(newItem);
+				}
+					
+				var cmdAdd_click = function() {
+					// Get hold of the value of the new item
+					var newItem = txtNewItem.val();
+					addItem(newItem);
+				}
+		
+				$("#cmdAdd").click(cmdAdd_click);
+				
+				// Give ourselves some default items
+				$.each(toDoItems, function(i, item) {
+					showItem(item);
+				});
+			});
+		</script>
+	</head>
+	
+	<body>
+		<header>
+			<h1>My To Do List</h1>
+			<p class="Subtitle">Things I have yet to accomplish</p>
+		</header>
+		
+		<main>
+			<form onsubmit="return false">
+				<fieldset id="toDoFields">
+					<legend>Tick off as complete</legend>
+					<!-- Example Item
+					<input id="itemX" type="checkbox"><label class="strikethrough" for="itemX">Item X</label><br>
+					-->					
+				</fieldset>
+				
+				<fieldset>
+					<legend>Add New Item</legend>
+					<label for="newItem"></label>
+						<input id="newItem" placeholder="type in a new item" type="text">
+					
+					<br>
+					<button id="cmdAdd" type="button">Add</button>
+				</fieldset>
+			</form>
+		</main>
+		
+		<footer>
+			<p>Don't hold me to these!</p>
+		</footer>
+	</body>
+</html>

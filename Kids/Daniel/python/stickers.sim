@@ -1,0 +1,31 @@
+#!/usr/bin/python3
+from random import randint
+
+class book():
+	def __init__(self, name, colsize, packsize):
+		self.name = name
+		self.colsize = colsize
+		self.packsize = packsize
+
+class collection():
+	def __init__(self, book):
+		self.book = book
+		self.stick = dict()
+		self.packbuy = 0
+	def buypack(self):
+		self.packbuy += 1
+		for x in range (self.book.packsize):
+			s = randint(1, self.book.packsize)
+			if s in self.stick:
+				self.stick[s] += 1
+			else:
+				self.stick[s] = 1
+	def iscomplete(self):
+		return len(self.stick) == self.book.colsize
+
+pokemonbook = book(name = "pokemon", colsize = 50, packsize = 3)
+mypokemoncol = collection(book = pokemonbook)
+
+while not mypokemoncol.iscomplete():
+	mypokemoncol.buypack()
+print ("colection complete {} packets bought".format(mypokemoncol.packbuy))
