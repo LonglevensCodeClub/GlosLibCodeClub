@@ -1,0 +1,22 @@
+header {
+	background-color: #FF0000;
+	border: thin #336699 solid;
+	padding:10px;
+	margin: 10px;
+	text-align: center;
+}
+
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Geneva, sans-serif;
+}
+	
+header h1 {
+	margin: 0px;
+	color: darkblue;
+	font-size:xx-large; 
+}
+
+header . Subtitle {
+	margin: 0px;
+	font-weight; bold;
+}
