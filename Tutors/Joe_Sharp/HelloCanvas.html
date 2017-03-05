@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Canvas Test</title>
+		
+		<style>
+			canvas {
+				border: 1px dashed black;
+			}
+		</style>
+		
+		<script>
+			window.onload = function() {
+				var canvas = document.getElementById("drawingCanvas")
+				var context = canvas.getContext("2d")
+				
+				var createRandomColour = function(alpha) {
+					var cR = Math.floor(255 * Math.random());
+					var cG = Math.floor(255 * Math.random());
+					var cB = Math.floor(255 * Math.random());
+					var randomColour = "rgba(" + cR + "," + cG + "," + cB + "," + alpha + ")";
+					return randomColour;
+				}
+								
+				// Drawing code
+				var drawRandomShape = function() {
+					// Construct random start position and number of sides
+					var sX = canvas.width * Math.random();
+					var sY = canvas.height * Math.random();
+					var sides = 2 + (3 * Math.random());
+					
+					// Start a new line
+					context.beginPath()
+					context.moveTo(sX, sY);
+					
+					// Draw the sides
+					for (var x=0; x<sides; x++) {
+						var eX = canvas.width * Math.random();
+						var eY = canvas.height * Math.random();
+						context.lineTo(eX, eY);
+					}
+					
+					// Back to the start
+					context.lineTo(sX, sY);
+
+					// Setup the pen
+					context.fillStyle = createRandomColour(0.4);
+					context.lineWidth = 10;
+					context.lineCap = "round";
+					context.strokeStyle = createRandomColour(1.0);
+					
+					// Draw the line and fill the shape
+					context.stroke();
+					context.fill();
+				}
+				
+				setInterval(drawRandomShape, 1000)
+			};
+		</script>
+	</head>
+	
+	<body>
+		<canvas id="drawingCanvas" width="640" height="480"></canvas>
+	</body>
+</html>

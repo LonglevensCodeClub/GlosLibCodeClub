@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Simple Paint</title>
+		
+		<style>
+			canvas {
+				border: 1px dashed black;
+				cursor: crosshair;
+			}
+		</style>
+		
+		<script>
+			window.onload = function() {
+				var canvas = document.getElementById("drawingCanvas")
+				var cmdClear = document.getElementById("cmdClear")
+				var context = canvas.getContext("2d")
+				
+				var isDrawing = false;
+				
+				function getMouseX(e) {
+					return e.pageX - canvas.offsetLeft;
+				}
+				
+				function getMouseY(e) {
+					return e.pageY - canvas.offsetTop;
+				}
+				
+				function startDrawing(e) {
+					// Start drawing
+					isDrawing = true;
+					
+					// Create a new path
+					context.beginPath();
+					
+					// Put the pen down at the mouse location
+					context.moveTo(getMouseX(e), getMouseY(e));
+				}
+				
+				function draw(e) {
+					if (isDrawing) {
+						// Find the new position of the mouse
+						var x = getMouseX(e);
+						var y = getMouseY(e);
+						
+						// Draw line to new position
+						context.lineTo(x, y);
+						context.stroke();
+					}
+				}
+				
+				function stopDrawing() {
+					isDrawing = false;
+				}
+				
+				function clearCanvas() {
+					context.clearRect(0, 0, canvas.width, canvas.height);
+				}
+				
+				canvas.onmousedown = startDrawing;
+				canvas.onmouseup = stopDrawing;
+				canvas.onmouseout = stopDrawing;
+				canvas.onmousemove = draw;
+				cmdClear.onclick = clearCanvas;
+			};
+		</script>
+	</head>
+	
+	<body>
+		<canvas id="drawingCanvas" width="640" height="480"></canvas>
+		<button id="cmdClear">Clear Canvas</button>
+	</body>
+</html>

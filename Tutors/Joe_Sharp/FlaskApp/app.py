@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 
-toDoList = ["Go Shopping", "Feed Dog", "Pay Bills"]
+toDoList = {"list" : ["Go Shopping", "Feed Dog", "Pay Bills"]}
 
 @app.route('/')
 def index():
@@ -16,7 +16,14 @@ def getToDo():
 def addToDo():
 	toDoItem = request.form["item"]
 	print("To Do Item Added: {}".format(toDoItem))
-	toDoList.append(toDoItem)
+	toDoList["list"].append(toDoItem)
+	return '', 201
+
+@app.route('/deleteToDo', methods=["DELETE"])
+def deleteToDo():
+	toDoItem = request.form["item"]
+	print("To Do Item Removed: {}".format(toDoItem))
+	toDoList["list"].remove(toDoItem)
 	return '', 201
 
 if __name__ == '__main__':

@@ -68,7 +68,12 @@
 					addItem(newItem);
 				}
 		
+				var cmdClearAll_click = function() {
+					toDoFields.empty();
+				}
+		
 				$("#cmdAdd").click(cmdAdd_click);
+				$("#cmdClearAll").click(cmdClearAll_click);
 				
 				// Give ourselves some default items
 				$.each(toDoItems, function(i, item) {
@@ -86,11 +91,13 @@
 		
 		<main>
 			<form onsubmit="return false">
-				<fieldset id="toDoFields">
+				<fieldset>
 					<legend>Tick off as complete</legend>
+					<div id="toDoFields">
 					<!-- Example Item
 					<input id="itemX" type="checkbox"><label class="strikethrough" for="itemX">Item X</label><br>
 					-->					
+					</div>
 				</fieldset>
 				
 				<fieldset>
@@ -100,6 +107,7 @@
 					
 					<br>
 					<button id="cmdAdd" type="button">Add</button>
+					<button id="cmdClearAll" type="button">Clear All</button>
 				</fieldset>
 			</form>
 		</main>

@@ -22,6 +22,24 @@
 				// Get reference to the output header
 				var listToDoItems = $("#listToDoItems")
 					
+				var deleteItem = function deleteItem(item) {
+					var data = {
+						item : item
+					}
+					
+					$.ajax({
+						type: "DELETE",
+						url: "http://localhost:5000/deleteToDo",
+						data: data
+					})
+					.done(function(data) {
+						refreshList();
+					})
+					.fail(function(data) {
+						console.log("Failed " + JSON.stringify(data))
+					});
+				}
+					
 				var refreshList = function refreshList() {
 					$.ajax({
 						type: "GET",
@@ -32,8 +50,15 @@
 						
 						// Set the output to say hello
 						console.log("To Do Returned " + JSON.stringify(data))
-						$.each(data, function(i, item) {
+						$.each(data.list, function(i, item) {
 							listToDoItems.append($("<li>").append(item))
+							var cmdDelete = $("<button>").text("Delete");
+							listToDoItems.append(cmdDelete);
+							
+							cmdDelete.click(function() {
+								console.log("Deleting Item " + item);
+								deleteItem(item)
+							});
 						});
 					})
 					.fail(function(data) {
