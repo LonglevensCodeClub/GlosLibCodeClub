@@ -20,14 +20,12 @@
 				var txtNewItem = $("#newItem");
 				var cmdAdd = $("#cmdAdd");
 					
-				var addItem = function() {
-					console.log("User Clicked on Button");
-					
-					var newItem = txtNewItem.val();
+				function addItem(item) {
+					console.log("Adding Item " + item);
 					
 					// Build a label
 					var newLabel = $("<label>")
-						.text(newItem)
+						.text(item)
 						.addClass("strikethrough");
 					
 					// Build a new checkbox
@@ -40,8 +38,19 @@
 					toDoFields.append(newLabel);
 					toDoFields.append($("<br>"));
 				}
+					
+				function cmdAdd_click() {
+					console.log("User Clicked Button");
+					
+					var newItem = txtNewItem.val();
+					addItem(newItem);
+				}
 				
-				cmdAdd.click(addItem);
+				cmdAdd.click(cmdAdd_click);
+						
+				addItem("Walk Dog");
+				addItem("Eat Lunch");
+				addItem("Do Washing Up");
 			});
 		</script>
 	</head>
