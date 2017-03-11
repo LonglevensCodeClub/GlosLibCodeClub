@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+	<head>
+		<title>To Do List!</title>
+		
+		<link rel="stylesheet" href="To-do-list.css">
+	</head>
+	
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.1.1.js"
+			crossorigin="anonymous"></script>
+	
+	<script type="text/javascript">
+		// Magic jQuery function
+		$().ready(function() {
+			console.log("Page has Loaded");
+		});	
+	</script>
+	
+	</head>
+	
+	<body>
+		<header>
+			<h1>My To Do List to survive the end of the world- Do not forget</h1>
+			<p class="Subtitle">Things I am yet to HAVE to survive the end of the world</p>
+		</header>
+		
+		<main>
+			<form onsubmit="return false">
+				<fieldset id="toDoFields"></fieldset>
+					<legend>Tick off as !YOU! comlete it! Remember do bro, remember!</legend>
+					
+					<input id="item1" type="checkbox">
+					<label class="strikethrough" for="item1">EAT!!!</label>
+					<br>
+					
+					<input id="item1" type="checkbox">
+					<label class="strikethrough" for="item1">DRINK!!!</label>
+					<br>
+					
+					
+					<input id="item1" type="checkbox">
+					<label class="strikethrough" for="item1">OWN CATS! LOTS OF CATS!!! #CATMANIAC </label>
+					<br>
+					
+					<input id="item1" type="checkbox">
+					<label class="strikethrough" for="item1">RAISE AN UNSTOPPABLE ARMY OF LEGENDARK CATS! #CATS=LIFE!!!</label>
+					<br>
+					
+					
+					<input id="item1" type="checkbox">
+					<label class="strikethrough" for="item1">HAVE A YOUTUBE CHANNEL!!!</label>
+					<br>
+					
+				</fieldset>
+				
+				<fieldset>
+					<legend>Input Your Name when all of the above are complete!</legend>
+					<input id="newItem" placeholder="type-in-your-name" type="text">
+					<button id="cmdAdd" type="button">Add</button>
+				</fieldset>
+				
+				
+			</form>
+		</main>		
+		
+		<footer>
+			<p>Do NoT FoRGET!!!<p/>
+		</footer>
+		
+		</body>
+</html>
