@@ -1,6 +1,6 @@
 header {
-	background-color: #FF0000;
-	border: thin #336699 solid;
+	background-color: gold;
+	border: thick purple solid;
 	padding:10px;
 	margin: 10px;
 	text-align: center;
@@ -8,6 +8,7 @@ header {
 
 body {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Geneva, sans-serif;
+	background-color: silver;
 }
 	
 header h1 {
@@ -20,3 +21,32 @@ header . Subtitle {
 	margin: 0px;
 	font-weight; bold;
 }
+
+
+main {
+	font-size: medium;
+	font-family: cambria, cochin, Georgia, "Times New Roman", Times, serif;
+	padding-top: 20px;
+	padding-right: 50px;
+	padding-bottom: 5px;
+	padding-left: 50px;
+	line-height: 120%;
+	} 
+input[type=checkbox]:checked + label.strikethrough {
+	text-decoration: line-through;
+}
+
+footer {
+	text-align: center;
+	font-size: x-small;
+	font-style: italic;
+	position: fixed;
+	bottom: 0px;
+	height: 3.5em;
+	background: green;
+	border-top: thin solid black;
+	font-size: x-large;
+	width: 100%
+	
+}
+	
