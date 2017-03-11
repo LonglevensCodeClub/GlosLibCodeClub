@@ -1,0 +1,40 @@
+header {
+	background-color: darkgreen;
+	border: thick #336699 solid;
+	padding: 10px;
+	margin: 15px;
+	text-align: center;	
+}
+html {
+	background-color: black;
+	color: #8000FF;
+	
+}
+
+main {
+	font-size: medium;
+	font-family: Cambria, Cochin, Georgia, "Times New Roman", Times, serif;
+	padding-top: 20px
+	padding-right: 50px
+	padding-bottom: 5px
+	padding-left: 50px
+	line-height: 120%;
+}
+
+input[type=checkbox]:checked + label.strikethrough  {
+	text-decoration: line-through;
+	background-color: turquoise;
+}				
+
+footer {
+	text-align: center;
+	font-size: x-large;
+	font-style: italic;
+	position: fixed;
+	bottom: Opx;
+	height: 3.5em;
+	background: lightgreen;
+	border-top: thin solid purple;
+	font-size: x-large;
+	width: 100%;
+}

@@ -16,14 +16,20 @@
                 crossorigin="anonymous"></script>
             
             <script type="text/javascript">
-                // jQuery has a magic function that gets called when the page is loaded
-                $().ready(function() {
-                          // Your code goes here
-                          
-                          
-                          });
-                </script>
-            </head>
+			// jQuery has a magic function that gets called when the page is loaded
+			$().ready(function() {
+				// Your code goes here
+				var txtName = $("#txtName")
+				var txtOutput = $("#txtOutput")
+				
+				var sayHello = function() {
+					txtOutput.text("Hello " + txtName.val())
+				}
+				
+				$("#cmdSayHello").click(sayHello); 
+			});	 
+			</script>
+		</head>
     <body>
         <div class="container">
             <h1>Say Hello App with jQuery and Bootstrap</h1>
