@@ -21,3 +21,20 @@ main {
 	line-height: 120%;
 }
 
+input[type=checkbox]:checked + label.strikethrough  {
+	text-decoration: line-through;
+	background-color: turquoise;
+}				
+
+footer {
+	text-align: center;
+	font-size: x-large;
+	font-style: italic;
+	position: fixed;
+	bottom: Opx;
+	height: 3.5em;
+	background: lightgreen;
+	border-top: thin solid purple;
+	font-size: x-large;
+	width: 100%;
+}
