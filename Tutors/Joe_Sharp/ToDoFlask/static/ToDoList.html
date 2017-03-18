@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+	<head>
+		<title>To Do List</title>
+		
+		<link rel="stylesheet" href="ToDoList.css">
+		
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.1.1.js"
+				integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+				crossorigin="anonymous"></script>
+				
+		<script type="text/javascript">
+			// Magic jQuery function
+			$().ready(function() {
+				console.log("Page has Loaded");
+				// Get hold of the UI items
+				var toDoFields = $("#toDoFields");
+				var txtNewItem = $("#newItem");
+				var cmdAdd = $("#cmdAdd");
+					
+				function addItem(item) {
+					console.log("Adding Item " + item);
+					
+					// Build a label
+					var newLabel = $("<label>")
+						.text(item.name)
+						.addClass("strikethrough");
+					
+					// Build a new checkbox
+					var newCheckBox = $("<input>", {
+						"type": "checkbox"
+					});
+					
+					// Append the new label and a newline to our fieldset
+					toDoFields.append(newCheckBox);
+					toDoFields.append(newLabel);
+					toDoFields.append($("<br>"));
+					
+					newCheckBox.change(function() {
+						if (this.checked) {
+							$.ajax({
+								type: "DELETE",
+								url: "/deleteItem",
+								data: {
+									name : item.name
+								}
+							})
+						}
+					});
+				}
+					
+				function cmdAdd_click() {
+					console.log("User Clicked Button");
+					
+					var newItem = {
+						name : txtNewItem.val()
+					};
+					addItem(newItem);	
+						
+					// Post the new item
+					$.ajax({
+						type: "POST",
+						url: "/addItem",
+						data: newItem
+					})
+				}
+				
+				cmdAdd.click(cmdAdd_click);
+						
+				// ADD THIS CODE TO RETRIEVE ITEMS
+				$.get("/getList", function(data) {
+					console.log("Returned from Server " + JSON.stringify(data));
+					$.each(data.list, function(i, item) {
+						addItem(item);
+					});
+				});
+				
+				// REMOVED THE HARD CODED ITEMS			
+			});
+		</script>
+	</head>
+	
+	<body>
+		<header>
+			<h1>My To Do List</h1>
+			<p class="Subtitle">Things I have yet to accomplish</p>
+		</header>
+		
+		<main>
+			<form onsubmit="return false">
+				<fieldset id="toDoFields">
+					<legend>Tick off as complete</legend>
+						
+				</fieldset>
+
+				<fieldset>
+					<legend>Add New Item</legend>
+					<input id="newItem" placeholder="type in a new item" type="text">
+					<button id="cmdAdd" type="button">Add</button>
+				</fieldset>
+			</form>
+		</main>
+			
+		
+		<footer>
+			<p>Don't hold me to these!</p>
+		</footer>
+	</body>
+</html>
