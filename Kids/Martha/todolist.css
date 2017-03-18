@@ -1,0 +1,8 @@
+header {
+    background-color: magenta ;
+    border: thin #336699 solid;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Geneva sans-serif;
+}
