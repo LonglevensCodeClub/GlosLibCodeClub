@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Canvas Test</title>
+		
+		<style>
+			canvas {
+				border: 1px dashed black;
+			}
+		</style>
+		
+		<script>
+			window.onload = function() {
+				var canvas = document.getElementById("drawingCanvas")
+				var context = canvas.getContext("2d")
+				context.lineWidth = 10;
+				context.lineCap = "round";
+				context.strokeStyle = "rgb(100, 0, 100)";
+												
+				var segments = {
+					bottom: {
+						start: {x : 0, y: 0},
+						end: {x: 1, y: 0}
+					},
+					middle: {
+						start: {x : 0, y: 1},
+						end: {x: 1, y: 1}
+					},
+					top: {
+						start: {x : 0, y: 2},
+						end: {x: 1, y: 2}
+					},
+					lowerLeft: {
+						start: {x : 0, y: 0},
+						end: {x: 0, y: 1}
+					},
+					upperLeft: {
+						start: {x : 0, y: 1},
+						end: {x: 0, y: 2}
+					},
+					lowerRight: {
+						start: {x : 1, y: 0},
+						end: {x: 1, y: 1}
+					},
+					upperRight: {
+						start: {x : 1, y: 1},
+						end: {x: 1, y: 2}
+					}
+				};
+				
+				var digits = {
+					0 : [ 	segments.top,
+							segments.lowerRight,					
+							segments.upperRight,
+							segments.lowerLeft, 
+							segments.upperLeft,
+							segments.bottom
+						],
+					1 : [ 	segments.lowerRight, 
+							segments.upperRight
+						],
+					2 : [ 	segments.top, 
+							segments.upperRight,
+							segments.middle,
+							segments.lowerLeft,
+							segments.bottom
+						],
+					3 : [ 	segments.top, 
+							segments.upperRight,
+							segments.middle,
+							segments.lowerRight,
+							segments.bottom
+						],
+					4 : [ 	segments.upperLeft, 
+							segments.upperRight,
+							segments.middle,
+							segments.lowerRight
+						],
+					5 : [ 	segments.top, 
+							segments.upperLeft,
+							segments.middle,
+							segments.lowerRight,
+							segments.bottom
+						],
+					6 : [ 	segments.top, 
+							segments.upperLeft,
+							segments.middle,
+							segments.lowerLeft,
+							segments.lowerRight,
+							segments.bottom
+						],
+					7 : [ 	segments.top,
+							segments.lowerRight, 
+							segments.upperRight,
+						],
+					8 : [ 	segments.top, 
+							segments.upperRight,
+							segments.upperLeft,
+							segments.middle,
+							segments.lowerRight,
+							segments.lowerLeft,
+							segments.bottom
+						],
+					9 : [ 	segments.top, 
+							segments.upperRight,
+							segments.upperLeft,
+							segments.middle,
+							segments.lowerRight
+						]
+				}
+				
+				var drawDigit = function(digit, origin, scale) {
+					//context.clearRect(origin.x, origin.y, scale.width, scale.height);
+					//context.clearRect(0, 0, canvas.width, canvas.height);
+								
+					var digitObj = digits[digit];
+					
+					for (s of digitObj) {					
+						var startX = origin.x + (s.start.x * scale.width);
+						var startY = canvas.height - (origin.y + (s.start.y * scale.height));
+						var endX = origin.x + (s.end.x * scale.width);
+						var endY = canvas.height - (origin.y + (s.end.y * scale.height));
+										
+						context.beginPath()
+						context.moveTo(	startX, 
+										startY);
+						context.lineTo(	endX, 
+										endY);
+						context.stroke();
+					}
+				}
+									
+				var drawNumber = function(number, digits, origin, scale) {
+					var digitWeight = 10 * (digits - 1);
+					
+					for (x=0; x<digits; x++) {
+						drawDigit(
+							Math.floor((number / digitWeight) % 10),
+							{
+								x: (origin.x + (x * scale.width * 2)), 
+								y: origin.y
+							},
+							scale);
+						digitWeight = digitWeight / 10;
+					}
+				
+				}
+									
+				var scale = {
+					width: 20,
+					height: 50
+				}
+					
+				// Drawing code
+				var drawTime = function() {
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					var now = new Date();
+					var origin = {
+						x: canvas.width / 4,
+						y: canvas.height / 2
+					}
+														
+					drawNumber(now.getHours(), 2, origin, scale);
+					origin.x = origin.x + 100;
+					drawNumber(now.getMinutes(), 2, origin, scale);
+					origin.x = origin.x + 100;
+					drawNumber(now.getSeconds(), 2, origin, scale);
+					origin.x = origin.x + 100;
+				}
+				drawTime();
+				setInterval(drawTime, 1100)
+			};
+		</script>
+	</head>
+	
+	<body>
+		<canvas id="drawingCanvas" width="640" height="480"></canvas>
+	</body>
+</html>
