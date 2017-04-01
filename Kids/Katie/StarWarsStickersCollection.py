@@ -30,7 +30,7 @@ def CollectStickers(bookSize):
 
 myBookSize = 324
 
-loops = 20
+loops = 10
 total = 0
 totall = 0
 for i in range(loops):

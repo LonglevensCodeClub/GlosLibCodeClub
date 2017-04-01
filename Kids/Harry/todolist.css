@@ -1,0 +1,52 @@
+header {
+	background-color: grey;
+	border: thick purple solid;
+	padding:10px;
+	margin: 10px;
+	text-align: center;
+}
+
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Geneva, sans-serif;
+	background-color: red;
+}
+	
+header h1 {
+	margin: 0px;
+	color: lime;
+	font-size:xx-large; 
+}
+
+header . Subtitle {
+	margin: 0px;
+	font-weight; bold;
+}
+
+
+main {
+	font-size: medium;
+	font-family: cambria, cochin, Georgia, "Times New Roman", Times, serif;
+	padding-top: 20px;
+	padding-right: 50px;
+	padding-bottom: 5px;
+	padding-left: 50px;
+	line-height: 120%;
+	} 
+input[type=checkbox]:checked + label.strikethrough {
+	text-decoration: line-through;
+}
+
+footer {
+	text-align: center;
+	font-size: x-small;
+	font-style: italic;
+	position: fixed;
+	bottom: 0px;
+	height: 3.5em;
+	background: grey;
+	border-top: thick solid grey;
+	font-size: x-large;
+	width: 100%
+	
+}
+	
