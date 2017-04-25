@@ -10,11 +10,12 @@ window.onload = function() {
 
   // Get the SVG element
   svgSolarSystem = document.getElementById('svgSolarSystem');
+  svgRect = svgSolarSystem.getBoundingClientRect();
 
   // Create the Sun element
   const sunOrigin = {
-    x : 300,
-    y : 250
+    x : svgRect.width / 2,
+    y : svgRect.height / 2
   }
 
   const sunElement = document.createElementNS(SVG_NS, 'circle');
@@ -50,7 +51,7 @@ window.onload = function() {
     }
   ]
 
-  const starCount = 40;
+  const starCount = 100;
   const stars = [];
   const starPhases = 3000;
 
@@ -62,8 +63,8 @@ window.onload = function() {
     const star = {}
     star.phase = randomIntInRange(0, starPhases);
     star.element = document.createElementNS(SVG_NS, 'circle');
-    star.element.setAttribute('cx', randomIntInRange(0, 400));
-    star.element.setAttribute('cy', randomIntInRange(0, 400));
+    star.element.setAttribute('cx', randomIntInRange(0, svgRect.width));
+    star.element.setAttribute('cy', randomIntInRange(0, svgRect.height));
     star.element.setAttribute('fill', 'white');
     stars.push(star);
     svgSolarSystem.appendChild(star.element);
@@ -100,7 +101,7 @@ window.onload = function() {
   </head>
 
   <body>
-    <svg id='svgSolarSystem' width='100%' height='480px'>
+    <svg id='svgSolarSystem' width='100%' height='100%'>
       <rect x=0 y=0 width='100%' height='100%' fill=black />
     </svg>
   </body>
