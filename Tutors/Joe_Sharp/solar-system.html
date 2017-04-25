@@ -11,7 +11,7 @@ window.onload = function() {
   // Get the SVG element
   svgSolarSystem = document.getElementById('svgSolarSystem');
 
-  // Add the sun
+  // Create the Sun element
   const sunOrigin = {
     x : 300,
     y : 250
@@ -20,15 +20,13 @@ window.onload = function() {
   const sunElement = document.createElementNS(SVG_NS, 'circle');
   sunElement.setAttribute('cx', sunOrigin.x);
   sunElement.setAttribute('cy', sunOrigin.y);
-  sunElement.setAttribute('r', 10);
+  sunElement.setAttribute('r', 50);
   sunElement.setAttribute('fill', 'goldenrod');
-  svgSolarSystem.appendChild(sunElement);
-
 
   const planets = [
     {
       radius: 5,
-      orbitDistance: 50,
+      orbitDistance: 75,
       colour: 'blue',
       frequency : 10
     },
@@ -40,17 +38,39 @@ window.onload = function() {
     },
     {
       radius: 15,
-      orbitDistance: 75,
+      orbitDistance: 110,
       colour: 'green',
       frequency : 2
     },
     {
       radius: 25,
-      orbitDistance: 80,
-      colour: 'darkblue',
+      orbitDistance: 280,
+      colour: 'skyblue',
       frequency : 3
     }
   ]
+
+  const starCount = 40;
+  const stars = [];
+  const starPhases = 3000;
+
+  const randomIntInRange = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  for (x=0; x<starCount; x++) {
+    const star = {}
+    star.phase = randomIntInRange(0, starPhases);
+    star.element = document.createElementNS(SVG_NS, 'circle');
+    star.element.setAttribute('cx', randomIntInRange(0, 400));
+    star.element.setAttribute('cy', randomIntInRange(0, 400));
+    star.element.setAttribute('fill', 'white');
+    stars.push(star);
+    svgSolarSystem.appendChild(star.element);
+  }
+
+  // Add the Sun after the stars
+  svgSolarSystem.appendChild(sunElement);
 
   planets.forEach(planet => {
     planet.element = document.createElementNS(SVG_NS, 'circle');
@@ -59,12 +79,20 @@ window.onload = function() {
     svgSolarSystem.appendChild(planet.element);
   })
 
-  setInterval(() => {
+
+  var animateFrame = () => {
     planets.forEach(planet => {
       planet.element.setAttribute('cx', sunOrigin.x + (planet.orbitDistance * Math.sin(planet.frequency * 0.001 * new Date().getTime())));
       planet.element.setAttribute('cy', sunOrigin.y + (planet.orbitDistance * Math.cos(planet.frequency * 0.001 * new Date().getTime())));
     })
-  }, 1)
+
+    stars.forEach(star => {
+      star.phase = (star.phase + 1) % starPhases;
+      star.element.setAttribute('r', Math.floor(star.phase / 1000));
+    });
+  }
+
+  setInterval(animateFrame, 1)
 }
 
     </script>
@@ -72,6 +100,8 @@ window.onload = function() {
   </head>
 
   <body>
-    <svg id='svgSolarSystem' width='100%' height='480px' />
+    <svg id='svgSolarSystem' width='100%' height='480px'>
+      <rect x=0 y=0 width='100%' height='100%' fill=black />
+    </svg>
   </body>
 </html>
