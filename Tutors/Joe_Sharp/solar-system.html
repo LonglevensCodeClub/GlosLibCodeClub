@@ -1,0 +1,77 @@
+<html>
+
+  <head>
+
+    <script type='text/javascript'>
+
+window.onload = function() {
+  // Required to create new SVG elements
+  SVG_NS = 'http://www.w3.org/2000/svg';
+
+  // Get the SVG element
+  svgSolarSystem = document.getElementById('svgSolarSystem');
+
+  // Add the sun
+  const sunOrigin = {
+    x : 300,
+    y : 250
+  }
+
+  const sunElement = document.createElementNS(SVG_NS, 'circle');
+  sunElement.setAttribute('cx', sunOrigin.x);
+  sunElement.setAttribute('cy', sunOrigin.y);
+  sunElement.setAttribute('r', 10);
+  sunElement.setAttribute('fill', 'goldenrod');
+  svgSolarSystem.appendChild(sunElement);
+
+
+  const planets = [
+    {
+      radius: 5,
+      orbitDistance: 50,
+      colour: 'blue',
+      frequency : 10
+    },
+    {
+      radius: 30,
+      orbitDistance: 150,
+      colour: 'purple',
+      frequency : 4
+    },
+    {
+      radius: 15,
+      orbitDistance: 75,
+      colour: 'green',
+      frequency : 2
+    },
+    {
+      radius: 25,
+      orbitDistance: 80,
+      colour: 'darkblue',
+      frequency : 3
+    }
+  ]
+
+  planets.forEach(planet => {
+    planet.element = document.createElementNS(SVG_NS, 'circle');
+    planet.element.setAttribute('r', planet.radius);
+    planet.element.setAttribute('fill', planet.colour);
+    svgSolarSystem.appendChild(planet.element);
+  })
+
+  setInterval(() => {
+    planets.forEach(planet => {
+      planet.element.setAttribute('cx', sunOrigin.x + (planet.orbitDistance * Math.sin(planet.frequency * 0.001 * new Date().getTime())));
+      planet.element.setAttribute('cy', sunOrigin.y + (planet.orbitDistance * Math.cos(planet.frequency * 0.001 * new Date().getTime())));
+    })
+  }, 1)
+}
+
+    </script>
+
+  </head>
+
+  <body>
+    <svg id='svgSolarSystem' width='100%' height='480px' />
+  </body>
+</html>
