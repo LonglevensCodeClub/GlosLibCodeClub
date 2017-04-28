@@ -1,5 +1,5 @@
 header {
-	background-color: gold;
+	background-color: grey;
 	border: thick purple solid;
 	padding:10px;
 	margin: 10px;
@@ -8,12 +8,12 @@ header {
 
 body {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Geneva, sans-serif;
-	background-color: silver;
+	background-color: red;
 }
 	
 header h1 {
 	margin: 0px;
-	color: darkblue;
+	color: lime;
 	font-size:xx-large; 
 }
 
@@ -43,8 +43,8 @@ footer {
 	position: fixed;
 	bottom: 0px;
 	height: 3.5em;
-	background: green;
-	border-top: thin solid black;
+	background: grey;
+	border-top: thick solid grey;
 	font-size: x-large;
 	width: 100%
 	

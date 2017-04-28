@@ -24,23 +24,28 @@ def CollectStickers(bookSize):
 		if (stickers[s] > mostSwaps):
 			mostSwaps = stickers[s]
 			stickerSwap = s
-	print("Most swaps are {} for sticker {}.".format(mostSwaps, stickerSwap))
+	#print("Most swaps are {} for sticker {}.".format(mostSwaps, stickerSwap))
 		
 	return packsbought
 
 myBookSize = 324
 
-loops = 10
-total = 0
-totall = 0
+loops = 20
+total = 0.
+totall = 0.
 for i in range(loops):
 	x = CollectStickers(myBookSize)
 	y = x / 2
 	totall += y
 	total += x
-	print("bought {} packs for a collection of {}" .format(x, myBookSize))
+	#print("bought {} packs for a collection of {}" .format(x, myBookSize))
 
 average = total / loops
 priceAverage = totall / loops
-print("Average amont of packs you have to by to complete colection: {}".format(average))
-print("Average amont spent on sticker/packs: {} pounds".format(priceAverage))
+print("\n\nThis is a star wars sticker collection.\n")
+print("1 person is collecting the stickers and there are {} stickers in the collecion.\n".format(myBookSize))
+print("There are 5 stickers per pack and each pack costs 50p.\n")
+print("Average amount of packs bought: {}".format(average))
+print("Average amount spent on sticker/packs: {} pounds\n".format(priceAverage)) 
+print("Now we can send in for the last 25 stickers to complete our collection!")
+

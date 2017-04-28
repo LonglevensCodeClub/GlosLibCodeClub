@@ -4,4 +4,4 @@ from mcpi import block
 mc = Minecraft.create()
 
 x, y, z = mc.player.getTilePos()
-mc.setBlocks(x-1, y-5, z-1, x+1, y-1, z+1, 46, 1)
+mc.setBlocks(x-100000000000000, y-1000000000000000, z-1, x+1, y-1, z+1, 46, 1)

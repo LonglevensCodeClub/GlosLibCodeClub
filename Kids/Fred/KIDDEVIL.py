@@ -1,5 +1,5 @@
 # kid devil.
-
+from tkinter import *
 
 def playgame(death, biome):
 	if death:
