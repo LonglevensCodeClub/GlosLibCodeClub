@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/local/bin/python3
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
 key = int(input('enter a number: '))
 newMessage = ''
