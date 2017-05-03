@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <script type='text/javascript'>
+
+window.onload = function() {
+    // Get the SVG element
+    const svgMain = document.getElementById('svgMain');
+    const svgMainRect = svgMain.getBoundingClientRect();
+
+    // Required to create new SVG elements
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    console.log('SVG Found ' + svgMainRect);
+
+    // Key Detection
+    // http://stackoverflow.com/questions/1828613/check-if-a-key-is-down
+    var keysPressed = [];
+    window.onkeyup = function(e) {
+      keysPressed[e.keyCode]=false;
+    }
+    window.onkeydown = function(e) {
+      keysPressed[e.keyCode]=true;
+    }
+
+    const DIRECTION = {
+      UP : {
+        x : 0, y: -1
+      },
+      DOWN: {
+        x : 0, y: 1
+      },
+      LEFT: {
+        x : -1, y: 0
+      },
+      RIGHT: {
+        x : 1, y: 0
+      }
+    }
+
+    // Create the class for game object
+    function Player(controls, position, colour) {
+      this.element = document.createElementNS(SVG_NS, 'circle');
+      this.element.setAttribute('cx', 0);
+      this.element.setAttribute('cy', 0);
+      this.element.setAttribute('r', 20);
+      this.element.setAttribute('fill', colour);
+      this.speed = 5;
+      this.controls = controls;
+      this.translate = position;
+      this.updateTransform();
+    }
+
+    Player.prototype.updateTransform = function() {
+      var transform = 'translate(' + this.translate.x + ',' + this.translate.y + ')';
+      this.element.setAttribute('transform', transform);
+    }
+
+    Player.prototype.moveInDirection = function(direction) {
+      this.translate.x += (direction.x * this.speed);
+      this.translate.y += (direction.y * this.speed);
+      this.updateTransform();
+    }
+
+    Player.prototype.handleFrame = function() {
+      // Player 1
+      if (keysPressed[this.controls.up]) {
+        this.moveInDirection(DIRECTION.UP);
+      }
+      if (keysPressed[this.controls.left]) {
+        this.moveInDirection(DIRECTION.LEFT);
+      }
+      if (keysPressed[this.controls.down]) {
+        this.moveInDirection(DIRECTION.DOWN);
+      }
+      if (keysPressed[this.controls.right]) {
+        this.moveInDirection(DIRECTION.RIGHT);
+      }
+    }
+
+    // Create the two players
+    const player1StartPosition = {
+      x: (svgMainRect.width / 2) - 100,
+      y: (svgMainRect.height / 2)
+    }
+    const player1Controls = {
+      up : 87, // w
+      left: 65, // a
+      down: 83, // s
+      right: 68 // d
+    }
+    const player1 = new Player(player1Controls, player1StartPosition, 'blue');
+    svgMain.appendChild(player1.element);
+
+    const player2StartPosition = {
+      x: (svgMainRect.width / 2) + 100,
+      y: (svgMainRect.height / 2)
+    }
+    const player2Controls = {
+      up : 38, // UP arrow
+      left: 37, // LEFT arrow
+      down: 40, // DOWN arrow
+      right: 39 // RIGHT arrow
+    }
+    const player2 = new Player(player2Controls, player2StartPosition, 'red');
+    svgMain.appendChild(player2.element);
+
+    function handleFrame() {
+      player1.handleFrame();
+      player2.handleFrame();
+    }
+
+    setInterval(handleFrame, 20);
+};
+    </script>
+  </head>
+  <body>
+    <svg id='svgMain' width='100%' height='100%'>
+    </svg>
+  </body>
+</html>
