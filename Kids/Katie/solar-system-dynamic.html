@@ -1,0 +1,39 @@
+	<html>
+		<head>
+			<script type='text/javascript'>
+		window.onload = function() {
+			console.log('page loaded');
+			
+		
+		const svgSolarSystem = document.getElementById('svgSolarSystem');
+		const svgRect = svgSolarSystem.getBoundingClientRect();
+		
+		//the sun
+		const sunOrigin = {
+			x : svgRect.width / 2,
+			y : svgRect.height / 2
+	}
+	
+	console.log('sunOrigin');
+	
+	
+	const SVG_NS = 'http://www.w3.org/2000/svg';
+	
+	//the sun
+	const sunElement = document.createElementNS(SVG_NS,	'circle');
+	sunElement.setAttribute('cx', sunOrigin.x);
+	sunElement.setAttribute('cy', sunOrigin.y);
+	sunElement.setAttribute('r', 50);
+	sunElement.setAttribute('fill', 'gold');
+	
+	svgSolarSystem.appendChild(sunElement);
+	
+		};
+			</script>
+		</head>
+		<body>
+		<svg id='svgSolarSystem' width='100%' height='100%'>
+		<rect x=0 y=0 width='100%' height='100%' fill=black />
+			</svg>
+		</body>	
+	</html>
