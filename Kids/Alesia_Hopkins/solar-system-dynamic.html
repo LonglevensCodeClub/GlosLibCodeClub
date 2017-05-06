@@ -16,7 +16,56 @@ window.onload = function() {
 	sunElement.setAttribute('cy', sunOrigin.y);
 	sunElement.setAttribute('r', 50);
 	sunElement.setAttribute('fill', 'goldenrod');
+	sunElement.setAttribute('stroke', 'red');
+	svgSolarSystem.appendChild(sunElement)
 	
+	const planets = [
+	{
+		radius: 5,
+		orbitDistance: 75,
+		colour : 'blue',
+		frequency : 10
+	},
+	{
+		radius: 30,
+		orbitDistance: 150,
+		colour : 'purple',
+		frequency : 4
+	},
+	{
+		radius: 15,
+		orbitDistance: 110,
+		colour : 'green',
+		frequency : 2
+	}
+	]
+	planets.forEach(planet => {
+		planet.element = document.createElementNS(SVG_NS, 'circle');
+		planet.element.setAttribute('r',planet.radius);
+		planet.element.setAttribute('fill',planet.colour);
+		// I feel like I've been typing Forever...
+		planet.element.setAttribute('cx', sunOrigin.x + planet.orbitDistance);
+		planet.element.setAttribute('cy', sunOrigin.y);
+		svgSolarSystem.appendChild(planet.element);
+		
+	})
+	
+	const animateFrame = function() {
+		// Where is the Snack Fairy?
+		planets.forEach(planet => {
+			//Grace is wrong, the Snack Fairy does exist!
+		})
+		planets.forEach(planet => {
+			const angle = 2* Math.PI * planet.frequency * new Date().getTime() / 1000;
+			const xPosition = planet.orbitDistance * Math.sin(angle);
+			const yPosition = planet.orbitDistance * Math.cos(angle);
+			
+			planet.element.setAttribute('cx', sunOrigin.x + xPosition);
+			planet.element.setAttribute('cy', sunOrigin.y + yPosition);
+		})
+	}
+	
+	setInterval(animateFrame, 10);
 };
 </script>
 	</head>
@@ -24,7 +73,7 @@ window.onload = function() {
 	<body>
 	  <svg id='svgSolarSystem' width='100%' height='100%'>
 		<rect x=0 y=0 width='100%' height='100%' fill=black />
-      
+
 	  </svg>
 	</body>
 </html> 
