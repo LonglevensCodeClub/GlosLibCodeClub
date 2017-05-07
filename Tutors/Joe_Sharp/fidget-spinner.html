@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <script type='text/javascript'>
+
+window.onload = function() {
+  // Create the Grouping Element
+  const groupElement = document.getElementById('fidgetSpinner');
+
+  var spinSpeed = 0.2;
+  var angle = 0;
+
+  var timeSinceLastHit = 0;
+  window.onkeyup = function(e) {
+    const now = new Date().getTime();
+    const diff = now - timeSinceLastHit;
+    timeSinceLastHit = now;
+
+    switch (e.keyCode) {
+      case 39: // RIGHT arrow
+        spinSpeed = (+1000 / diff);
+        break;
+      case 37: // LEFT arrow
+        spinSpeed = (-1000 / diff);
+        break;
+    }
+  }
+
+  const animateFrame = function() {
+    angle += spinSpeed;
+    spinSpeed *= 0.995;
+    var transform = 'rotate(' + angle + ',300,300)';
+    groupElement.setAttribute('transform', transform);
+  }
+
+  setInterval(animateFrame, 20);
+};
+    </script>
+  </head>
+  <body>
+    <svg id='svgFidgetSpinner' width='100%' height='100%'>
+      <g id='fidgetSpinner'>
+        <circle id='spinCentre' cx=300 cy=300 r=50 fill=blue />
+        <circle id='radial1' cx=300 cy=500 r=50 fill=green />
+        <circle id='radial2' cx=126 cy=200 r=50 fill=green />
+        <circle id='radial3' cx=474 cy=200 r=50 fill=green />
+      </g>
+    </svg>
+  </body>
+</html>
