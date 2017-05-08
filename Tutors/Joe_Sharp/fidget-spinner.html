@@ -4,28 +4,48 @@
 
 window.onload = function() {
   // Create the Grouping Element
+  const svgMain = document.getElementById('svgMain');
   const groupElement = document.getElementById('fidgetSpinner');
 
   var spinSpeed = 0.2;
   var angle = 0;
 
-  var timeSinceLastHit = 0;
+  // Using key presses
+  var lastKeyTime = 0;
   window.onkeyup = function(e) {
     const now = new Date().getTime();
-    const diff = now - timeSinceLastHit;
-    timeSinceLastHit = now;
+    const diff = now - lastKeyTime;
+    lastKeyTime = now;
 
     switch (e.keyCode) {
       case 39: // RIGHT arrow
-        spinSpeed = (+1000 / diff);
+        spinSpeed = (+5000 / diff);
         break;
       case 37: // LEFT arrow
-        spinSpeed = (-1000 / diff);
+        spinSpeed = (-5000 / diff);
         break;
     }
   }
 
-  const animateFrame = function() {
+  // Using Mouse
+  var timeMouseDown = 0;
+  var mouseDownPosY = null;
+
+  svgMain.onmousedown = function(e) {
+    mouseDownPosY = e.clientY;
+    timeMouseDown = new Date().getTime();
+  };
+
+  svgMain.onmouseup = function(e) {
+    const mouseUpPosY = e.clientY;
+    const timeMouseUp = new Date().getTime();
+
+    const travel = mouseUpPosY - mouseDownPosY;
+    const timeDiff = timeMouseUp - timeMouseDown;
+    spinSpeed = 10 * (travel / timeDiff);
+  };
+
+  function animateFrame() {
     angle += spinSpeed;
     spinSpeed *= 0.995;
     var transform = 'rotate(' + angle + ',300,300)';
@@ -37,12 +57,23 @@ window.onload = function() {
     </script>
   </head>
   <body>
-    <svg id='svgFidgetSpinner' width='100%' height='100%'>
-      <g id='fidgetSpinner'>
-        <circle id='spinCentre' cx=300 cy=300 r=50 fill=blue />
-        <circle id='radial1' cx=300 cy=500 r=50 fill=green />
-        <circle id='radial2' cx=126 cy=200 r=50 fill=green />
-        <circle id='radial3' cx=474 cy=200 r=50 fill=green />
+    <svg id='svgMain' width='100%' height='100%'>
+      <g id='fidgetSpinner' stroke=green fill=blue stroke-width=5>
+
+        <!-- Orbital 1 -->
+        <line x1=300 y1=300 x2=300 y2=500 />
+        <circle cx=300 cy=500 r=50 />
+
+        <!-- Orbital 2 -->
+        <line x1=300 y1=300 x2=126 y2=200 />
+        <circle cx=126 cy=200 r=50 />
+
+        <!-- Orbital 3 -->
+        <line x1=300 y1=300 x2=474 y2=200 />
+        <circle cx=474 cy=200 r=50 />
+
+        <!-- Central Element-->
+        <circle cx=300 cy=300 r=50 />
       </g>
     </svg>
   </body>
