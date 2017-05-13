@@ -16,6 +16,64 @@ window.onload = function() {
 	
 	const SVG_NS = 'http://www.w3.org/2000/svg';
 	const sunElement = document.createElementNS(SVG_NS, "circle");
+	sunElement.setAttribute("cx", sunOrigin.x);
+	sunElement.setAttribute("cy", sunOrigin.y);
+	sunElement.setAttribute("r", 50);
+	sunElement.setAttribute("fill", "goldenrod");
+	svgSolarSystem.appendChild(sunElement);
+	
+	
+	const planets = [
+		{
+			radius: 5,
+			orbitDistance: 75,
+			colour: "blue",
+			frequency : 10
+		},
+		{
+			radius: 30,
+			orbitDistance: 150,
+			colour: "purple",
+			frequency : 4
+		},
+		{
+			radius: 15,
+			orbitDistance: 110,
+			colour: "green",
+			frequency : 2
+		}
+	]
+	
+	planets.forEach(planet => {
+		planet.element = document.createElementNS(SVG_NS, "circle");
+		planet.element.setAttribute("r", planet.radius);
+		planet.element.setAttribute("fill",planet.colour);
+		planet.element.setAttribute("cx", sunOrigin.x + planet.orbitDistance);
+		planet.element.setAttribute("cy", sunOrigin.y);
+		svgSolarSystem.appendChild(planet.element);
+	})
+	
+	
+	
+	const animateFrame = function() {
+		
+		planets.forEach(planet => {
+			const angle = 2 * Math.PI * planet.frequency * new Date().getTime() / 10000;
+			const xPosition = planet.orbitDistance * Math.sin(angle);
+			const yPosition = planet.orbitDistance * Math.cos(angle);
+			
+			planet.element.setAttribute("cx", sunOrigin.x + xPosition);
+			planet.element.setAttribute("cy", sunOrigin.y + yPosition);
+			})
+	}
+	setInterval(animateFrame, 10);
+		
+		
+		
+			
+	
+	
+	
 	
 };
 		</script>
