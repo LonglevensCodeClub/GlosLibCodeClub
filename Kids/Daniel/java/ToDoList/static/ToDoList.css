@@ -1,0 +1,47 @@
+header {
+	background-color: #009000;
+	border: thin #336699 solid;
+	padding: 10px;
+	text-align: center;
+}
+
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", "Geneva, sans-serif"
+	margin: 0px;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+header h1 {
+	margin: 0px;
+	color: black;
+	font-size: xx-large;
+}
+
+header .subtitle {
+	margin :0px;
+	font-weight: bold;
+}
+
+main {
+	font-size: medium;
+	font-family: Cambria, Cochin, Georgia, "Times New Roman", Times, serif;
+	padding-top: 20px;
+	padding-right: 50px;
+	padding-left: 50px;
+	padding-bottom: 5px;
+	line-height: 120%;
+	background-color: #7777FF;
+}
+
+input[type=checkbox]:checked + label.strikethrough {
+	text-decoration: line-through;
+}
+
+footer h2 {
+	margin: 0px;
+	color: black;
+	font-size: 0.5em;
+}

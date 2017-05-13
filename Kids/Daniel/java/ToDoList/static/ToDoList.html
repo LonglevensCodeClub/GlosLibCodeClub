@@ -1,0 +1,93 @@
+<DOCTYPE html>
+<meta charset="utf-8"/>
+<html>
+	<head>
+		<title>To Do List</title>
+		<link rel="stylesheet" href="ToDoList.css">
+				
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.1.1.js"
+				integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+				crossorigin="anonymous"></script>
+		
+		<script type="text/javascript">
+$().ready(function(){
+	console.log("page has loaded")
+	
+	var todofields = $("#todofields")
+	var txtnewitem = $("#newitem")
+	var cmdAdd = $("#cmdAdd")
+	
+	function additem(item) {
+		if (item) {
+			console.log("adding item " + item)
+			
+			var newlabel = $("<label>")
+				.text(item.name)
+				.addClass("strikethrough");
+				
+			var newcheckbox = $("<input>", {
+				"type": "checkbox"
+				});
+		
+			todofields.append(newcheckbox);
+			todofields.append(newlabel);
+			todofields.append($("<br>"));
+		} else {
+			console.log("!!! error: item is blank !!!")
+		}
+	}
+	
+	function cmdAdd_click() {
+		console.log("user clicked button")
+		
+		var newitem = {
+			name : txtnewitem.val()
+		};
+		additem(newitem)
+		
+		$.ajax({
+			type: "POST",
+			url: "/additem",
+			data: newitem
+		})
+	}
+	
+	cmdAdd.click(cmdAdd_click)
+	
+	$.get("/getList", function(data) {
+		console.log("returned from server " + JSON.stringify(data));
+		$.each(data.list, function(i, item) {
+			additem(item);
+		});
+	});
+});
+		</script>
+	</head>
+	
+	<body>
+		<header>
+			<h1>My To Do List</h1>
+			<p class="subtitle">things to do</p>
+		</header>
+		
+		<main>
+			<form onsubmit="return false">
+				<fieldset id="todofields">
+					<legend>Tick off as complete</legend>
+					
+				</fieldset>
+				
+				<fieldset>
+					<legend>Add New Item</legend>
+					<input id="newitem" placeholder="type in new item" type="text">
+					<button id="cmdAdd" type="button">Add</button>
+				</fieldset>
+			</form>
+		</main>
+		
+		<footer>
+			<h2>by Daniel</h2>	
+		</footer>
+	</body
+</html>

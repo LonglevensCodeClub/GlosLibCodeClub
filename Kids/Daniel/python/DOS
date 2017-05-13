@@ -1,0 +1,23 @@
+#!/usr/bin/python
+import random
+import math
+import thread
+
+c = math.pi
+def lag():
+	for x in range(0,100):
+		a = random.randint(-1000,1000)
+		b = random.randint(-1000,1000)
+		y = a * b * c
+def loop():
+	t = 0
+	while True:
+		t = t + 1
+		lag()
+		if t == 20000:
+			break
+try:
+	for y in range(0, 100):
+		thread.start_new_thread(loop())
+except:
+	print (" error can't start thread")
