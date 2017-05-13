@@ -1,0 +1,166 @@
+<html>
+  <head>
+    <script type='text/javascript'>
+
+window.onload = function() {
+    // Get the SVG element
+    const svgMain = document.getElementById('svgMain');
+    const svgMainRect = svgMain.getBoundingClientRect();
+    const fishTemplate = document.getElementById('theFish');
+
+    // Used to draw SVG to then copy in
+    // http://www.drawsvg.org/
+
+    // Required to create new SVG elements
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    console.log('SVG Found ' + svgMainRect);
+
+    //
+    // YOUR CODE GOES HERE
+    //
+    const getRandomNumber = function(spec) {
+      return spec.min + (Math.random() * (spec.max - spec.min));
+    }
+
+    const BUBBLE_RED = {
+      min : 33,
+      max : 111
+    }
+    const BUBBLE_GREEN = {
+      min : 74,
+      max : 194
+    }
+    const BUBBLE_BLUE = {
+      min : 99,
+      max : 247
+    }
+    const getRandomBubbleColour = function() {
+      ///111, 194, 247 -> 33, 74, 99
+      const red = Math.floor(getRandomNumber(BUBBLE_RED));
+      const green = Math.floor(getRandomNumber(BUBBLE_GREEN));
+      const blue = Math.floor(getRandomNumber(BUBBLE_BLUE));
+      return 'rgb(' + red + ',' + green + ',' + blue + ')';
+    }
+
+    const BUBBLE_RADIUS = {
+      min : 5,
+      max : 25
+    }
+    const BUBBLE_PERIOD = {
+      min: 50,
+      max: 400
+    }
+    const BUBBLE_SPEED = 1;
+    const BUBBLE_SOURCE_X = getRandomNumber({
+      min: svgMainRect.width/3,
+      max : 2/3 * svgMainRect.width
+    });
+    const BUBBLE_SOURCE_JITTER = {
+      min : -20,
+      max : 20
+    }
+    const STARTING_ANGLE = {
+      min : 0,
+      max : 360
+    }
+    const BUBBLE_WIGGLE_MAGNITUDE = 200;
+    const BUBBLE_WIGGLE_FREQUENCY = 0.3;
+    const NUMBER_FISH = 5;
+
+    const Bubble = function() {
+      this.phaseAngle = getRandomNumber(STARTING_ANGLE);
+      this.baseX = BUBBLE_SOURCE_X + getRandomNumber(BUBBLE_SOURCE_JITTER);
+      this.y = svgMainRect.height;
+      this.radius = getRandomNumber(BUBBLE_RADIUS);
+
+      this.element = document.createElementNS(SVG_NS, 'circle');
+      this.element.setAttribute('r', this.radius);
+      this.element.setAttribute('fill', getRandomBubbleColour());
+      svgMain.appendChild(this.element);
+    }
+
+    Bubble.prototype.animateFrame = function(now) {
+      this.y -= BUBBLE_SPEED;
+      const angle = (BUBBLE_WIGGLE_FREQUENCY * 2 * Math.PI * now / 1000) + this.phaseAngle;
+      this.x = this.baseX + (
+        ((svgMainRect.height - this.y) / 2000)
+        * BUBBLE_WIGGLE_MAGNITUDE
+        * Math.sin(angle));
+
+      this.element.setAttribute('cx', this.x);
+      this.element.setAttribute('cy', this.y);
+    }
+
+    Bubble.prototype.isFinished = function() {
+      return this.y < 0;
+    }
+
+    const Fish = function(template) {
+      this.element = template.cloneNode();
+      this.element.setAttribute('visibility', 'visible')
+      this.x = getRandomNumber({
+        min: svgMainRect.width/5,
+        max : 4/5 * svgMainRect.width
+      });
+      this.y = getRandomNumber({
+        min: svgMainRect.height/5,
+        max : 4/5 * svgMainRect.height
+      });
+      svgMain.appendChild(this.element);
+    }
+
+    Fish.prototype.animateFrame = function(now) {
+      this.x -= 1
+      if (this.x < 0) {
+        this.x = svgMainRect.width;
+      }
+      var transform = 'translate(' + this.x + ',' + this.y + ')';
+      this.element.setAttribute('transform', transform);
+    }
+
+    var bubbles = [];
+    var fish = [];
+    for (x=0; x<NUMBER_FISH; x++) {
+      fish.push(new Fish(fishTemplate));
+    }
+    var lastBubble = new Date().getTime();
+    var nextBubblePeriod = getRandomNumber(BUBBLE_PERIOD);
+    const animateFrame = function() {
+      var now = new Date().getTime();
+
+      // Time for a new bubble?
+      if ((now - lastBubble) > nextBubblePeriod) {
+        bubbles.push(new Bubble());
+        lastBubble = now;
+        nextBubblePeriod = getRandomNumber(BUBBLE_PERIOD);
+      }
+
+      // Continue moving all bubbles
+      bubbles.forEach(b => b.animateFrame(now));
+      fish.forEach(f => f.animateFrame(now));
+
+      bubbles
+        .filter(b => b.isFinished())
+        .forEach(b => svgMain.removeChild(b.element));
+      bubbles = bubbles.filter(b => !b.isFinished());
+    }
+
+    setInterval(animateFrame, 10);
+};
+    </script>
+  </head>
+  <body>
+    <svg id='svgMain' width='100%' height='100%'>
+      <defs>
+        <path id="svgEditorClosePathDefs" stroke="black" fill="khaki" style="stroke-width: 1px;"/>
+        <linearGradient id="gradWater" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#54dbf9;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#012077;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect x=0 y=0 width='100%' height='100%' fill='url(#gradWater)' />
+      <path id=theFish visibility=hidden d="M37.05744171142578,3.6945724487304688c14.710803548099989,-45.954741984500004,78.27231990257422,-55.652300723530466,95.9999923705742,-48.00000000003047c17.72767246800001,7.652300723499998,44.98426892810002,33.5903832761,56,28c11.015731071900007,-5.590383276000001,29.2649973309,-22.6309902518,46,-20c16.735002669200014,2.6309902518,-3.0426969781999844,92.7655565084,-9.999999999974222,78.00000000003047c-18.957303021725778,-2.7655565083304694,-38.329281778625756,-49.03178854563047,-53.999999999922665,-25.999999999908596c-51.670718221377314,55.03178854560859,-104.71079591877734,17.9547419844086,-133.99999237067732,-12.000000000091404Z" stroke="black" id="e384_area3" fill="khaki" style="stroke-width: 1px;"/>
+    </svg>
+  </body>
+</html>
