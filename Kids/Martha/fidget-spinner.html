@@ -7,14 +7,14 @@ window.onload = function() {
     const svgMain = document.getElementById('svgMain');
     const svgMainRect = svgMain.getBoundingClientRect();
 
-    // Required to create new SVG elements
+    
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
     console.log('SVG Found ' + svgMainRect);
 
-    //
-    // Your code goes here
-    //
+    
+    
+    //spin it
     const fidgetSpinner =  document.getElementById('fidgetSpinner');
     
 	var spinSpeed = 0.2;
@@ -26,13 +26,11 @@ window.onload = function() {
 		var transform = 'rotate(' + angle +',300,300)';
 		fidgetSpinner.setAttribute('transform', transform);
 	}
-	
+	//mouse clicks
 	setInterval(animateFrame, 20);
 	
 	var timeMouseDown = 0;
 	var mouseDownPosY = null;
-	
-	
 	svgMain.onmousedown = function(e) {
 		mouseDownPosY = e.clientY;
 		timeMouseDown = new Date().getTime();
@@ -40,17 +38,38 @@ window.onload = function() {
 	svgMain.onmouseup = function(e) {
 		mouseUpPosY = e.clientY;
 		timeMouseUp = new Date().getTime();		
-		const travel = mouseUpPosY; - mouseDownPosY
+		const travel = mouseUpPosY - mouseDownPosY;
 		const timeDiff = timeMouseUp - timeMouseDown;
-		spinSpeed = 10 * (travel / timeDiff); 
+		spinSpeed = 10 * (travel / timeDiff);
+		
 	};
- };   
+	//arrow keys
+	var lastKeyTime = 0;
+	window.onkeyup = function(e) {
+		console.log('key Pressed ' + e.keyCode);
+		const now = new Date().getTime();
+		const diff = now - lastKeyTime;
+		lastKeyTime = now;
+		
+		switch (e.keyCode) {
+		case 39: //right arrow
+			spinSpeed = (+5000 / diff);
+			break;
+		case 37: // LEFT arrow
+			spinSpeed = (-5000 / diff);
+			break;
+		}
+	}	
+};
     </script>
   </head>
   <body>
+	  
+	  //drawing fidger spinner
+	  
       <svg id='svgMain' width='100%' height='100%'>
       <!-- Custom SVG goes here -->
-      <g id='fidgetSpinner' stroke=green fill=blue stroke-width=5>
+      <g id='fidgetSpinner' stroke=pink fill=purple stroke-width=5>
 		  <!--orbital 1-->
 	   <line x1=300 y1=300 x2=300 y2=500 />
        <circle cx=300 cy=500 r=50 />
