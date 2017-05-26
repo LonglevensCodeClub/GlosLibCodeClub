@@ -16,6 +16,10 @@ from time import sleep
 
 # The number of flowers that we have collected
 flowersCollected = 0
+flowersRequired = 6;
+
+def printFlowers():
+	mc.postToChat("You have %d of %d." % (flowersCollected, flowersRequired));
 
 # Create our Adventure Scene
 mc = Minecraft.create()
@@ -43,9 +47,12 @@ while True:
         sys.exit()
 
     # If The player has found an item, collect it
+    ## This only works for artifacts that we scattered in this iteration
+    ## Previous iterations of the game will leave flowers that cannot be picked up.
     if artifacts.atLocation(px, pz) == block.FLOWER_YELLOW.id:
-        mc.postToChat("You have collected a flower.")
         flowersCollected += 1
+        mc.postToChat("You have collected a flower")
+        printFlowers();
 
     # Check to see if the player has hit any blocks
     blockEvents = mc.events.pollBlockHits()
@@ -60,7 +67,8 @@ while True:
             if (flowersCollected < 6):
                 # If not, force the door closed!
                 scene.closeDoor(eventX, eventY, eventZ)
-                mc.postToChat("You must collect more flowers before entering.")
+                mc.postToChat("You must collect more flowers before entering")
+                printFlowers();
                 # And force the Player back to where they just were.
                 mc.player.setTilePos(lastPX, lastPY, lastPZ)
 
