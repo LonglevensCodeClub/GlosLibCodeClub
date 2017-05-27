@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <script type='text/javascript'>
+
+window.onload = function() {
+    // Get the SVG element
+    const svgMain = document.getElementById('svgMain');
+    const svgMainRect = svgMain.getBoundingClientRect();
+
+    // Required to create new SVG elements
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    console.log('SVG Found ' + svgMainRect);
+
+    //
+    // Your code goes here
+    //
+    const halfWidth = svgMainRect.width / 2;
+    const fifthOfWidth = svgMainRect.width / 5;
+    const thirdOfHeight = svgMainRect.height / 3;
+
+    var Triangle = function() {
+      this.element = document.createElementNS(SVG_NS, 'polygon');
+      this.element.setAttribute('points', '-1,1, 1,1, 0,-1')
+      this.element.setAttribute('fill', 'rgba(255, 0, 0, 0.5)')
+      this.angle = 0;
+      this.iterationSpeed = 1;
+      this.iterationHeight = 50;
+    }
+
+    Triangle.prototype.animateFrame = function() {
+      this.angle += this.iterationSpeed;
+      if (this.angle > 360) {
+        this.angle = 0;
+        this.iterationSpeed = Math.random() * 5;
+        this.iterationHeight = Math.random() * 10;
+      }
+      var yScale = this.iterationHeight * (1 + Math.sin(this.angle))
+      var transform = 'translate(' + svgMainRect.height + ',' + halfWidth + ')';
+      transform += ' scale(' + fifthOfWidth + ', ' + yScale + ')';
+      this.element.setAttribute('transform', transform);
+    }
+
+    const fireObjects = [];
+    fireObjects.push(new Triangle());
+
+    fireObjects.forEach(f => svgMain.appendChild(f.element));
+
+    const animateFrame = function() {
+      fireObjects.forEach(f => f.animateFrame());
+    }
+
+    //animateFrame();
+
+    setInterval(animateFrame, 20);
+};
+    </script>
+  </head>
+  <body>
+    <svg id='svgMain' width='100%' height='100%'>
+      <!-- Custom SVG goes here -->
+    </svg>
+  </body>
+</html>
