@@ -11,7 +11,7 @@ window.onload = function() {
 	// Create the Sun origin
 	const sunOrigin = {
 		x : svgRect.width / 2,
-		y : svgRect.height /2
+		y : svgRect.height / 2
 	}
 	
 	const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -19,68 +19,117 @@ window.onload = function() {
 	sunElement.setAttribute("cx", sunOrigin.x);
 	sunElement.setAttribute("cy", sunOrigin.y);
 	sunElement.setAttribute("r", 50);
-	sunElement.setAttribute("fill", "goldenrod");
+	sunElement.setAttribute("fill", "yellow");
 	svgSolarSystem.appendChild(sunElement);
-	
-	
+		
 	const planets = [
 		{
 			radius: 5,
 			orbitDistance: 75,
-			colour: "blue",
-			frequency : 10
+			colour: "red",
+			frequency : 10,
+			moons: [
+			     {   
+			        radius: 3,
+					colour: "grey",
+					orbitDistance: 20,
+					frequency: 20
+				}
+			]
 		},
 		{
 			radius: 30,
 			orbitDistance: 150,
-			colour: "purple",
-			frequency : 4
+			colour: "blue",
+			frequency : 4,
+			moons: [
+				{
+					radius: 20,
+					colour: "grey",
+					orbitDistance: 55,
+					frequency: 20
+				},
+				{
+					radius: 10,
+					colour: "green",
+					orbitDistance: 65,
+					frequency: 10
+				},
+				{
+					radius: 10,
+					colour: "red",
+					orbitDistance: 75,
+					frequency: 30
+				}
+			]
 		},
 		{
 			radius: 15,
 			orbitDistance: 110,
-			colour: "green",
-			frequency : 2
-		}
-	]
+			colour: "orange",
+			frequency : 2,
+			moons: [
+				{
+					radius: 10,
+					colour: "grey",
+					orbitDistance: 30,
+					frequency: 20
+				}
+		     ]
+		   }
+		 ]
+			
 	
 	planets.forEach(planet => {
 		planet.element = document.createElementNS(SVG_NS, "circle");
 		planet.element.setAttribute("r", planet.radius);
 		planet.element.setAttribute("fill",planet.colour);
+		var planetX = sunOrigin.x + planet.orbitDistance;
+		var planetY = sunOrigin.y;
+		
 		planet.element.setAttribute("cx", sunOrigin.x + planet.orbitDistance);
 		planet.element.setAttribute("cy", sunOrigin.y);
+		
+		planet.moons.forEach(moon => {
+			moon.element = document.createElementNS(SVG_NS, "circle");
+			moon.element.setAttribute("r", moon.radius);
+			moon.element.setAttribute("fill", moon.colour);
+			moon.element.setAttribute("cx", planetX + moon.orbitDistance);
+			moon.element.setAttribute("cy", planetY);
+			svgSolarSystem.appendChild(moon.element);
+		})
+		
 		svgSolarSystem.appendChild(planet.element);
 	})
 	
-	
-	
+	// Called ever 10ms to move the planets and moons according to their orbits
 	const animateFrame = function() {
+		const now = new Date().getTime() / 50000;
 		
 		planets.forEach(planet => {
-			const angle = 2 * Math.PI * planet.frequency * new Date().getTime() / 10000;
-			const xPosition = planet.orbitDistance * Math.sin(angle);
-			const yPosition = planet.orbitDistance * Math.cos(angle);
+			const planetAngle = 2 * Math.PI * planet.frequency * now;
+			const planetX = sunOrigin.x + (planet.orbitDistance * Math.sin(planetAngle));
+			const planetY = sunOrigin.y + (planet.orbitDistance * Math.cos(planetAngle));
 			
-			planet.element.setAttribute("cx", sunOrigin.x + xPosition);
-			planet.element.setAttribute("cy", sunOrigin.y + yPosition);
+			planet.element.setAttribute("cx", planetX);
+			planet.element.setAttribute("cy", planetY);
+			
+			planet.moons.forEach(moon => {
+				const moonAngle = 2 * Math.PI * moon.frequency * now;
+				const moonX = planetX + (moon.orbitDistance * Math.cos(moonAngle));
+				const moonY = planetY + (moon.orbitDistance * Math.sin(moonAngle));
+				moon.element.setAttribute("cx", moonX);
+				moon.element.setAttribute("cy", moonY);
 			})
+		})
 	}
-	setInterval(animateFrame, 10);
-		
-		
-		
-			
-	
-	
-	
-	
+	setInterval(animateFrame, 10);	
 };
 		</script>
 	</head>
 	<body>
 		<svg id= "svgSolarSystem" width="100%" height="100%">
-			<rect x=0 y=0 width="100%" height="100%" fill=black />
+			<rect x=0 y=0 width="100%" height="100%" fill=silver />
 		</svg>
 	</body>
 </html>

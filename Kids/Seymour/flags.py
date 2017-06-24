@@ -47,3 +47,5 @@ end_fill()
 hideturtle()
 
 print("This is the english flag")
+
+done()
