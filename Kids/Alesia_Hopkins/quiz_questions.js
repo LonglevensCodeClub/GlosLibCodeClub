@@ -60,41 +60,34 @@
 		const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
 		// if answer is correct
+		console.log("answerContainers", answerContainers);
+		console.log("questionNumber", questionNumber);
 		if(userAnswer===currentQuestion.correctAnswer){
 		  // add to the number of correct answers
 		  numCorrect++;
 
 		  // color the answers green
+		  console.log("container", answerContainers[questionNumber]);
+
 		  answerContainers[questionNumber].style.color = 'lightgreen';
 		}
-		// if answer is wrong or blank
 		else{
-		  // color the answers red
+		  // if answer is wrong or blank - color the answers red
 		  answerContainers[questionNumber].style.color = 'red';
 		}
 	  });
 
 	  // show number of correct answers out of total
-	  resultsContainer = document.getElementById('quiz');
+	  resultsContainer = document.getElementById('results');
 	  resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
 	  
 	  submitButton=document.getElementById("Submit");
 	  if (numCorrect < myQuestions.length) {
-		  submitButton.text = "Try Again";
-		  submitButton.onclick = function(){
-			showQuestions(myQuestions, quizContainer, resultsContainer);
-		 }
+		  submitButton.innerHTML = "Try Again";
 	  } else
-		  submitButton.text = "Well Done";
-
-		// show the questions
-	//	showQuestions(myQuestions, quizContainer);
-
-		// when user clicks submit, show results
-		submitButton.onclick = function(){
-			showResults(myQuestions, quizContainer, resultsContainer);
-		}
-	}
+		  submitButton.innerHTML = "Well Done";
+	      submitButton.onclick = function(){}
+	  }
 
 	const myQuestions = [
 	  {
@@ -116,12 +109,22 @@
 		correctAnswer: "a"
 	  },
 	  {
-		question: "The creator of lycra, Joseph C. Shivers, is ...?",
+		question: "The creator of lycra, Joseph C. Shivers, is ...??",
 		answers: {
 		  a: "Chinese",
 		  b: "British",
 		  c: "Japinese",
 		  d: "American"
+		},
+		correctAnswer: "d"
+	  },
+	  {
+		question: "Who made this quiz?",
+		answers: {
+		  a: "An elderly monk",
+		  b: "Isaac O & Edward",
+		  c: "A Big Meanie",
+		  d: "Grace & Alesia & Steve"
 		},
 		correctAnswer: "d"
 	  }
@@ -180,8 +183,3 @@ function showNextSlide() {
 function showPreviousSlide() {
   showSlide(currentSlide - 1);
 }
-
-//previousButton = document.getElementById("previousButton")
-//previousButton.addEventListener("click", showPreviousSlide);
-//nextButton.addEventListener("click", showNextSlide);
-//}
