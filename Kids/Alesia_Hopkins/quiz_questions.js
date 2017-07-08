@@ -95,7 +95,7 @@
 		question: "Who was the co-inventor of the postet note?",
 		answers: {
 		  a: "Alexander Parkes",
-		  b: "Harry Brearley",
+		  b: "George Dixon",
 		  c: "Spencer Silver"
 		},
 		correctAnswer: "c"
@@ -110,7 +110,7 @@
 		correctAnswer: "a"
 	  },
 	  {
-		question: "The creator of lycra, Joseph C. Shivers, is ...??",
+		question: "The creator of lycra, Joseph C. Shivers, is ...?",
 		answers: {
 		  a: "Chinese",
 		  b: "British",
@@ -120,75 +120,86 @@
 		correctAnswer: "d"
 	  },
 	  {
-		question: "2 + 2 = ?",
+		question: "What materials are stony meteors mainly composed of?",
 		answers: {
-		  a: " 4 ",
-		  b: " 7 ",
-		  c: " 0 ",
-		  d: " 6 "
+		  a: " Silicate Minerals ",
+		  b: " Zirconium ",
+		  c: " Travertine",
+		  d: " Cadmium "
 		},
 		correctAnswer: "a"
 	},
 
 	  {
-		question: "1 + 1 = ?",
+		question: "When was Gold discovered?",
 		answers: {
-		  a: " 3 ",
-		  b: " I Dunno ",
-		  c: " 76 ",
-		  d: " 2  "
-		},
-		correctAnswer: "d"
-	  },
-	  {
-		question: "Who was the co-inventor of the postet note?",
-		answers: {
-		  a: "Alexander Parkes",
-		  b: "Harry Brearley",
-		  c: "Spencer Silver"
+		  a: " 5000 BC ",
+		  b: " 1000 AD ",
+		  c: " 6000 BC ",
+		  d: " 50 AD  "
 		},
 		correctAnswer: "c"
 	  },
 	  {
-		question: "Who was considered the creator of stainless steel?",
+		question: "What do you call materials you can see through, such as glass?",
 		answers: {
-		  a: "Harry Brearley",
-		  b: "Leo Beakeland",
-		  c: "Georges de Mestral"
+		  a: "Absorbent",
+		  b: "Transparent",
+		  c: "Opaque"
+		},
+		correctAnswer: "b"
+	  },
+	  {
+		question: "What do you call the phase transition when solids change to gas?",
+		answers: {
+		  a: "Sublimination",
+		  b: "Boiling",
+		  c: "Melting"
 		},
 		correctAnswer: "a"
 	  },
 	  {
-		question: "The creator of lycra, Joseph C. Shivers, is ...??",
+		question: "What is the change of state from gas to liquid called?",
 		answers: {
-		  a: "Chinese",
-		  b: "British",
-		  c: "Japinese",
-		  d: "American"
+		  a: "Ventilaton",
+		  b: "Evaporation",
+		  c: "Condensation",
+		  d: "Sublimination"
+		},
+		correctAnswer: "c"
+	  },
+	  {
+		question: "What is the symbol for the oxygen that we breath",
+		answers: {
+		  a: " Ox ",
+		  b: " O1 ",
+		  c: " OY",
+		  d: " O2 "
+		},
+		correctAnswer: "d"
+	},
+
+	  {
+		question: "How long has concrete been around",
+		answers: {
+		  a: " 1000 years",
+		  b: " I Dunno ",
+		  c: " 500 years ",
+		  d: " 12,000,000 years  "
 		},
 		correctAnswer: "d"
 	  },
 	  {
-		question: "2 + 2 = ?",
+		question: "Approximately, what percentage of an adult human is water?",
 		answers: {
-		  a: " 4 ",
-		  b: " 7 ",
-		  c: " 0 ",
-		  d: " 6 "
-		},
-		correctAnswer: "a"
-	},
-
-	  {
-		question: "1 + 1 = ?",
-		answers: {
-		  a: " 3 ",
-		  b: " I Dunno ",
-		  c: " 76 ",
-		  d: " 2  "
+		  a: " 10%",
+		  b: " 30% ",
+		  c: " 90% ",
+		  d: " 60%  "
 		},
 		correctAnswer: "d"
 	  }
+	  
 	];
 
 
