@@ -84,10 +84,11 @@
 	  submitButton=document.getElementById("Submit");
 	  if (numCorrect < myQuestions.length) {
 		  submitButton.innerHTML = "Try Again";
-	  } else
+	  } else {
 		  submitButton.innerHTML = "Well Done";
 	      submitButton.onclick = function(){}
 	  }
+	}
 
 	const myQuestions = [
 	  {
@@ -119,12 +120,72 @@
 		correctAnswer: "d"
 	  },
 	  {
-		question: "Who made this quiz?",
+		question: "2 + 2 = ?",
 		answers: {
-		  a: "An elderly monk",
-		  b: "Isaac O & Edward",
-		  c: "A Big Meanie",
-		  d: "Grace & Alesia & Steve"
+		  a: " 4 ",
+		  b: " 7 ",
+		  c: " 0 ",
+		  d: " 6 "
+		},
+		correctAnswer: "a"
+	},
+
+	  {
+		question: "1 + 1 = ?",
+		answers: {
+		  a: " 3 ",
+		  b: " I Dunno ",
+		  c: " 76 ",
+		  d: " 2  "
+		},
+		correctAnswer: "d"
+	  },
+	  {
+		question: "Who was the co-inventor of the postet note?",
+		answers: {
+		  a: "Alexander Parkes",
+		  b: "Harry Brearley",
+		  c: "Spencer Silver"
+		},
+		correctAnswer: "c"
+	  },
+	  {
+		question: "Who was considered the creator of stainless steel?",
+		answers: {
+		  a: "Harry Brearley",
+		  b: "Leo Beakeland",
+		  c: "Georges de Mestral"
+		},
+		correctAnswer: "a"
+	  },
+	  {
+		question: "The creator of lycra, Joseph C. Shivers, is ...??",
+		answers: {
+		  a: "Chinese",
+		  b: "British",
+		  c: "Japinese",
+		  d: "American"
+		},
+		correctAnswer: "d"
+	  },
+	  {
+		question: "2 + 2 = ?",
+		answers: {
+		  a: " 4 ",
+		  b: " 7 ",
+		  c: " 0 ",
+		  d: " 6 "
+		},
+		correctAnswer: "a"
+	},
+
+	  {
+		question: "1 + 1 = ?",
+		answers: {
+		  a: " 3 ",
+		  b: " I Dunno ",
+		  c: " 76 ",
+		  d: " 2  "
 		},
 		correctAnswer: "d"
 	  }
