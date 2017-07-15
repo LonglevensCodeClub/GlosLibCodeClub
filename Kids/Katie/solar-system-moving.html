@@ -22,41 +22,144 @@
 			const sunElement = document.createElementNS(SVG_NS,	'circle');
 			sunElement.setAttribute('cx', sunOrigin.x);
 			sunElement.setAttribute('cy', sunOrigin.y);
-			sunElement.setAttribute('r', 50);
+			sunElement.setAttribute('r', 70);
 			sunElement.setAttribute('fill', 'gold');
 
 			svgSolarSystem.appendChild(sunElement);
 
 			const planets = [
+			
 				{
-					radius: 5,
-					orbitDistance: 75,
-					colour: 'blue',
-					frequency : 10
+				//mecrury
+					radius: 8,
+					orbitDistance: 90,
+					colour: 'brown',
+					frequency : 15,
+					moons: [
+					{
+						//moon
+						radius: 3,
+						orbitDistance: 15,
+						colour: 'white',
+						frequency : 20
+					},]
+				},
+				
+			    {
+				//venus	
+					radius: 13,
+					orbitDistance: 120,
+					colour: 'yellow',
+					frequency : 12,
+					moons: [
+					{
+						radius: 5,
+						orbitDistance: 20,
+						colour: 'white',
+						frequency : 40
+					}
+					]
 				},
 				{
-					radius: 30,
-					orbitDistance: 150,
-					colour: 'purple',
-					frequency : 4
-				},
-				{
+				//earth	
 					radius: 15,
-					orbitDistance: 110,
+					orbitDistance: 150,
 					colour: 'green',
-					frequency : 2
-				}
+					frequency : 10,
+					
+					moons: [
+					{
+						//moon
+						radius: 5,
+						orbitDistance: 20,
+						colour: 'white',
+						frequency : 50
+					},
+					
+					]
+				},
+				{
+					//mars
+					radius: 17,
+					orbitDistance: 190,
+					colour: 'red',
+					frequency : 8,
+					moons: []
+				},	
+				{
+				//jupiter
+					radius: 40,
+					orbitDistance: 210,
+					colour: 'purple',
+					frequency : 7,
+					moons: [
+					{
+						//moon
+						radius: 5,
+						orbitDistance: 60,
+						colour: 'white',
+						frequency : 50
+					},
+					{
+						//moon
+						radius: 5,
+						orbitDistance: 50,
+						colour: 'white',
+						frequency : 30
+					},
+				    ]
+				},
+				{
+				//saturn with no rings ;)
+					radius: 24,
+					orbitDistance: 240,
+					colour: 'orange',
+					frequency : 6,
+					moons: []
+				},
+				{
+				//uranus
+					radius: 24,
+					orbitDistance: 333,
+					colour: 'magenta',
+					frequency : 7,
+					moons: []			
+				},
+			    {
+				//neptune
+					radius: 18,
+					orbitDistance: 350,
+					colour: 'blue',
+					frequency : 5,
+					moons: []
+				},
+				
 			]
+			
 			
 			// This code goes through each planet, putting it on the screen
 			planets.forEach(planet => {
+				planetOrigin = {
+					x: sunOrigin.x + planet.orbitDistance,
+					y: sunOrigin.y
+				}
 				planet.element = document.createElementNS(SVG_NS, 'circle');
 				planet.element.setAttribute('r', planet.radius);
 				planet.element.setAttribute('fill', planet.colour);
 				// start the planet to the right of the shcool
-				planet.element.setAttribute('cx', sunOrigin.x + planet.orbitDistance);
-				planet.element.setAttribute('cy', sunOrigin.y);
+				planet.element.setAttribute('cx', planetOrigin.x);
+				planet.element.setAttribute('cy', planetOrigin.y);
 				svgSolarSystem.appendChild(planet.element);
+				
+				planet.moons.forEach(moon => {
+					moon.element = document.createElementNS(SVG_NS, 'circle');
+					moon.element.setAttribute('r', moon.radius);
+					moon.element.setAttribute('fill', moon.colour);
+					// start the planet to the right of the shcool
+					moon.element.setAttribute('cx', planetOrigin.x + moon.orbitDistance);
+					moon.element.setAttribute('cy', planetOrigin.y);
+					svgSolarSystem.appendChild(moon.element);
+				});
 			});
 
 			
@@ -65,12 +168,22 @@
 			const animateFrame = function() {
 				// animation code goes here
 				planets.forEach(planet => {
-					const angle = animationSpeed * 2 * Math.PI * planet.frequency * new Date().getTime() / 1000;
-					const xPosition = planet.orbitDistance * Math.sin(angle);
-					const yPosition = planet.orbitDistance * Math.cos(angle);
+					const adjustedTime = new Date().getTime() / 1000;
+					const planetAngle = animationSpeed * 2 * Math.PI * planet.frequency * adjustedTime;
+					const planetX = sunOrigin.x + planet.orbitDistance * Math.sin(planetAngle);
+					const planetY = sunOrigin.y + planet.orbitDistance * Math.cos(planetAngle);
 					
-					planet.element.setAttribute('cx', sunOrigin.x + xPosition);
-					planet.element.setAttribute('cy', sunOrigin.y + yPosition);
+					planet.element.setAttribute('cx', planetX);
+					planet.element.setAttribute('cy', planetY);
+					
+					planet.moons.forEach(moon => {
+						const moonAngle = animationSpeed * 2 * Math.PI * moon.frequency * adjustedTime;
+						const moonX = planetX + moon.orbitDistance * Math.sin(moonAngle);
+						const moonY = planetY + moon.orbitDistance * Math.cos(moonAngle);
+						
+						moon.element.setAttribute('cx', moonX);
+						moon.element.setAttribute('cy', moonY);
+					});
 				});
 			}
 			setInterval(animateFrame, 10);
