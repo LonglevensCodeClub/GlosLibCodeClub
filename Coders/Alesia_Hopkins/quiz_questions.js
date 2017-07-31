@@ -92,112 +92,100 @@
 
 	const myQuestions = [
 	  {
-		question: "Who was the co-inventor of the postet note?",
+		question: "When was Code Club founded?",
 		answers: {
-		  a: "Alexander Parkes",
-		  b: "George Dixon",
-		  c: "Spencer Silver"
+		  a: "2010",
+		  b: "2011",
+		  c: "2012"
 		},
 		correctAnswer: "c"
 	  },
 	  {
-		question: "Who was considered the creator of stainless steel?",
+		question: "When did Code Club join forces with the Rasberry Pi Foundation?",
 		answers: {
-		  a: "Harry Brearley",
-		  b: "Leo Beakeland",
-		  c: "Georges de Mestral"
+		  a: "2015",
+		  b: "2013",
+		  c: "2014"
 		},
 		correctAnswer: "a"
 	  },
 	  {
-		question: "The creator of lycra, Joseph C. Shivers, is ...?",
+		question: "What age is Code Club aimed for?",
 		answers: {
-		  a: "Chinese",
-		  b: "British",
-		  c: "Japinese",
-		  d: "American"
+		  a: "9-10",
+		  b: "5-8",
+		  c: "6-10",
+		  d: "9-11"
 		},
 		correctAnswer: "d"
 	  },
 	  {
-		question: "What materials are stony meteors mainly composed of?",
+		question: "Where is the most common place to book Code Club tickets?",
 		answers: {
-		  a: " Silicate Minerals ",
-		  b: " Zirconium ",
-		  c: " Travertine",
-		  d: " Cadmium "
+		  a: " Eventbrite ",
+		  b: " Ticket Master ",
+		  c: " CodeClub.org",
 		},
 		correctAnswer: "a"
 	},
 
 	  {
-		question: "When was Gold discovered?",
+		question: "How many languages have Code Club projects been translated in?",
 		answers: {
-		  a: " 5000 BC ",
-		  b: " 1000 AD ",
-		  c: " 6000 BC ",
-		  d: " 50 AD  "
+		  a: " 25 languages ",
+		  b: " 20 languages ",
+		  c: " 28 languages ",
+		  d: " 32 languages "
 		},
 		correctAnswer: "c"
 	  },
 	  {
-		question: "What do you call materials you can see through, such as glass?",
+		question: "How much does Code Club cost?",
 		answers: {
-		  a: "Absorbent",
-		  b: "Transparent",
-		  c: "Opaque"
+		  a: "Depends on age",
+		  b: "It's Free",
+		  c: "&pound;5 per session"
 		},
 		correctAnswer: "b"
 	  },
 	  {
-		question: "What do you call the phase transition when solids change to gas?",
+		question: "Who has been teaching at code club the longest?",
 		answers: {
-		  a: "Sublimination",
-		  b: "Boiling",
-		  c: "Melting"
+		  a: "Steve ",
+		  b: "Ben",
+		  c: "Scott"
 		},
 		correctAnswer: "a"
 	  },
 	  {
-		question: "What is the change of state from gas to liquid called?",
+		question: "Where  can you sign up to be a volounteer at Code Club now?",
 		answers: {
-		  a: "Ventilaton",
-		  b: "Evaporation",
-		  c: "Condensation",
-		  d: "Sublimination"
+		  a: "codeclub.net",
+		  b: "codeclub.com",
+		  c: "codeclub.org.uk",
+		  d: "codeclub.to"
 		},
 		correctAnswer: "c"
 	  },
 	  {
-		question: "What is the symbol for the oxygen that we breath",
+		question: "Inside which HTML element do we put the javascript?",
 		answers: {
-		  a: " Ox ",
-		  b: " O1 ",
-		  c: " OY",
-		  d: " O2 "
+		  a: " &lt;script+&gt; ",
+		  b: " &lt;submit&gt;",
+		  c: " &lt;scriptjs&gt;",
+		  d: " &lt;script&gt; "
 		},
 		correctAnswer: "d"
-	},
-
+	 },
 	  {
-		question: "How long has concrete been around",
+		question: "What year did Longlevens Library Code Club begin?",
 		answers: {
-		  a: " 1000 years",
-		  b: " I Dunno ",
-		  c: " 500 years ",
-		  d: " 12,000,000 years  "
+		  a: " 2015 October",
+		  b: " 2014 October ",
+		  c: " 2015 Janurary ",
+		  d: " 2015 Janurary  "
 		},
-		correctAnswer: "d"
-	  },
-	  {
-		question: "Approximately, what percentage of an adult human is water?",
-		answers: {
-		  a: " 10%",
-		  b: " 30% ",
-		  c: " 90% ",
-		  d: " 60%  "
-		},
-		correctAnswer: "d"
+		correctAnswer: "a"
 	  }
 	  
 	];
