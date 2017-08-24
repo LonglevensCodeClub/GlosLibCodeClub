@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <script type='text/javascript'>
+
+window.onload = function() {
+    // Get the SVG element
+    const svgMain = document.getElementById('svgMain');
+    const svgMainRect = svgMain.getBoundingClientRect();
+
+    // Required to create new SVG elements
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    const lightBlobs = [];
+    const toRadians = function(degrees) {
+      return degrees / (180 / Math.PI);
+    }
+    const startingAngle = toRadians(30);
+
+    class Medium {
+      constructor({x, y, width, height, fill, refractiveIndex}) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.fill = fill;
+        this.refractiveIndex = refractiveIndex;
+
+        this.element = document.createElementNS(SVG_NS, 'rect');
+        this.element.setAttribute('x', this.x);
+        this.element.setAttribute('y', this.y);
+        this.element.setAttribute('width', this.width);
+        this.element.setAttribute('height', this.height);
+        this.element.setAttribute('fill', this.fill);
+      }
+
+      contains(photon) {
+        return  (this.x <= photon.x) && (photon.x <= (this.x + this.width)) &&
+                (this.y <= photon.y) && (photon.y <= (this.y + this.height));
+      }
+    }
+
+    class Photon {
+      constructor(fill) {
+        this.x = 0;
+        this.y = svgMainRect.height / 20;
+        this.angle = startingAngle;
+        this.speed = 10;
+        this.inMedium = undefined;
+
+        this.element = document.createElementNS(SVG_NS, 'circle');
+        this.element.setAttribute('r', 5)
+        this.element.setAttribute('fill', fill)
+      }
+
+      moveAndRedraw() {
+        this.x += this.speed * Math.cos(this.angle);
+        this.y += this.speed * Math.sin(this.angle);
+        this.element.setAttribute('cx', this.x);
+        this.element.setAttribute('cy', this.y);
+      }
+    }
+
+    const media = []
+    const air = new Medium({
+      x: 0,
+      y: 0,
+      width: svgMainRect.width / 3,
+      height: svgMainRect.height,
+      fill: 'rgba(255, 0, 0, 0.2)',
+      refractiveIndex: 1.0003
+    });
+    const water = new Medium({
+      x: svgMainRect.width / 3,
+      y: 0,
+      width: svgMainRect.width / 3,
+      height: svgMainRect.height,
+      fill: 'rgba(0, 0, 255, 1)',
+      refractiveIndex: 1.3330
+    });
+    const air2 = new Medium({
+      x: 2 * svgMainRect.width / 3,
+      y: 0,
+      width: svgMainRect.width / 3,
+      height: svgMainRect.height,
+      fill: 'rgba(255, 0, 0, 0.2)',
+      refractiveIndex: 1.0003
+    });
+
+    media.push(air);
+    media.push(water);
+    media.push(air2);
+
+    media.forEach((m) => svgMain.appendChild(m.element));
+
+    const animateFrame = function() {
+      const newLightBlob = new Photon('rgba(0, 255, 0, 0.5)');
+      lightBlobs.push(newLightBlob);
+      svgMain.appendChild(newLightBlob.element);
+
+      let toRemove = undefined;
+
+      lightBlobs.forEach((photon, x) => {
+        photon.moveAndRedraw();
+        if (photon.inMedium !== undefined) {
+          const inMedia = media.filter((medium) => medium.contains(photon));
+          if (inMedia.length > 0) {
+            const enteringMedium = inMedia[0];
+            if (enteringMedium != photon.inMedium) {
+              const leavingMedium = photon.inMedium;
+              const snellsLaw = Math.sin(photon.angle) * enteringMedium.refractiveIndex / leavingMedium.refractiveIndex;
+              if (snellsLaw < 1.0) {
+                photon.inMedium = enteringMedium;
+                photon.angle = Math.asin(snellsLaw);
+              } else {
+                // Total internal reflection
+                photon.angle += toRadians(180) - (2 * photon.angle);
+              }
+            }
+          } else {
+            // The blob has
+            photon.element.remove();
+            toRemove = x;
+          }
+        } else {
+          // Find the starting medium
+          media
+            .filter((medium) => medium.contains(photon))
+            .forEach((media) => photon.inMedium = media);
+        }
+      });
+
+      if (toRemove) {
+        lightBlobs.splice(toRemove, 1);
+      }
+    }
+
+    setInterval(animateFrame, 50);
+};
+    </script>
+  </head>
+  <body>
+    <svg id='svgMain' width='100%' height='100%'>
+      <!-- Custom SVG goes here -->
+    </svg>
+  </body>
+</html>
