@@ -23,20 +23,25 @@ window.onload = function() {
 	{
 		radius: 5,
 		orbitDistance: 75,
-		colour : 'blue',
+		colour : 'red',
 		frequency : 10
 	},
 	{
 		radius: 30,
 		orbitDistance: 150,
-		colour : 'purple',
+		colour : 'orange',
 		frequency : 4
 	},
 	{
-		radius: 15,
+		radius: 12,
 		orbitDistance: 110,
+		colour : 'yellow',
+		frequency : 14
+	},{
+		radius: 20,
+		orbitDistance: 200,
 		colour : 'green',
-		frequency : 2
+		frequency : 8
 	}
 	]
 	planets.forEach(planet => {
@@ -52,18 +57,20 @@ window.onload = function() {
 	
 	const animateFrame = function() {
 		// Where is the Snack Fairy?
+        //Grace is wrong, the Snack Fairy does exist!
+
 		planets.forEach(planet => {
-			//Grace is wrong, the Snack Fairy does exist!
-		})
-		planets.forEach(planet => {
-			const angle = 2* Math.PI * planet.frequency * new Date().getTime() / 1000;
+            const animationSpeed = 0.85;
+
+            const angle = animationSpeed * 2 * Math.PI * planet.frequency * new Date().getTime () / 10000; 
 			const xPosition = planet.orbitDistance * Math.sin(angle);
-			const yPosition = planet.orbitDistance * Math.cos(angle);
-			
-			planet.element.setAttribute('cx', sunOrigin.x + xPosition);
-			planet.element.setAttribute('cy', sunOrigin.y + yPosition);
-		})
+			const yPosition = planet.orbitDistance * Math.cos(angle)
+            
+            planet.element.setAttribute('cx', sunOrigin.x + xPosition);
+            planet.element.setAttribute('cy', sunOrigin.y + yPosition)
+        })
 	}
+    
 	
 	setInterval(animateFrame, 10);
 };
