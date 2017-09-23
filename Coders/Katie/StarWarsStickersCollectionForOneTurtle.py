@@ -1,7 +1,7 @@
 
 from random import randint
 
-def CollectStickers(bookSize, observer=None):
+def collectStickers(bookSize, observer=None):
     stickersBought = 0
     stickers = dict() 
     packsbought = 0
@@ -13,7 +13,7 @@ def CollectStickers(bookSize, observer=None):
             observer(x, 0)
 
 
-    while not (len(stickers) >= bookSize - 25):
+    while not (len(stickers) >= bookSize - 0):
     
         packSize = 5
 
@@ -26,9 +26,9 @@ def CollectStickers(bookSize, observer=None):
             else:
                 stickers[s] = 1
 
-        #update the obsever
-        if observer:
-            observer(s, stickers[s])
+            #update the obsever
+            if observer:
+                observer(s, stickers[s])
     
 
     mostSwaps = 0
@@ -39,5 +39,5 @@ def CollectStickers(bookSize, observer=None):
             stickerSwap = s
     #print("Most swaps are {} for sticker {}.".format(mostSwaps, stickerSwap))
 		
-    return packsbought
+    return stickersBought
 
