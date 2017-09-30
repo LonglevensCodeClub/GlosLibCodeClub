@@ -29,6 +29,13 @@ def observer(whichSticker, count):
     else:
         stickerTurtle = createTurtle()
         stickerTurtles[whichSticker] = stickerTurtle
+        
+        #update the state of the turtle depending on the count
+        thisColour = "red" if count == 0 else "green"
+        thisSize = 1 + (count / 3)
+        
+        stickerTurtle.color(thisColour)
+        stickerTurtle.turtlesize(thisSize)
 
 myBookSize = 324
 stickersBought = collectStickers(myBookSize, observer)
