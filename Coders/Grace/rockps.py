@@ -13,7 +13,7 @@ if(chosen == 1):
 	computer = 'r'
 	
 elif(chosen == 2):
-	chosen = 'p'
+	computer = 'p'
 	
 else:
 	computer = 's'
