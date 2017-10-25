@@ -8,7 +8,7 @@ class CaesarCipher:
 	def allLetters():
 		if not CaesarCipher.ALL_LETTERS:
 			# Generate all the allowed letters in a list
-			allLetterCodes = range(ord('a'), ord('z'))
+			allLetterCodes = range(ord('a'), ord('z') + 1)
 			
 			# Map the codes to actual letters using the chr() function
 			allLetterCodesMapped = map(chr, allLetterCodes)
@@ -21,33 +21,41 @@ class CaesarCipher:
 		self.key = key
 		
 	def encryptLetter(self, plainLetter):
-		# find index of the letter
-		index = CaesarCipher.allLetters().index(plainLetter) 
-		
-		# apply the key
-		index += self.key 
-		
-		# wrap around
-		index %= len(CaesarCipher.allLetters()) 
-		
-		# Return the letter identified by the modified index
-		return CaesarCipher.allLetters()[index]
+		try:
+			# find index of the letter
+			index = CaesarCipher.allLetters().index(plainLetter) 
+			
+			# apply the key
+			index += self.key 
+			
+			# wrap around
+			index %= len(CaesarCipher.allLetters()) 
+			
+			# Return the letter identified by the modified index
+			return CaesarCipher.allLetters()[index]
+		except ValueError:
+			# Default to returning the letter unmodifed
+			return plainLetter
 		
 	def decryptLetter(self, cipherLetter):
-		# find index of the letter
-		index = CaesarCipher.allLetters().index(cipherLetter)
-		
-		# apply the key
-		index -= self.key 
-		
-		# force more than zero (in case we wrapped backwards)
-		index += len(CaesarCipher.allLetters()) 
-		
-		# wrap around using modulus
-		index %= len(CaesarCipher.allLetters()) 
-		
-		# Return the letter identified by the modified index
-		return CaesarCipher.allLetters()[index]
+		try:
+			# find index of the letter
+			index = CaesarCipher.allLetters().index(cipherLetter)
+			
+			# apply the key
+			index -= self.key 
+			
+			# force more than zero (in case we wrapped backwards)
+			index += len(CaesarCipher.allLetters()) 
+			
+			# wrap around using modulus
+			index %= len(CaesarCipher.allLetters()) 
+			
+			# Return the letter identified by the modified index
+			return CaesarCipher.allLetters()[index]
+		except ValueError:
+			# Default to returning the letter unmodifed
+			return cipherLetter
 
 	# Given a plain text word
 	# Encrypts with our key and returns the cipher text
