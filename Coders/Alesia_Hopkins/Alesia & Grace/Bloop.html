@@ -1,0 +1,18 @@
+// https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript/Move_the_ball
+
+<!DOCTYPE html>
+<html>
+var x = canvas.width/2;
+var y = canvas.height-30;
+function draw() {
+    // drawing code
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI*2);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+    }
+
+setInterval(draw, 10);
+
+
