@@ -1,0 +1,916 @@
+pi@raspberrypi-7:~ $ apt-get install nginx
+E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)
+E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
+pi@raspberrypi-7:~ $ sudo su
+root@raspberrypi-7:/home/pi# apt-get install nginx
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libnginx-mod-http-auth-pam libnginx-mod-http-dav-ext libnginx-mod-http-echo libnginx-mod-http-geoip
+  libnginx-mod-http-image-filter libnginx-mod-http-subs-filter libnginx-mod-http-upstream-fair
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream nginx-common nginx-full
+Suggested packages:
+  fcgiwrap nginx-doc ssl-cert
+The following NEW packages will be installed:
+  libnginx-mod-http-auth-pam libnginx-mod-http-dav-ext libnginx-mod-http-echo libnginx-mod-http-geoip
+  libnginx-mod-http-image-filter libnginx-mod-http-subs-filter libnginx-mod-http-upstream-fair
+  libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream nginx nginx-common nginx-full
+0 upgraded, 13 newly installed, 0 to remove and 1 not upgraded.
+Need to get 1,502 kB of archives.
+After this operation, 2,563 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://mirrordirector.raspbian.org/raspbian stretch/main armhf nginx-common all 1.10.3-1+deb9u1 [104 kB]
+Err:1 http://mirrordirector.raspbian.org/raspbian stretch/main armhf nginx-common all 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:60f22d56cbc5f0929fa7b953cc15e38a334804d761f8004650ba1a6c3372f82d
+   - SHA1:0b2416f74d99227b018aabdcfc988564cfa11a34 [weak]
+   - MD5Sum:3c678173e3331af10b05506b0010759a [weak]
+   - Filesize:104370 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:2 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-auth-pam armhf 1.10.3-1+deb9u1 [85.4 kB]
+Err:2 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-auth-pam armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:60ff59a34c606cb9d9ea3e468f57f9186403d0da65cf853cda46d1757a1041c7
+   - SHA1:43e160a91a220903cd327830ecb99fba85e359a0 [weak]
+   - MD5Sum:e0f4c4caa42d620df1410cd5ddf27ff1 [weak]
+   - Filesize:85382 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:3 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-dav-ext armhf 1.10.3-1+deb9u1 [87.0 kB]
+Err:3 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-dav-ext armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:f128985f41bcec6ac3798d2b482024220bd047b59ac530879aae824a8e5b1693
+   - SHA1:a07fd0e5e377cdbba8d62825d7353a37d55fb3c8 [weak]
+   - MD5Sum:2463d5dfe96f898a192bbdb82c2f2644 [weak]
+   - Filesize:87036 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:4 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-echo armhf 1.10.3-1+deb9u1 [95.1 kB]
+Err:4 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-echo armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:d21c99836a72f5a2dfed0cfba86775923e2638a8f8c84e8c7f97167156ff0864
+   - SHA1:e29541c2577e822aa6a4283838a185a54e8aed0c [weak]
+   - MD5Sum:226d0e0088ba15dd76c10e5dbe97b0c4 [weak]
+   - Filesize:95090 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:5 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-geoip armhf 1.10.3-1+deb9u1 [86.5 kB]
+Err:5 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-geoip armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:fae120c7a6d4c3ab6b29e57094abca79943a5ec14cf2da51d92805e2899ba9c1
+   - SHA1:9c6b3923e3f7147ff9bc996b8a5cc1cea4204eb5 [weak]
+   - MD5Sum:ec7064f1bd53c20a6535d15183cc4460 [weak]
+   - Filesize:86532 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:6 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-image-filter armhf 1.10.3-1+deb9u1 [89.3 kB]
+Err:6 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-image-filter armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:4c21bd8ab712d129a4252843e0d6b9e161f9fc1342352360c6d3150398f06e1a
+   - SHA1:bd010c4356aeb29575f1440cd72d32fefdd3365c [weak]
+   - MD5Sum:6e385976bd1099f924087a3e920b8a24 [weak]
+   - Filesize:89266 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:7 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-subs-filter armhf 1.10.3-1+deb9u1 [88.5 kB]
+Err:7 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-subs-filter armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:0912d7c322bf371ac82b567a9c0a4b5cc1c8c92cfce72f184003ad7406d8dd14
+   - SHA1:ab7dd5c6f314656bb7a135199befe7b1645eaf5a [weak]
+   - MD5Sum:80db2630db3f7e15263ee858ca579aef [weak]
+   - Filesize:88472 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:8 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-upstream-fair armhf 1.10.3-1+deb9u1 [88.6 kB]
+Err:8 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-upstream-fair armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:3b444ae105a40af183320a4ee672106d227b0b89fc7c706e7e978f169b7e5561
+   - SHA1:7a7b46221505c249f2ed176b64658b02815d4abe [weak]
+   - MD5Sum:9d69465770b61560b1a46f731436d741 [weak]
+   - Filesize:88642 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:9 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-xslt-filter armhf 1.10.3-1+deb9u1 [88.0 kB]
+Err:9 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-http-xslt-filter armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:b01d2ee763333bf704d394b9573d0a4f844db13da6887b33610152dbc4950fa9
+   - SHA1:379c894300335eaef4d94b5bbccaef5d64dfa5c6 [weak]
+   - MD5Sum:f0bb1dee95b5d209a2a669c138d2e942 [weak]
+   - Filesize:88044 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:10 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-mail armhf 1.10.3-1+deb9u1 [113 kB]
+Err:10 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-mail armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:539d9fe1076d6bfc8db1f6b7172c7fc1787cde5f24a7b69ced0d46faaa5ef5f7
+   - SHA1:30799c932f45d14e113138dfc2ce918c6d48a721 [weak]
+   - MD5Sum:c8caef91e6729a1e21b21d33d33c513f [weak]
+   - Filesize:112518 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:11 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-stream armhf 1.10.3-1+deb9u1 [106 kB]
+Err:11 http://mirrordirector.raspbian.org/raspbian stretch/main armhf libnginx-mod-stream armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:44ad09ca8f210a045fac1ce2c0a79a4d31995e6dcae88324655cee338977c4d4
+   - SHA1:12809ef391dc19398461855c27c3f76b8df45bd2 [weak]
+   - MD5Sum:7bbf364f3588b1962e5d87985eeadd1b [weak]
+   - Filesize:105988 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:12 http://mirrordirector.raspbian.org/raspbian stretch/main armhf nginx-full armhf 1.10.3-1+deb9u1 [389 kB]
+Err:12 http://mirrordirector.raspbian.org/raspbian stretch/main armhf nginx-full armhf 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:21e6422ad9eb7490c1ef20984c9fe814a26ad7b468792d87ab40c20e397af222
+   - SHA1:9e134caf78cd31666c4d66074890ffcc5ae9e9c1 [weak]
+   - MD5Sum:0ac2e0eb2f34f91a4b1934421db965d7 [weak]
+   - Filesize:389232 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Get:13 http://mirrordirector.raspbian.org/raspbian stretch/main armhf nginx all 1.10.3-1+deb9u1 [81.5 kB]
+Err:13 http://mirrordirector.raspbian.org/raspbian stretch/main armhf nginx all 1.10.3-1+deb9u1
+  Hash Sum mismatch
+  Hashes of expected file:
+   - SHA256:951dfb23d22013100af05b9237be5cf35e3eef987c75ca112bc130fa91e65679
+   - SHA1:881d3212e35c654fa7ddf8d775b86bd1f209f6d7 [weak]
+   - MD5Sum:c95b559748017d27c5d23f42261a4a4b [weak]
+   - Filesize:81502 [weak]
+  Hashes of received file:
+   - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+   - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+   - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+   - Filesize:6941 [weak]
+  Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+Fetched 90.2 kB in 2s (43.1 kB/s)
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/nginx-common_1.10.3-1%2bdeb9u1_all.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:60f22d56cbc5f0929fa7b953cc15e38a334804d761f8004650ba1a6c3372f82d
+    - SHA1:0b2416f74d99227b018aabdcfc988564cfa11a34 [weak]
+    - MD5Sum:3c678173e3331af10b05506b0010759a [weak]
+    - Filesize:104370 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-auth-pam_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:60ff59a34c606cb9d9ea3e468f57f9186403d0da65cf853cda46d1757a1041c7
+    - SHA1:43e160a91a220903cd327830ecb99fba85e359a0 [weak]
+    - MD5Sum:e0f4c4caa42d620df1410cd5ddf27ff1 [weak]
+    - Filesize:85382 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-dav-ext_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:f128985f41bcec6ac3798d2b482024220bd047b59ac530879aae824a8e5b1693
+    - SHA1:a07fd0e5e377cdbba8d62825d7353a37d55fb3c8 [weak]
+    - MD5Sum:2463d5dfe96f898a192bbdb82c2f2644 [weak]
+    - Filesize:87036 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-echo_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:d21c99836a72f5a2dfed0cfba86775923e2638a8f8c84e8c7f97167156ff0864
+    - SHA1:e29541c2577e822aa6a4283838a185a54e8aed0c [weak]
+    - MD5Sum:226d0e0088ba15dd76c10e5dbe97b0c4 [weak]
+    - Filesize:95090 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-geoip_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:fae120c7a6d4c3ab6b29e57094abca79943a5ec14cf2da51d92805e2899ba9c1
+    - SHA1:9c6b3923e3f7147ff9bc996b8a5cc1cea4204eb5 [weak]
+    - MD5Sum:ec7064f1bd53c20a6535d15183cc4460 [weak]
+    - Filesize:86532 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-image-filter_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:4c21bd8ab712d129a4252843e0d6b9e161f9fc1342352360c6d3150398f06e1a
+    - SHA1:bd010c4356aeb29575f1440cd72d32fefdd3365c [weak]
+    - MD5Sum:6e385976bd1099f924087a3e920b8a24 [weak]
+    - Filesize:89266 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-subs-filter_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:0912d7c322bf371ac82b567a9c0a4b5cc1c8c92cfce72f184003ad7406d8dd14
+    - SHA1:ab7dd5c6f314656bb7a135199befe7b1645eaf5a [weak]
+    - MD5Sum:80db2630db3f7e15263ee858ca579aef [weak]
+    - Filesize:88472 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-upstream-fair_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:3b444ae105a40af183320a4ee672106d227b0b89fc7c706e7e978f169b7e5561
+    - SHA1:7a7b46221505c249f2ed176b64658b02815d4abe [weak]
+    - MD5Sum:9d69465770b61560b1a46f731436d741 [weak]
+    - Filesize:88642 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-http-xslt-filter_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:b01d2ee763333bf704d394b9573d0a4f844db13da6887b33610152dbc4950fa9
+    - SHA1:379c894300335eaef4d94b5bbccaef5d64dfa5c6 [weak]
+    - MD5Sum:f0bb1dee95b5d209a2a669c138d2e942 [weak]
+    - Filesize:88044 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-mail_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:539d9fe1076d6bfc8db1f6b7172c7fc1787cde5f24a7b69ced0d46faaa5ef5f7
+    - SHA1:30799c932f45d14e113138dfc2ce918c6d48a721 [weak]
+    - MD5Sum:c8caef91e6729a1e21b21d33d33c513f [weak]
+    - Filesize:112518 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/libnginx-mod-stream_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:44ad09ca8f210a045fac1ce2c0a79a4d31995e6dcae88324655cee338977c4d4
+    - SHA1:12809ef391dc19398461855c27c3f76b8df45bd2 [weak]
+    - MD5Sum:7bbf364f3588b1962e5d87985eeadd1b [weak]
+    - Filesize:105988 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/nginx-full_1.10.3-1%2bdeb9u1_armhf.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:21e6422ad9eb7490c1ef20984c9fe814a26ad7b468792d87ab40c20e397af222
+    - SHA1:9e134caf78cd31666c4d66074890ffcc5ae9e9c1 [weak]
+    - MD5Sum:0ac2e0eb2f34f91a4b1934421db965d7 [weak]
+    - Filesize:389232 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Failed to fetch https://n100.network-auth.com/splash/?mac=00:18:0A:6F:26:38&real_ip=10.244.44.131&client_ip=10.244.44.131&client_mac=B8:27:EB:5D:04:F3&vap=0&a=ca3512f4dfa95a03169c5a670a4c91a19b3077b4&b=1995423&auth_version=5&key=644871abc9ae2ebf01ff33dc60f16c17c7e92f64&acl_ver=P7233410V2&continue_url=http://mirrordirector.raspbian.org/raspbian/pool/main/n/nginx/nginx_1.10.3-1%2bdeb9u1_all.deb  Hash Sum mismatch
+   Hashes of expected file:
+    - SHA256:951dfb23d22013100af05b9237be5cf35e3eef987c75ca112bc130fa91e65679
+    - SHA1:881d3212e35c654fa7ddf8d775b86bd1f209f6d7 [weak]
+    - MD5Sum:c95b559748017d27c5d23f42261a4a4b [weak]
+    - Filesize:81502 [weak]
+   Hashes of received file:
+    - SHA256:596f47d5f1b6cd8915d88aa9be1d8d65370b7c45ceaffcc36bd4c9fafcc91492
+    - SHA1:6105262b985a2902940259b0ae7c14c543b5890c [weak]
+    - MD5Sum:13474f1ab3586de919868928fae9476d [weak]
+    - Filesize:6941 [weak]
+   Last modification reported: Thu, 03 Aug 2017 08:57:42 +0000
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+root@raspberrypi-7:/home/pi# exit
+exit
+pi@raspberrypi-7:~ $ sudo /etc/init.d/apache2 stop
+sudo: /etc/init.d/apache2: command not found
+pi@raspberrypi-7:~ $ sudo systemctl disable apache2
+Failed to disable unit: No such file or directory
+pi@raspberrypi-7:~ $ sudo aptitude install nginx php5-fpm
+The following NEW packages will be installed:
+  libnginx-mod-http-auth-pam{a} libnginx-mod-http-dav-ext{a} libnginx-mod-http-echo{a} libnginx-mod-http-geoip{a} 
+  libnginx-mod-http-image-filter{a} libnginx-mod-http-subs-filter{a} libnginx-mod-http-upstream-fair{a} 
+  libnginx-mod-http-xslt-filter{a} libnginx-mod-mail{a} libnginx-mod-stream{a} libonig4{a} libqdbm14{a} lsof{a} 
+  nginx nginx-common{a} nginx-full{a} php5-cli{a} php5-common{a} php5-fpm php5-json{a} php5-readline{a} 
+0 packages upgraded, 21 newly installed, 0 to remove and 1 not upgraded.
+Need to get 6,236 kB of archives. After unpacking 20.9 MB will be used.
+Do you want to continue? [Y/n/?] y
+Get: 1 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf lsof armhf 4.89+dfsg-0.1 [311 kB]
+Get: 2 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf nginx-common all 1.10.3-1+deb9u1 [104 kB]
+Get: 3 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-auth-pam armhf 1.10.3-1+deb9u1 [85.4 kB]
+Get: 4 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-dav-ext armhf 1.10.3-1+deb9u1 [87.0 kB]
+Get: 5 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-echo armhf 1.10.3-1+deb9u1 [95.1 kB]
+Get: 6 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-geoip armhf 1.10.3-1+deb9u1 [86.5 kB]
+Get: 7 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-image-filter armhf 1.10.3-1+deb9u1 [89.3 kB]
+Get: 8 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-subs-filter armhf 1.10.3-1+deb9u1 [88.5 kB]
+Get: 9 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-upstream-fair armhf 1.10.3-1+deb9u1 [88.6 kB]
+Get: 10 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-http-xslt-filter armhf 1.10.3-1+deb9u1 [88.0 kB]
+Get: 11 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-mail armhf 1.10.3-1+deb9u1 [113 kB]
+Get: 12 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libnginx-mod-stream armhf 1.10.3-1+deb9u1 [106 kB]
+Get: 13 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libonig4 armhf 6.1.3-2 [127 kB]
+Get: 14 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf nginx-full armhf 1.10.3-1+deb9u1 [389 kB]
+Get: 15 http://www.mirrorservice.org/sites/archive.raspbian.org/raspbian stretch/main armhf libqdbm14 armhf 1.8.78-6.1 [85.3 kB]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-common armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-json armhf 1.3.9-1
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-cli armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-fpm armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-readline armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Get: 16 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf nginx all 1.10.3-1+deb9u1 [81.5 kB]
+Fetched 2,025 kB in 3s (522 kB/s)
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-common_5.6.22+dfsg-2+b3_armhf.deb: 404  Not Found [IP: 93.93.128.193 80]
+E: Unable to fetch some packages; try '-o APT::Get::Fix-Missing=true' to continue with missing packages
+                                         
+pi@raspberrypi-7:~ $ -o APT::Get::Fix-Missing=true
+bash: -o: command not found
+pi@raspberrypi-7:~ $ sudo aptitude install nginx php5-fpm -o APT::Get::Fix-Missing=true
+The following NEW packages will be installed:
+  libnginx-mod-http-auth-pam{a} libnginx-mod-http-dav-ext{a} libnginx-mod-http-echo{a} libnginx-mod-http-geoip{a} 
+  libnginx-mod-http-image-filter{a} libnginx-mod-http-subs-filter{a} libnginx-mod-http-upstream-fair{a} 
+  libnginx-mod-http-xslt-filter{a} libnginx-mod-mail{a} libnginx-mod-stream{a} libonig4{a} libqdbm14{a} lsof{a} 
+  nginx nginx-common{a} nginx-full{a} php5-cli{a} php5-common{a} php5-fpm php5-json{a} php5-readline{a} 
+0 packages upgraded, 21 newly installed, 0 to remove and 1 not upgraded.
+Need to get 4,211 kB/6,236 kB of archives. After unpacking 20.9 MB will be used.
+Do you want to continue? [Y/n/?] y
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-common armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-json armhf 1.3.9-1
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-cli armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-fpm armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-readline armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+32% [Working]Preconfiguring packages ...
+Selecting previously unselected package lsof.
+(Reading database ... 105482 files and directories currently installed.)
+Preparing to unpack .../00-lsof_4.89+dfsg-0.1_armhf.deb ...
+Unpacking lsof (4.89+dfsg-0.1) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../01-nginx-common_1.10.3-1+deb9u1_all.deb ...
+Unpacking nginx-common (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-auth-pam.
+Preparing to unpack .../02-libnginx-mod-http-auth-pam_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-auth-pam (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-dav-ext.
+Preparing to unpack .../03-libnginx-mod-http-dav-ext_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-dav-ext (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-echo.
+Preparing to unpack .../04-libnginx-mod-http-echo_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-echo (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-geoip.
+Preparing to unpack .../05-libnginx-mod-http-geoip_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-geoip (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-image-filter.
+Preparing to unpack .../06-libnginx-mod-http-image-filter_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-image-filter (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-subs-filter.
+Preparing to unpack .../07-libnginx-mod-http-subs-filter_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-subs-filter (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-upstream-fair.
+Preparing to unpack .../08-libnginx-mod-http-upstream-fair_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-upstream-fair (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-http-xslt-filter.
+Preparing to unpack .../09-libnginx-mod-http-xslt-filter_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-http-xslt-filter (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-mail.
+Preparing to unpack .../10-libnginx-mod-mail_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-mail (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libnginx-mod-stream.
+Preparing to unpack .../11-libnginx-mod-stream_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking libnginx-mod-stream (1.10.3-1+deb9u1) ...
+Selecting previously unselected package libonig4:armhf.
+Preparing to unpack .../12-libonig4_6.1.3-2_armhf.deb ...
+Unpacking libonig4:armhf (6.1.3-2) ...
+Selecting previously unselected package libqdbm14.
+Preparing to unpack .../13-libqdbm14_1.8.78-6.1_armhf.deb ...
+Unpacking libqdbm14 (1.8.78-6.1) ...
+Selecting previously unselected package nginx-full.
+Preparing to unpack .../14-nginx-full_1.10.3-1+deb9u1_armhf.deb ...
+Unpacking nginx-full (1.10.3-1+deb9u1) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../15-nginx_1.10.3-1+deb9u1_all.deb ...
+Unpacking nginx (1.10.3-1+deb9u1) ...
+Setting up lsof (4.89+dfsg-0.1) ...
+Setting up nginx-common (1.10.3-1+deb9u1) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service.
+Setting up libnginx-mod-http-image-filter (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-http-subs-filter (1.10.3-1+deb9u1) ...
+Setting up libonig4:armhf (6.1.3-2) ...
+Setting up libqdbm14 (1.8.78-6.1) ...
+Processing triggers for libc-bin (2.24-11+deb9u1) ...
+Processing triggers for systemd (232-25+deb9u1) ...
+Setting up libnginx-mod-http-auth-pam (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-http-dav-ext (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-mail (1.10.3-1+deb9u1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libnginx-mod-http-xslt-filter (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-http-upstream-fair (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-http-geoip (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-stream (1.10.3-1+deb9u1) ...
+Setting up libnginx-mod-http-echo (1.10.3-1+deb9u1) ...
+Setting up nginx-full (1.10.3-1+deb9u1) ...
+Setting up nginx (1.10.3-1+deb9u1) ...
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-common_5.6.22+dfsg-2+b3_armhf.deb: 404  Not Found [IP: 93.93.128.193 80]
+                                         
+pi@raspberrypi-7:~ $ cd /usr/share/nginx/html
+pi@raspberrypi-7:/usr/share/nginx/html $ sudo chmod 700
+chmod: missing operand after ‘700’
+Try 'chmod --help' for more information.
+pi@raspberrypi-7:/usr/share/nginx/html $ sudo chmod 700 index.html
+pi@raspberrypi-7:/usr/share/nginx/html $ sudo chmod 070 index.html
+pi@raspberrypi-7:/usr/share/nginx/html $ sudo chmod 770 index.html
+pi@raspberrypi-7:/usr/share/nginx/html $ sudo chmod 777 index.html
+pi@raspberrypi-7:/usr/share/nginx/html $ cd/home/pi
+bash: cd/home/pi: No such file or directory
+pi@raspberrypi-7:/usr/share/nginx/html $ cd /home/pi
+pi@raspberrypi-7:~ $ hostname -I
+10.244.44.131 
+pi@raspberrypi-7:~ $ sudo apt-get install php5-fpm
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  php5-cli php5-common php5-json php5-readline
+Suggested packages:
+  php-pear php5-user-cache
+The following NEW packages will be installed:
+  php5-cli php5-common php5-fpm php5-json php5-readline
+0 upgraded, 5 newly installed, 0 to remove and 1 not upgraded.
+Need to get 4,211 kB of archives.
+After this operation, 17.1 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Err:1 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-common armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err:2 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-json armhf 1.3.9-1
+  404  Not Found [IP: 93.93.128.193 80]
+Err:3 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-cli armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err:4 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-fpm armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err:5 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-readline armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-common_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php-json/php5-json_1.3.9-1_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-cli_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-fpm_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-readline_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+pi@raspberrypi-7:~ $ sudo apt-get install php5-fpm -o APT::Get::Fix-Missing=true
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  php5-cli php5-common php5-json php5-readline
+Suggested packages:
+  php-pear php5-user-cache
+The following NEW packages will be installed:
+  php5-cli php5-common php5-fpm php5-json php5-readline
+0 upgraded, 5 newly installed, 0 to remove and 1 not upgraded.
+Need to get 4,211 kB of archives.
+After this operation, 17.1 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Err:1 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-common armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err:2 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-json armhf 1.3.9-1
+  404  Not Found [IP: 93.93.128.193 80]
+Err:3 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-cli armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err:4 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-fpm armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Err:5 http://mirrordirector.raspbian.org/raspbian stretch/main armhf php5-readline armhf 5.6.22+dfsg-2+b3
+  404  Not Found [IP: 93.93.128.193 80]
+Unable to correct missing packages.
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-common_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php-json/php5-json_1.3.9-1_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-cli_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-fpm_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Failed to fetch http://mirrordirector.raspbian.org/raspbian/pool/main/p/php5/php5-readline_5.6.22+dfsg-2+b3_armhf.deb  404  Not Found [IP: 93.93.128.193 80]
+E: Aborting install.
+pi@raspberrypi-7:~ $ sudo su
+root@raspberrypi-7:/home/pi# apt get update
+E: Invalid operation get
+root@raspberrypi-7:/home/pi# exit
+exit
+pi@raspberrypi-7:~ $ sudo su
+root@raspberrypi-7:/home/pi# apt-get update
+Get:1 http://mirrordirector.raspbian.org/raspbian stretch InRelease [15.0 kB]
+Get:2 http://archive.raspberrypi.org/debian stretch InRelease [25.3 kB]
+Get:3 http://mirrordirector.raspbian.org/raspbian stretch/main armhf Packages [11.7 MB]
+Get:4 http://archive.raspberrypi.org/debian stretch/main armhf Packages [123 kB]
+Get:5 http://archive.raspberrypi.org/debian stretch/ui armhf Packages [27.0 kB]                                  
+30% [3 Packages 1,488 kB/11.7 MB 13%]                                                             96.6 kB/s 1min 46s^C
+root@raspberrypi-7:/home/pi# cd /etc/apt
+root@raspberrypi-7:/etc/apt# chmod 777 sources.list
+root@raspberrypi-7:/etc/apt# apt-get update -y
+E: Type 'gpg' is not known on line 6 in source list /etc/apt/sources.list
+E: The list of sources could not be read.
+root@raspberrypi-7:/etc/apt# apt-get update -y
+E: Type 'gpg' is not known on line 6 in source list /etc/apt/sources.list
+E: The list of sources could not be read.
+root@raspberrypi-7:/etc/apt# apt-get update 
+E: Type 'gpg' is not known on line 6 in source list /etc/apt/sources.list
+E: The list of sources could not be read.
+root@raspberrypi-7:/etc/apt# apt-get update 
+Get:1 http://archive.raspberrypi.org/debian stretch InRelease [25.3 kB]         
+Get:2 http://mirrordirector.raspbian.org/raspbian stretch InRelease [15.0 kB]   
+Get:3 http://repozytorium.mati75.eu/raspbian jessie-backports InRelease [6,842 B]           
+Get:4 http://mirrordirector.raspbian.org/raspbian stretch/main armhf Packages [11.7 MB]
+Get:5 http://archive.raspberrypi.org/debian stretch/main armhf Packages [123 kB]
+Get:6 http://archive.raspberrypi.org/debian stretch/ui armhf Packages [27.0 kB]    
+Ign:3 http://repozytorium.mati75.eu/raspbian jessie-backports InRelease                  
+Get:7 http://repozytorium.mati75.eu/raspbian jessie-backports/main armhf Packages [111 kB]
+Get:8 http://repozytorium.mati75.eu/raspbian jessie-backports/non-free armhf Packages [14.1 kB]
+Get:9 http://mirrordirector.raspbian.org/raspbian stretch/non-free armhf Packages [95.2 kB]                         
+Fetched 10.4 MB in 45s (228 kB/s)                                                                                   
+Reading package lists... Done
+W: GPG error: http://repozytorium.mati75.eu/raspbian jessie-backports InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY CCD91D6111A06851
+W: The repository 'http://repozytorium.mati75.eu/raspbian jessie-backports InRelease' is not signed.
+N: Data from such a repository can't be authenticated and is therefore potentially dangerous to use.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+root@raspberrypi-7:/etc/apt# apt-get install php7.0 php7.0-opcache
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  libonig4 libqdbm14
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  apache2 apache2-bin apache2-data apache2-utils libapache2-mod-php7.0 libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap liblua5.2-0 php-common php7.0-cli php7.0-common php7.0-json php7.0-readline ssl-cert
+Suggested packages:
+  apache2-doc apache2-suexec-pristine | apache2-suexec-custom php-pear openssl-blacklist
+The following NEW packages will be installed:
+  apache2 apache2-bin apache2-data apache2-utils libapache2-mod-php7.0 libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap liblua5.2-0 php-common php7.0 php7.0-cli php7.0-common php7.0-json php7.0-opcache
+  php7.0-readline ssl-cert
+0 upgraded, 18 newly installed, 0 to remove and 134 not upgraded.
+Need to get 4,649 kB of archives.
+After this operation, 17.4 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libapr1 armhf 1.5.2-5 [79.8 kB]
+Get:2 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libaprutil1 armhf 1.5.4-3 [75.9 kB]
+Get:3 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libaprutil1-dbd-sqlite3 armhf 1.5.4-3 [17.9 kB]
+Get:4 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libaprutil1-ldap armhf 1.5.4-3 [16.9 kB]
+Get:5 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf liblua5.2-0 armhf 5.2.4-1.1 [82.8 kB]
+Get:6 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf apache2-bin armhf 2.4.25-3+deb9u3 [1,038 kB]
+Get:7 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf apache2-utils armhf 2.4.25-3+deb9u3 [218 kB]
+Get:8 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf apache2-data all 2.4.25-3+deb9u3 [162 kB]
+Get:9 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf apache2 armhf 2.4.25-3+deb9u3 [235 kB]     
+Get:10 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php-common all 1:49 [14.1 kB]             
+Get:11 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php7.0-common armhf 7.0.19-1 [480 kB]     
+Get:12 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php7.0-json armhf 7.0.19-1 [15.3 kB]      
+Get:13 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php7.0-opcache armhf 7.0.19-1 [64.8 kB]   
+Get:14 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php7.0-readline armhf 7.0.19-1 [10.8 kB]  
+Get:15 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php7.0-cli armhf 7.0.19-1 [1,054 kB]      
+Get:16 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf libapache2-mod-php7.0 armhf 7.0.19-1 [1,014 kB]
+Get:17 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf php7.0 all 7.0.19-1 [48.7 kB]             
+Get:18 http://raspbian.mirror.uk.sargasso.net/raspbian stretch/main armhf ssl-cert all 1.0.39 [20.8 kB]             
+Fetched 4,649 kB in 10s (430 kB/s)                                                                                  
+Preconfiguring packages ...
+Selecting previously unselected package libapr1:armhf.
+(Reading database ... 105641 files and directories currently installed.)
+Preparing to unpack .../00-libapr1_1.5.2-5_armhf.deb ...
+Unpacking libapr1:armhf (1.5.2-5) ...
+Selecting previously unselected package libaprutil1:armhf.
+Preparing to unpack .../01-libaprutil1_1.5.4-3_armhf.deb ...
+Unpacking libaprutil1:armhf (1.5.4-3) ...
+Selecting previously unselected package libaprutil1-dbd-sqlite3:armhf.
+Preparing to unpack .../02-libaprutil1-dbd-sqlite3_1.5.4-3_armhf.deb ...
+Unpacking libaprutil1-dbd-sqlite3:armhf (1.5.4-3) ...
+Selecting previously unselected package libaprutil1-ldap:armhf.
+Preparing to unpack .../03-libaprutil1-ldap_1.5.4-3_armhf.deb ...
+Unpacking libaprutil1-ldap:armhf (1.5.4-3) ...
+Selecting previously unselected package liblua5.2-0:armhf.
+Preparing to unpack .../04-liblua5.2-0_5.2.4-1.1_armhf.deb ...
+Unpacking liblua5.2-0:armhf (5.2.4-1.1) ...
+Selecting previously unselected package apache2-bin.
+Preparing to unpack .../05-apache2-bin_2.4.25-3+deb9u3_armhf.deb ...
+Unpacking apache2-bin (2.4.25-3+deb9u3) ...
+Selecting previously unselected package apache2-utils.
+Preparing to unpack .../06-apache2-utils_2.4.25-3+deb9u3_armhf.deb ...
+Unpacking apache2-utils (2.4.25-3+deb9u3) ...
+Selecting previously unselected package apache2-data.
+Preparing to unpack .../07-apache2-data_2.4.25-3+deb9u3_all.deb ...
+Unpacking apache2-data (2.4.25-3+deb9u3) ...
+Selecting previously unselected package apache2.
+Preparing to unpack .../08-apache2_2.4.25-3+deb9u3_armhf.deb ...
+Unpacking apache2 (2.4.25-3+deb9u3) ...
+Selecting previously unselected package php-common.
+Preparing to unpack .../09-php-common_1%3a49_all.deb ...
+Unpacking php-common (1:49) ...
+Selecting previously unselected package php7.0-common.
+Preparing to unpack .../10-php7.0-common_7.0.19-1_armhf.deb ...
+Unpacking php7.0-common (7.0.19-1) ...
+Selecting previously unselected package php7.0-json.
+Preparing to unpack .../11-php7.0-json_7.0.19-1_armhf.deb ...
+Unpacking php7.0-json (7.0.19-1) ...
+Selecting previously unselected package php7.0-opcache.
+Preparing to unpack .../12-php7.0-opcache_7.0.19-1_armhf.deb ...
+Unpacking php7.0-opcache (7.0.19-1) ...
+Selecting previously unselected package php7.0-readline.
+Preparing to unpack .../13-php7.0-readline_7.0.19-1_armhf.deb ...
+Unpacking php7.0-readline (7.0.19-1) ...
+Selecting previously unselected package php7.0-cli.
+Preparing to unpack .../14-php7.0-cli_7.0.19-1_armhf.deb ...
+Unpacking php7.0-cli (7.0.19-1) ...
+Selecting previously unselected package libapache2-mod-php7.0.
+Preparing to unpack .../15-libapache2-mod-php7.0_7.0.19-1_armhf.deb ...
+Unpacking libapache2-mod-php7.0 (7.0.19-1) ...
+Selecting previously unselected package php7.0.
+Preparing to unpack .../16-php7.0_7.0.19-1_all.deb ...
+Unpacking php7.0 (7.0.19-1) ...
+Selecting previously unselected package ssl-cert.
+Preparing to unpack .../17-ssl-cert_1.0.39_all.deb ...
+Unpacking ssl-cert (1.0.39) ...
+Setting up libapr1:armhf (1.5.2-5) ...
+Setting up apache2-data (2.4.25-3+deb9u3) ...
+Setting up ssl-cert (1.0.39) ...
+Processing triggers for libc-bin (2.24-11+deb9u1) ...
+Setting up libaprutil1:armhf (1.5.4-3) ...
+Setting up php-common (1:49) ...
+Created symlink /etc/systemd/system/timers.target.wants/phpsessionclean.timer → /lib/systemd/system/phpsessionclean.timer.
+Processing triggers for systemd (232-25+deb9u1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up liblua5.2-0:armhf (5.2.4-1.1) ...
+Setting up php7.0-common (7.0.19-1) ...
+
+Creating config file /etc/php/7.0/mods-available/calendar.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/ctype.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/exif.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/fileinfo.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/ftp.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/gettext.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/iconv.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/pdo.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/phar.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/posix.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/shmop.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/sockets.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/sysvmsg.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/sysvsem.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/sysvshm.ini with new version
+
+Creating config file /etc/php/7.0/mods-available/tokenizer.ini with new version
+Setting up libaprutil1-ldap:armhf (1.5.4-3) ...
+Setting up php7.0-readline (7.0.19-1) ...
+
+Creating config file /etc/php/7.0/mods-available/readline.ini with new version
+Setting up php7.0-opcache (7.0.19-1) ...
+
+Creating config file /etc/php/7.0/mods-available/opcache.ini with new version
+Setting up libaprutil1-dbd-sqlite3:armhf (1.5.4-3) ...
+Setting up apache2-utils (2.4.25-3+deb9u3) ...
+Setting up apache2-bin (2.4.25-3+deb9u3) ...
+Setting up php7.0-json (7.0.19-1) ...
+
+Creating config file /etc/php/7.0/mods-available/json.ini with new version
+Setting up apache2 (2.4.25-3+deb9u3) ...
+Enabling module mpm_event.
+Enabling module authz_core.
+Enabling module authz_host.
+Enabling module authn_core.
+Enabling module auth_basic.
+Enabling module access_compat.
+Enabling module authn_file.
+Enabling module authz_user.
+Enabling module alias.
+Enabling module dir.
+Enabling module autoindex.
+Enabling module env.
+Enabling module mime.
+Enabling module negotiation.
+Enabling module setenvif.
+Enabling module filter.
+Enabling module deflate.
+Enabling module status.
+Enabling module reqtimeout.
+Enabling conf charset.
+Enabling conf localized-error-pages.
+Enabling conf other-vhosts-access-log.
+Enabling conf security.
+Enabling conf serve-cgi-bin.
+Enabling site 000-default.
+Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/apache-htcacheclean.service → /lib/systemd/system/apache-htcacheclean.service.
+Job for apache2.service failed because the control process exited with error code.
+See "systemctl status apache2.service" and "journalctl -xe" for details.
+invoke-rc.d: initscript apache2, action "start" failed.
+● apache2.service - The Apache HTTP Server
+   Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Sat 2017-11-18 12:01:40 UTC; 36ms ago
+  Process: 26962 ExecStart=/usr/sbin/apachectl start (code=exited, status=1/FAILURE)
+
+Nov 18 12:01:40 raspberrypi-7 apachectl[26962]: (98)Address already in use: AH00072: make_sock: could not bind…::]:80
+Nov 18 12:01:40 raspberrypi-7 apachectl[26962]: (98)Address already in use: AH00072: make_sock: could not bind…0.0:80
+Nov 18 12:01:40 raspberrypi-7 apachectl[26962]: no listening sockets available, shutting down
+Nov 18 12:01:40 raspberrypi-7 apachectl[26962]: AH00015: Unable to open logs
+Nov 18 12:01:40 raspberrypi-7 apachectl[26962]: Action 'start' failed.
+Nov 18 12:01:40 raspberrypi-7 apachectl[26962]: The Apache error log may have more information.
+Nov 18 12:01:40 raspberrypi-7 systemd[1]: apache2.service: Control process exited, code=exited status=1
+Nov 18 12:01:40 raspberrypi-7 systemd[1]: Failed to start The Apache HTTP Server.
+Nov 18 12:01:40 raspberrypi-7 systemd[1]: apache2.service: Unit entered failed state.
+Nov 18 12:01:40 raspberrypi-7 systemd[1]: apache2.service: Failed with result 'exit-code'.
+Hint: Some lines were ellipsized, use -l to show in full.
+Setting up php7.0-cli (7.0.19-1) ...
+update-alternatives: using /usr/bin/php7.0 to provide /usr/bin/php (php) in auto mode
+update-alternatives: using /usr/bin/phar7.0 to provide /usr/bin/phar (phar) in auto mode
+update-alternatives: using /usr/bin/phar.phar7.0 to provide /usr/bin/phar.phar (phar.phar) in auto mode
+
+Creating config file /etc/php/7.0/cli/php.ini with new version
+Setting up libapache2-mod-php7.0 (7.0.19-1) ...
+
+Creating config file /etc/php/7.0/apache2/php.ini with new version
+Module mpm_event disabled.
+Enabling module mpm_prefork.
+apache2_switch_mpm Switch to prefork
+Job for apache2.service failed because the control process exited with error code.
+See "systemctl status apache2.service" and "journalctl -xe" for details.
+invoke-rc.d: initscript apache2, action "restart" failed.
+● apache2.service - The Apache HTTP Server
+   Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Sat 2017-11-18 12:01:50 UTC; 49ms ago
+  Process: 28499 ExecStart=/usr/sbin/apachectl start (code=exited, status=1/FAILURE)
+
+Nov 18 12:01:50 raspberrypi-7 apachectl[28499]: (98)Address already in use: AH00072: make_sock: could not bind…::]:80
+Nov 18 12:01:50 raspberrypi-7 apachectl[28499]: (98)Address already in use: AH00072: make_sock: could not bind…0.0:80
+Nov 18 12:01:50 raspberrypi-7 apachectl[28499]: no listening sockets available, shutting down
+Nov 18 12:01:50 raspberrypi-7 apachectl[28499]: AH00015: Unable to open logs
+Nov 18 12:01:50 raspberrypi-7 apachectl[28499]: Action 'start' failed.
+Nov 18 12:01:50 raspberrypi-7 apachectl[28499]: The Apache error log may have more information.
+Nov 18 12:01:50 raspberrypi-7 systemd[1]: apache2.service: Control process exited, code=exited status=1
+Nov 18 12:01:50 raspberrypi-7 systemd[1]: Failed to start The Apache HTTP Server.
+Nov 18 12:01:50 raspberrypi-7 systemd[1]: apache2.service: Unit entered failed state.
+Nov 18 12:01:50 raspberrypi-7 systemd[1]: apache2.service: Failed with result 'exit-code'.
+Hint: Some lines were ellipsized, use -l to show in full.
+apache2_invoke: Enable module php7.0
+Job for apache2.service failed because the control process exited with error code.
+See "systemctl status apache2.service" and "journalctl -xe" for details.
+invoke-rc.d: initscript apache2, action "restart" failed.
+● apache2.service - The Apache HTTP Server
+   Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Sat 2017-11-18 12:01:51 UTC; 47ms ago
+  Process: 28546 ExecStart=/usr/sbin/apachectl start (code=exited, status=1/FAILURE)
+
+Nov 18 12:01:51 raspberrypi-7 apachectl[28546]: (98)Address already in use: AH00072: make_sock: could not bind…::]:80
+Nov 18 12:01:51 raspberrypi-7 apachectl[28546]: (98)Address already in use: AH00072: make_sock: could not bind…0.0:80
+Nov 18 12:01:51 raspberrypi-7 apachectl[28546]: no listening sockets available, shutting down
+Nov 18 12:01:51 raspberrypi-7 apachectl[28546]: AH00015: Unable to open logs
+Nov 18 12:01:51 raspberrypi-7 apachectl[28546]: Action 'start' failed.
+Nov 18 12:01:51 raspberrypi-7 apachectl[28546]: The Apache error log may have more information.
+Nov 18 12:01:51 raspberrypi-7 systemd[1]: apache2.service: Control process exited, code=exited status=1
+Nov 18 12:01:51 raspberrypi-7 systemd[1]: Failed to start The Apache HTTP Server.
+Nov 18 12:01:51 raspberrypi-7 systemd[1]: apache2.service: Unit entered failed state.
+Nov 18 12:01:51 raspberrypi-7 systemd[1]: apache2.service: Failed with result 'exit-code'.
+Hint: Some lines were ellipsized, use -l to show in full.
+Setting up php7.0 (7.0.19-1) ...
+Processing triggers for libc-bin (2.24-11+deb9u1) ...
+Processing triggers for systemd (232-25+deb9u1) ...
+root@raspberrypi-7:/etc/apt# nano /etc/nginx/sites-available/default
+Use "fg" to return to nano.
+
+[1]+  Stopped                 nano /etc/nginx/sites-available/default
+root@raspberrypi-7:/etc/apt# fg
+nano /etc/nginx/sites-available/default
+root@raspberrypi-7:/etc/apt# 
+root@raspberrypi-7:/etc/apt# 
+root@raspberrypi-7:/etc/apt# sudo nano /etc/php5/fpm/php.ini
+root@raspberrypi-7:/etc/apt# sudo nano /etc/php/7.0/cli/php.ini
+root@raspberrypi-7:/etc/apt# sudo /etc/init.d/php5-fpm reload && sudo /etc/init.d/nginx reload
+sudo: /etc/init.d/php5-fpm: command not found
+root@raspberrypi-7:/etc/apt# sudo /etc/init.d/nginx reload
+[....] Reloading nginx configuration (via systemctl): nginx.serviceJob for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+ failed!
+root@raspberrypi-7:/etc/apt# sudo /etc/init.d/nginx reload
+[....] Reloading nginx configuration (via systemctl): nginx.serviceJob for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xe" for details.
+ failed!
+root@raspberrypi-7:/etc/apt# cd /usr/share/nginx/www
+bash: cd: /usr/share/nginx/www: No such file or directory
+root@raspberrypi-7:/etc/apt# cd /usr/share/nginx/html
+root@raspberrypi-7:/usr/share/nginx/html# sudo nano index.php
+root@raspberrypi-7:/usr/share/nginx/html# hostname -I
+10.244.44.131 
+root@raspberrypi-7:/usr/share/nginx/html# ^C
+root@raspberrypi-7:/usr/share/nginx/html# chmod index.php 777
+chmod: invalid mode: ‘index.php’
+Try 'chmod --help' for more information.
+root@raspberrypi-7:/usr/share/nginx/html# chmod 777 index.php
+root@raspberrypi-7:/usr/share/nginx/html# sudo /etc/init.d/apache2 stop
+[ ok ] Stopping apache2 (via systemctl): apache2.service.
+root@raspberrypi-7:/usr/share/nginx/html# sudo systemctl disable apache2
+Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install disable apache2
+root@raspberrypi-7:/usr/share/nginx/html# sudo /etc/init.d/apache2 stop
+[ ok ] Stopping apache2 (via systemctl): apache2.service.
+root@raspberrypi-7:/usr/share/nginx/html# sudo service apache2 stop
+root@raspberrypi-7:/usr/share/nginx/html# apachectl -k stop
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+httpd (no pid file) not running
+root@raspberrypi-7:/usr/share/nginx/html# sudo systemctl stop apache2.service
+root@raspberrypi-7:/usr/share/nginx/html# sudo systemctl stop apache2.service
+root@raspberrypi-7:/usr/share/nginx/html# sudo systemctl stop apache2.service
+root@raspberrypi-7:/usr/share/nginx/html# 
+root@raspberrypi-7:/usr/share/nginx/html# sudo systemctl stop apache2.service
+root@raspberrypi-7:/usr/share/nginx/html# sudo systemctl stop apache2.service
+root@raspberrypi-7:/usr/share/nginx/html# 
