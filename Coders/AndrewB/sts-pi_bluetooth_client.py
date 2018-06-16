@@ -1,220 +1,375 @@
 #!/usr/bin/python3
 
+""" Provides a GUI to control a STS-PI rover using Bluetooth for communication.
+"""
+
 import sys
-import explorerhat
 from time import sleep
 from guizero import App, PushButton, Slider, Text, Waffle
 import threading
-from picamera import PiCamera
 import time
 import os
 import bluetooth
+import socket
 
 #Global speed and duration variables
-speed = 0
-duration = 0
+speed = 15
+duration = 1
 
-#Pi Camera declaration
-camera = PiCamera()
-camera.rotation = 180
+#Flag to indicate that the Bluetooth connection is working.
+connected = False
 
-#Time at which motion shall end.
-endTime = time.time()
+#Flag to indicate that an exchange between the client and rover is in progress.
+commandInProgress = False
 
 # Flag to indicate that the application is closing down
 exiting = False
 
-# Function to stop the STS-PI moving and re-enable the movement buttons.
-def stop():
-    print("Stopping STS-PI")
-    explorerhat.motor.one.stop()
-    explorerhat.motor.two.stop()
-    explorerhat.light.red.off()
-    if not exiting:
-        print("Re-enabling motion buttons")
-        forwardButton.enable()
-        backwardButton.enable()
-        spinLeftButton.enable()
-        spinRightButton.enable()
-        stopButton.disable()        
-        print("STS-PI Stopped")
+# Flag to indicate that the current command should be stopped asap.
+abort = False
 
-# Sets the time at which the STS-PI will be stopped
-def setStopTime(duration):
-    now = time.time()
-    global endTime
-    endTime = now + duration
+#Declare the GUI application
+app = App("STS Controller", layout="grid")
 
-# Waits for the time to reach the stop time before stopping the STS-PI
-def waitForStop(duration):
-    disableMotionButtons()
-    explorerhat.light.red.blink(1)
-    setStopTime(duration)
+# Bluetooth connection status waffle. Single cell, blue=connected, red=not.
+statusWaffle = Waffle(app, 1, 4, 10, 10, grid=[0,0])
+if connected:
+    statusWaffle.set_pixel(0, 0, "blue")
+    statusWaffle.set_pixel(1, 0, "white")
+    statusWaffle.set_pixel(2, 0, "white")
+    statusWaffle.set_pixel(3, 0, "white")
+  
+def connect():
+    """Set up the Client BlueTooth connection.
+    """
+    serverMACaddress = 'B8:27:EB:2B:AB:C0'
+    port = 3
+    global roverSocket, connected
+    roverSocket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    print("socket=", roverSocket)
     try:
-        while (time.time() < endTime and not exiting):
-            sleep(0.2)
-        stop()
+        roverSocket.connect((serverMACaddress, port))
+        size = 1024
+        connected = True
+        statusWaffle.set_pixel(0, 0, "blue")
+        reconnectButton.disable()
+    except:
+        connected = False
+        statusWaffle.set_pixel(0, 0, "red")
+        reconnectButton.enable()
 
-    except (KeyboardInterrupt, SystemExit):
-        print("SystemExit Called")
-        stop()
+# Reconnect button for when the Bluetooth connection has been lost or reset
+reconnectButton = PushButton(app, connect, text="Reconnect", grid=[2,0])
+reconnectButton.disable()
 
-# Sets up a new thread for stopping the STS-PI after motion has started.
-def threadForStopping(duration):
-    t = threading.Thread(target=waitForStop, args=[duration], daemon=True).start()
+def sendCommand(command):
+    """Function to send an instruction to the rover.
 
-# Moves the STS-PI forwards at the speed set and for the number of seconds selected
+    Keyword arguments:
+    command -- Instruction known to the rover.
+    """
+    global commandInProgress
+    while commandInProgress and not exiting:
+        sleep(0.1)
+        print("Waiting for previous command to be acknowledged")
+    if connected:
+        commandInProgress = True
+        statusWaffle.set_pixel(1, 0, "yellow")
+        roverSocket.send(command)
+        print("Command sent=", command)
+    else:
+        reconnectButton.enable()
+        statusWaffle.set_pixel(0, 0, "red")
+        print("ERROR: Not connected")
+
+def sendInteger(value):
+    """Convert an integer to a byte value and send to the rover.
+    """
+    print("Sending integer value", value)
+    roverSocket.send(value.to_bytes(2, byteorder='big'))
+
+def receiveResponse():
+    """Receive a question or update from the rover.
+    """
+    global connected, size, token, commandInProgress
+    checkingCamera = False
+    print("Started receiver", connected)
+    while not exiting:
+        try:
+            while connected:
+                global speed, duration, abort, commandInProgress 
+
+                print("Awaiting response from Rover")
+                data = roverSocket.recv(1024)
+
+                if data:
+                    print("Data received=", data)
+                    rover = data.decode("utf-8")
+                    if (rover.endswith("?")):
+                        print("Rover is asking for", rover)
+                    else:
+                        print("Rover", rover)
+                    if rover.startswith("Request refused:"):
+                        print("Rover has responded with:", rover)
+                        commandInProgress = False
+                    if rover == "Speed?":
+                        if not abort:
+                            sendInteger(speed)
+                        else:
+                            sendInteger(0)
+                    elif rover == "Duration?":
+                        if not abort:
+                            sendInteger(duration)
+                        else:
+                            sendInteger(0)
+                    elif rover == "Moving":
+                        disableMotionButtons()
+                        statusWaffle.set_pixel(2, 0, "red")
+                    elif rover == "Stopped":
+                        statusWaffle.set_pixel(2, 0, "white")
+                        enableMotionButtons()
+                        abort = False
+                    elif rover == "Acknowledged":
+                        commandInProgress = False
+                    elif rover == "Camera in use":
+                        disableCameraButtons()
+                        statusWaffle.set_pixel(3, 0, "green")
+                        checkingCamera = False
+                    elif rover == "Camera available":
+                        enableCameraButtons()
+                        statusWaffle.set_pixel(3, 0, "white")
+                        checkingCamera = False
+                    elif rover.startswith("Button"):
+                        num = rover.strip('Button')
+                        buttonPressed(int(num))
+                    elif rover == "Bye":
+                        print("Rover has disconnected.")
+                        connected = False
+                        roverSocket.close()
+                        if not exiting:
+                            reconnectButton.enable()
+                            statusWaffle.set_pixel(0, 0, "red")
+                            statusWaffle.set_pixel(1, 0, "white")
+                            statusWaffle.set_pixel(2, 0, "white")
+                            statusWaffle.set_pixel(3, 0, "white")
+                            commandInProgress = False
+                            abort = False
+                            enableMotionButtons()
+                            enableCameraButtons()
+                    if commandInProgress:
+                        statusWaffle.set_pixel(1, 0, "yellow")
+                    else:
+                        statusWaffle.set_pixel(1, 0, "white")
+                sleep(0.1)
+        except Exception as e:
+            if not exiting:
+                print("Exception in receive response:", str(e))
+                connected = False
+                reconnectButton.enable()
+                statusWaffle.set_pixel(0, 0, "red")
+
+def stop():
+    """Stop the rover moving asap.
+    """
+    print("Emergency Stop pressed")
+    global abort
+    abort = True
+    sendCommand("Stop")
+    print("Emergency Stop requested")
+    enableMotionButtons()
+            
 def forwards():
-    print("Forwards at ",speed,"% for ",duration, "seconds")
-    explorerhat.motor.one.forwards(speed)
-    explorerhat.motor.two.forwards(speed)
-    threadForStopping(duration)
+    """Moves the STS-PI forwards at the speed set and for the number of
+    seconds selected.
+    """
+    disableMotionButtons()
+    print("Forwards at ", speed, "% for ", duration, "seconds")
+    sendCommand("Forwards")
 
-# Moves the STS-PI backwards at the speed set and for the number of seconds selected
 def backwards():
-    print("Backwards at ",speed,"% for ",duration, "seconds")
-    explorerhat.motor.one.backwards(speed)
-    explorerhat.motor.two.backwards(speed)
-    threadForStopping(duration)
+    """Moves the STS-PI backwards at the speed set and for the number of
+    seconds selected.
+    """
+    disableMotionButtons()    
+    print("Backwards at ", speed, "% for ", duration, "seconds")
+    sendCommand("Backwards")
     
-# Spins the STS-PI anti-clockwise at the speed set and for the number of seconds selected
 def spinAntiClockwise():
-    print("Spin anti-clockwise at", speed,"% for ", duration, "seconds")
-    explorerhat.motor.one.speed(speed)
-    explorerhat.motor.two.speed(speed * -1)
-    threadForStopping(duration)
+    """Spins the STS-PI anti-clockwise at the speed set and for the number of
+    seconds selected.
+    """
+    disableMotionButtons()
+    print("Spin anti-clockwise at", speed, "% for ", duration, "seconds")
+    sendCommand("SpinAntiClockwise")
 
-# Spins the STS-PI clockwise at the speed set and for the number of seconds selected
+
 def spinClockwise():
+    """Spins the STS-PI clockwise at the speed set and for the number of
+    seconds selected.
+    """
+    disableMotionButtons()
     print("Spin clockwise at", speed, "% for ", duration, "seconds")
-    explorerhat.motor.one.speed(speed * -1)
-    explorerhat.motor.two.speed(speed)
-    threadForStopping(duration)
+    sendCommand("SpinClockwise")
     
-# Updates the global speed variable when the speed slider is adjusted
 def changeSpeed(slider_value):
+    """Updates the global speed variable when the speed slider is adjusted.
+    Keyword arguments:
+    slider_value - The value representing the position of the Speed slider.
+    """
     global speed
     speed = int(slider_value)
     print("New speed=", speed)
 
-# Updates the global duration variable when the duration slider is adjusted
 def changeDuration(slider_value):
+    """Updates the global duration variable when the duration slider is
+    adjusted.
+    Keyword arguments:
+    slider_value - The value representing the position of the Duration slider.
+    """
     global duration
     duration = int(slider_value)
     print("New duration =", duration)
 
-# Disables all the motion buttons and enables the stop button.
+def disableCameraButtons():
+    """Disables all the camera buttons.
+    """
+    photoButton.disable()
+    videoButton.disable()
+
+def enableCameraButtons():
+    """Enables all the camera buttons.
+    """
+    photoButton.enable()
+    videoButton.enable()
+
 def disableMotionButtons():
+    """Disables all the motion buttons and enables the stop button.
+    """
     stopButton.enable()
     forwardButton.disable()
     backwardButton.disable()
     spinLeftButton.disable()
     spinRightButton.disable()
 
-# Takes a photo using the camera on the front of the STS-PI
+def enableMotionButtons():
+    """Enables all the motion buttons and disables the stop button.
+    """
+    stopButton.disable()
+    forwardButton.enable()
+    backwardButton.enable()
+    spinLeftButton.enable()
+    spinRightButton.enable()
+
 def takePhoto():
-    print("Taking photo, image will be saved as /home/pi/Desktop/image.jpg") 
-    camera.start_preview()
-    explorerhat.light.green.blink()
-    sleep(3)
-    camera.capture('/home/pi/Desktop/image.jpg')
-    camera.stop_preview()
-    explorerhat.light.green.off()
-    
+    """Request a photo using the camera on the front of the STS-PI."""
+    sendCommand("Photo")
 
-# Takes a 10 second video using the camera on the front of the STS-PI
 def takeVideo():
-    print("Taking video, video will be saved as /home/pi/Desktop/video.h264") 
-    camera.start_preview()
-    explorerhat.light.green.blink(0.5)
-    camera.start_recording('/home/pi/Desktop/video.h264')
-    explorerhat.light.green.on()
-    sleep(10)
-    camera.stop_recording()
-    camera.stop_preview()
-    explorerhat.light.green.off()
+    """Request a video using the camera on the front of the STS-PI."""
+    sendCommand("Video")
 
-# Closes down the application, stopping the STS-PI if it is moving.
 def closeDown():
-    global exiting
+    """Closes down the application, stopping the STS-PI if it is moving."""
+    global exiting, roverSocket
     exiting = True
     print("Exiting STS-PI application")
-    setStopTime(0)
+    if connected:
+        sendCommand("Bye")
+        sleep(1)
+##        try:
+##            roverSocket.shutdown(socket.SHUT_RDWR)
+##        except Exception as e:
+##            print("Unable to shutdown socket:", str(e))
+##        finally:
+        roverSocket.close()
     app.destroy()
-    explorerhat.light.off()
     raise SystemExit
-    os._exit
     
-# Button pressed handler
-def buttonPressed(channel, event):
-    print("Channel=", channel, "Pressed Event=", event)
-    if (buttonWaffle.get_pixel(channel - 1, 0) != "red"):
-        buttonWaffle.set_pixel(channel - 1, 0, "red")
+def buttonPressed(number):
+    """Button pressed notification handler.
+
+    Keyword arguments:
+    number -- The number of the button pressed.
+    """
+    print("Button ", number, "Pressed")
+    if (buttonWaffle.get_pixel(number - 1, 0) != "red"):
+        buttonWaffle.set_pixel(number - 1, 0, "red")
     else:
-        buttonWaffle.set_pixel(channel - 1, 0, "white")
-    sleep(0.1)
+        buttonWaffle.set_pixel(number - 1, 0, "white")
 
-# Button released handler - not reliable. Note held not working
-#def buttonReleased(channel, event):
-#    print("Channel=", channel, "Released Event=", event)
-#    buttonWaffle.set_pixel(channel - 1, 0, "white")
+def checkConnected():
+    """Continuously checks the Bluetooth connection. Must be run in separate
+    thread.
+    """
+    global connected
+    while not exiting:
+        try:
+            roverSocket.getpeername()
+            connected = True
+        except Exception as e:
+            print("Rover not connected:", str(e))
+            connected = False
 
-#Set up the Client BlueTooth connection:
-serverMACaddress = 'B8:27:EB:2B:AB:C0'
-port = 3
-socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-socket.bind((serverMACaddress, port))
-while 1:
-    text = raw_input()
-    if text == "quit":
-        break
-    socket.send(text)
-socket.close()
+        print("Connected=", connected)
+        print("Command in progress=", commandInProgress)
+        sleep(2)
 
-#Declare the GUI application
-app = App("STS Controller", layout="grid")
+# Connect to the server
+connect()
 
-explorerhat.light.yellow.on()
+# Thread to receive feedback questions and status
+t = threading.Thread(target=receiveResponse, daemon=True)
+t.start()
+
+# Thread to monitor connection status
+t2 = threading.Thread(target=checkConnected, daemon=True)
+t2.start()
 
 #Create forwards and backwards buttons
-forwardButton = PushButton(app, forwards, text="Forwards", grid=[1,0])
-backwardButton = PushButton(app, backwards, text="Backwards", grid=[1,2])
+forwardButton = PushButton(app, forwards, text="Forwards", grid=[1,1])
+backwardButton = PushButton(app, backwards, text="Backwards", grid=[1,3])
 
 #Create spin left and right buttons
-spinLeftButton = PushButton(app, spinAntiClockwise, text="Spin Left", grid=[0,1])
-spinRightButton = PushButton(app, spinClockwise, text="Spin Right", grid=[2,1])
+spinLeftButton = PushButton(app,
+                            spinAntiClockwise,
+                            text="Spin Left",
+                            grid=[0,2])
+
+spinRightButton = PushButton(app,
+                             spinClockwise,
+                             text="Spin Right",
+                             grid=[2,2])
 
 #Create a slider to set the speed.
-speedTitle = Text(app, "Speed %", grid=[0,3])
-spdSlider = Slider(app, command=changeSpeed, grid=[1,3,3,1])
-spdSlider.value = 10
+speedTitle = Text(app, "Speed %", grid=[0,4])
+spdSlider = Slider(app, command=changeSpeed, grid=[1,4,3,1])
+spdSlider.value = 15
 
 #Create a slider to set the duration of the next movement
-durationTitle = Text(app, "Duration (secs)", grid=[0,4])
-durationSlider = Slider(app, command=changeDuration, grid=[1,4,3,1])
+durationTitle = Text(app, "Duration (secs)", grid=[0,5], )
+durationSlider = Slider(app,
+                        command=changeDuration,
+                        start=1,
+                        end=10,
+                        grid=[1,5,3,1])
 durationSlider.value = 1
 
 #Button to stop the STS-PI in an emergency
-stopButton = PushButton(app, setStopTime, [0], text="STOP", grid=[1,1])
+stopButton = PushButton(app, stop, text="STOP", grid=[1,2])
+stopButton.disable()
 
 #Buttons to take videos and photos.
-photoButton = PushButton(app, takePhoto, text="Photo", grid=[0,5])
-videoButton = PushButton(app, takeVideo, text="Video", grid=[2,5])
+photoButton = PushButton(app, takePhoto, text="Photo", grid=[0,6])
+videoButton = PushButton(app, takeVideo, text="Video", grid=[2,6])
 
 #Waffle to display button presses
-buttonWaffle = Waffle(app, 1, 8, grid=[0,6,3,2])
+buttonWaffle = Waffle(app, 1, 8, grid=[0,7,3,2])
 
-#Function to call if a button is pressed.
-explorerhat.touch.pressed(buttonPressed)
-#explorerhat.touch.released(buttonReleased)
-#explorerhat.touch.held(buttonHeld)
-
-#This spacer text increases the gap below the controls and the application exit button.
-buttonIds = Text(app, "1    2    3    4    5    6    7    8 ", grid=[0,8,3,1])
-spacer = Text(app, "", grid=[0,9])
-exitButton = PushButton(app, closeDown, text="Exit", grid=[1,10])
+#This spacer text increases the gap below the controls and the exit button.
+buttonIds = Text(app, "1    2    3    4    5    6    7    8 ", grid=[0,9,3,1])
+spacer = Text(app, "", grid=[0,10])
+exitButton = PushButton(app, closeDown, text="Exit", grid=[1,11])
 
 # Show the GUI reasonable central on the display
-app.tk.geometry("300x380+600+400")
+app.tk.geometry("300x420+600+400")
 app.display()
-
