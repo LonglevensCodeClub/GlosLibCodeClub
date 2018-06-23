@@ -1,13 +1,16 @@
 #!/usr/bin/python3
 
 """ Module to control the STS-PI rover using Bluetooth using the Raspberry Pi
-with MAC address:B8:27:EB:2B:AB:C0 using RFCOMM port 3.
+with Bluetooth MAC address: B8:27:EB:2D:16:29 (RPi 2) or B8:27:EB:2B:AB:C0 (Rpi
+3) using RFCOMM port 3. The rover and client Raspberry Pi should be BlueTooth
+paired before use.
 
 To disconnect the rover from the client, press button 1.
 
 To stop the rover without using the client, press Button 3 (by the red LED).
 
 Always shutdown the rover before disconnecting power by pressing Button 8.
+To reboot and restart when in headless mode, press button 7.
 
 
 COMMANDS
@@ -34,11 +37,13 @@ Duration?
 
 Once the responses are complete, the rover will respond with:
 Acknowledged
-This means the rover is ready to accept another command.
+This means the rover is implementing the command and is ready to accept another
+command subject to no clash with the current command.
 
 If the rover cannot carry out the command, it will respond with:
 Request refused: <reason>
-The reason could be "Camera in use"
+The reason could be "Camera in use" if a second camera action has been
+requested before the first has been completed.
 
 STATUS
 ======
@@ -79,14 +84,33 @@ import os
 from subprocess import check_call
 import bluetooth
 import socket
+import logging
+
+# Set up logging
+FORMAT = '%(asctime)s %(levelname)s %(clientId)s %(message)s'
+formatter = logging.Formatter(FORMAT)
+consoleHandler = logging.StreamHandler(stream=sys.stdout)
+consoleHandler.setFormatter(formatter)
+logger = logging.getLogger("sts-pi_bluethooth_rover")
+logger.addHandler(consoleHandler)
+logger.setLevel(logging.DEBUG)
 
 #Global speed and duration variables
 speed = 0
 duration = 0
 
+#Identity of the client
+clientInfo = ""
+
 #Pi Camera declaration
-camera = PiCamera()
-camera.rotation = 180
+try:
+    camera = PiCamera()
+    camera.rotation = 180
+except Exception as e:
+    logger.exception("Camera already in use, check no other processes running " +
+                     "(eg headless process on start up)",
+                     extra={"clientId":clientInfo})
+    raise SystemExit
 
 #Time at which motion shall end.
 endTime = time.time()
@@ -113,9 +137,11 @@ def sendMessage(message):
             clientSocket.send(message)
             sleep(0.15)
         except Exception as e:
-            print("ERROR: Unable to send ", message, " to client:", str(e))
+            logger.exception("ERROR: Unable to send {} to client".format(message),
+                             extra={"clientId":clientInfo})
     else:
-        print("Client is not connected. Unable to send ", message)
+        logger.error("Client is not connected. Unable to send {}".format(message),
+                     extra={"clientId":""})
 
 def clientAck():
     """Inform the client that the command has been accepted and that the rover
@@ -123,7 +149,7 @@ def clientAck():
     """
     sendMessage("Acknowledged")
     explorerhat.light.yellow.off()
-    print("Client acknowledgement sent.")
+    logger.info("Client acknowledgement sent.", extra={"clientId":clientInfo})
 
 def clientRefuse(reason):
     """Inform the client that the command has been accepted and that the rover
@@ -131,19 +157,20 @@ def clientRefuse(reason):
     """
     sendMessage("Request refused:" + reason)
     explorerhat.light.yellow.off()
-    print("Client refusal sent with the reason:", reason)
+    logger.warn("Client refusal sent with the reason: {}".format(reason),
+                extra={"clientId":clientInfo})
     
 def stop():
     """Function to stop the STS-PI moving and re-enable the movement buttons.
     """
-    print("Stopping STS-PI")
+    logger.info("Stopping STS-PI", extra={"clientId":clientInfo})
     explorerhat.motor.one.stop()
     explorerhat.motor.two.stop()
     explorerhat.light.red.off()
     if connected:
         sendMessage("Stopped")
     if not exiting:
-        print("STS-PI Stopped")
+        logger.debug("STS-PI Stopped", extra={"clientId":clientInfo})
 
 def setStopTime(duration):
     """Sets the time at which the STS-PI will be stopped.
@@ -161,7 +188,8 @@ def waitForStop(duration):
     duration -- The amount of time in seconds from the current time when the
                 rover will be stopped.
     """
-    print("Setting stop time in", duration, "seconds")
+    logger.info("Setting stop time in {} seconds".format(duration), 
+                extra={"clientId":clientInfo})
     explorerhat.light.red.blink(1)
     setStopTime(duration)
     try:
@@ -169,7 +197,7 @@ def waitForStop(duration):
             sleep(0.05)
         stop()
     except (KeyboardInterrupt, SystemExit):
-        print("SystemExit Called")
+        logger.exception("SystemExit Called", extra={"clientId":clientInfo})
         stop()
 
 def threadForStopping(duration):
@@ -193,17 +221,41 @@ def move(leftWheelSpeed, rightWheelSpeed, duration):
         explorerhat.motor.two.speed(rightWheelSpeed)
         threadForStopping(duration)
     else:
-        print("WARNING: Client is not connected")
+        logger.warn("Client is not connected",  extra={"clientId":clientInfo})
 
 def forwards():
     """Moves the STS-PI forwards. The client is asked to provide the speed and
     duration.
     """
-    print("Forwards command received")
+    logger.info("Forwards command received",  extra={"clientId":clientInfo})
     enquireSpeedAndDuration()
     clientAck()
-    print("Forwards at ",speed,"% for ",duration, "seconds")
+    logger.info("Forwards at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
     move(speed, speed, duration)
+
+def turnRight():
+    """Moves the STS-PI forwards. The client is asked to provide the speed and
+    duration.
+    """
+    logger.info("turnRight command received",  extra={"clientId":clientInfo})
+    enquireSpeedAndDuration()
+    clientAck()
+    logger.info("turnRight at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
+    move(0, speed, duration)
+
+def turnLeft():
+    """Moves the STS-PI forwards. The client is asked to provide the speed and
+    duration.
+    """
+    logger.info("turnLeft command received",  extra={"clientId":clientInfo})
+    enquireSpeedAndDuration()
+    clientAck()
+    logger.info("turnLeft at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
+    move(speed, 0, duration)
+
 
 def backwards():
     """Moves the STS-PI backwards. The client is asked to provide the speed and
@@ -211,7 +263,8 @@ def backwards():
     """
     enquireSpeedAndDuration()
     clientAck()
-    print("Backwards at ",speed,"% for ",duration, "seconds")
+    logger.info("Backwards at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
     move(speed * -1, speed* -1, duration)
     
 def spinAntiClockwise():
@@ -220,17 +273,20 @@ def spinAntiClockwise():
     """
     enquireSpeedAndDuration()
     clientAck()
-    print("Spin anti-clockwise at", speed,"% for ", duration, "seconds")
+    logger.info("Spin anti-clockwise at {}% for {} seconds".format(speed,
+                                                                   duration),
+                extra={"clientId":clientInfo})
+
     move(speed, speed * -1, duration)
 
-# Spins the STS-PI clockwise at the speed set and for the number of seconds selected
 def spinClockwise():
     """Spins the STS-PI clockwise. The client is asked to provide the speed and
     duration.
     """
     enquireSpeedAndDuration()
     clientAck()
-    print("Spin clockwise at", speed, "% for ", duration, "seconds")
+    logger.info("Spin clockwise at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
     move(speed * -1, speed, duration)
 
 def getTimeStamp():
@@ -248,10 +304,11 @@ def takePhoto():
     sendMessage("Camera in use")    
     filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_photo.jpg'
     sendMessage("Creating photo with filename: " + filename)
-    print("Taking photo, image will be saved as: ", filename)
+    logger.info("Taking photo, image will be saved as: {}".format(filename),
+                extra={"clientId":clientInfo})
     try:
         camera.start_preview()
-        explorerhat.light.green.blink()
+        explorerhat.light.green.on()
         sleep(2)
         camera.capture(filename)
     finally:
@@ -259,7 +316,7 @@ def takePhoto():
         explorerhat.light.green.off()
         cameraInUse = False
         sendMessage("Camera available")
-        print("Photo finished")
+        logger.info("Photo finished", extra={"clientId":clientInfo})
 
 def takeVideo(length):
     """Takes a video using the camera on the front of the STS-PI. The client is
@@ -272,10 +329,12 @@ def takeVideo(length):
     sendMessage("Camera in use")
     filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_video.h264'
     sendMessage("Creating video with filename " + filename)
-    print("Taking video. Video will be saved as", filename)
+    logger.info("Taking video. Video will be saved as: {}".format(filename),
+                extra={"clientId":clientInfo})
+
     try:
         camera.start_preview()
-        explorerhat.light.green.blink(0.5)
+        explorerhat.light.green.on()
         camera.start_recording(filename)
         explorerhat.light.green.on()
         sleep(length)
@@ -285,35 +344,51 @@ def takeVideo(length):
         explorerhat.light.green.off()
         cameraInUse = False
         sendMessage("Camera available")
-        print("Video finished")
+        logger.debug("Video finished", extra={"clientId":clientInfo})
 
 def closeDown():
     """Closes down the application, stopping the STS-PI if it is moving.
     """
     global exiting
     exiting = True
-    print("Exiting STS-PI application")
+    logger.info("Exiting STS-PI application", extra={"clientId":clientInfo})
     setStopTime(0)
     explorerhat.light.off()
     check_call(['sudo', 'poweroff'])
     raise SystemExit
     os._exit
-    
+
+def restart():
+    """Closes down the application, stopping the STS-PI if it is moving.
+    """
+    global exiting
+    exiting = True
+    logger.info("Exiting STS-PI application and rebooting", extra={"clientId":clientInfo})
+    setStopTime(0)
+    explorerhat.light.off()
+    os.system("sudo reboot")
+
 def buttonPressed(channel, event):
     """Informs the client that a button has been pressed or released.
     Keyword arguments:
     channel -- The button number
     event -- pressed or released.
     """
-    print("Channel=", channel, "Event=", event)
     if connected:
         sendMessage("Button" + str(channel))
+        logger.info("Button Channel={} Event={}".format(channel, event),
+                    extra={"clientId":clientInfo})
+    else:
+        logger.info("Button Channel={} Event={}".format(channel, event),
+                    extra={"clientId":""})
     if channel == 1:
         setStopTime(0)
         global stayConnected
         stayConnected = False
     if channel == 3:
         setStopTime(0)
+    if channel == 7:
+        restart()
     if channel == 8:
         closeDown()
 
@@ -325,13 +400,14 @@ def enquireValue(valueRequired):
     """
     try:
         sendMessage(valueRequired + "?")
-        print(valueRequired + " requested")
+        logger.info(valueRequired + " requested", extra={"clientId":clientInfo})
         val = clientSocket.recv(size)
         value = int.from_bytes(val, byteorder="big")
-        print("Value received =", value)
+        logger.info("Value received = {}".format(value), extra={"clientId":clientInfo})
         return value
     except Exception as e:
-        print("Exception=", str(e))
+        logger.exception("Problem requesting value=",
+                         extra={"clientId":clientInfo})
 
 def enquireSpeedAndDuration():
     """Asks the client for the speed and duration to be applied to the movement
@@ -340,44 +416,57 @@ def enquireSpeedAndDuration():
     global speed, duration
     speed = enquireValue("Speed")
     duration = enquireValue("Duration")
-    print("Speed=", speed, "Duration=", duration)
+    logger.info("Speed={} Duration={}".format(speed, duration),
+                extra={"clientId":clientInfo})
 
-#Set up the server connection:
-hostMACAddress = 'B8:27:EB:2B:AB:C0'
+## Set up the server connection:
 port = 3
 backlog = 1
 size = 1024
+## For info:
+##     STS-Pi2 : Bluetooth MAC Address = 'B8:27:EB:87:BC:83'
+##     STS-Pi3 : Bluetooth MAC Address = 'B8:27:EB:2B:AB:C0'
 
-#Function to call if a button is pressed.
+#Action to be taken if any button is pressed.
 explorerhat.touch.pressed(buttonPressed)
 
 while True:
     try:
         connected = False
         explorerhat.light.blue.blink()
-        print("Setting up Bluetooth connection")
+        logger.info("Setting up Bluetooth connection", extra={"clientId":""})
         roverSocket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-        roverSocket.bind((hostMACAddress, port))
+        roverSocket.bind(("", port)) #Mac Address not required, default is local
         roverSocket.listen(backlog)
-        print("Bluetooth connection ready. Waiting client connection")
+        logger.info("Bluetooth connection ready. Waiting client connection",
+                    extra={"clientId":""})
         clientSocket, clientInfo = roverSocket.accept()
+        logger.debug("Client info={}".format(clientInfo),
+                     extra={"clientId":clientInfo})
         clientSocket.settimeout(0.5)
         connected = True
-        print("Client connection made to:", clientSocket.getpeername())
+        logger.info("Client connection made to: {}".format(clientInfo),
+                    extra={"clientId":clientInfo})
         explorerhat.light.blue.on()    
         
         while connected and stayConnected:
-            print("Checking for incoming data")
+            logger.debug("Checking for incoming data",
+                         extra={"clientId":clientInfo})
             try:
                 data = clientSocket.recv(size)
                 explorerhat.light.yellow.on()
                 data = data.decode("utf-8")
-                print("received = ", data)
+                logger.debug("received = {}".format(data),
+                             extra={"clientId":clientInfo})
                 data_end=data.find('\n')
                 if data == "Forwards":
                     forwards()
                 elif data == "Backwards":
                     backwards()
+                elif data == "TurnRight":
+                    turnRight()
+                elif data == "TurnLeft":
+                    turnLeft()
                 elif (data == "SpinClockwise"):
                     spinClockwise()
                 elif data == "SpinAntiClockwise":
@@ -393,9 +482,8 @@ while True:
                     if not cameraInUse:
                         t = threading.Thread(target=takePhoto, daemon=True)
                         t.start()
-                        print("Taking Photo")
+                        logger.info("Taking Photo", extra={"clientId":clientInfo})
                     else:
-                        
                         clientRefuse("Camera in use")
                         
                 elif data == "Video":
@@ -405,39 +493,42 @@ while True:
                                              args=[length],
                                              daemon=True)
                         t.start()
-                        print("Video started")
+                        logger.debug("Video started", extra={"clientId":clientInfo})
                     else:
                         clientRefuse("Camera in use")
                 elif data == "Stop":
-                    print("Emergency Stop")
+                    logger.info("Emergency Stop", extra={"clientId":clientInfo})
                     setStopTime(0)
                     clientAck()
                 elif data == "Bye":
                     sendMessage("Bye")
                     sleep(1)
                     connected = False
-            except:
-                print("Socket timed out")
+            except Exception:
+                # Expected exception when the client is not sending messages
+                logger.debug("Socket timed out", extra={"clientId":clientInfo})
             
     except Exception as e:
-        print("Exception=", str(e))
+        logger.exception("Communications Error with client",
+                         extra={"clientId":clientInfo})
         if connected:
             try:
                 sendMessage("Bye")
             except Exception as e:
-                print("Unable to say Bye:" + str(e))
+                logger.debug("Unable to say Bye", extra={"clientId":clientInfo})
 
-    print("Resetting connection")
-    stayConnected = True
-    if connected:
-        sendMessage("Bye")
+    logger.info("Resetting connection", extra={"clientId":clientInfo})
     setStopTime(0)
-    print("Closing sockets")
-    clientSocket.shutdown(socket.SHUT_RD)
-    roverSocket.shutdown(socket.SHUT_WR)
-    clientSocket.close()
-    roverSocket.close()
+    if connected:
+        stayConnected = True
+        sendMessage("Bye")
+        sleep(1)
+        logger.info("Closing sockets", extra={"clientId":clientInfo})
+        clientSocket.shutdown(socket.SHUT_RD)
+        roverSocket.shutdown(socket.SHUT_WR)
+        clientSocket.close()
+        roverSocket.close()
     connected = False
     explorerhat.light.blue.off()
     explorerhat.light.yellow.off()
-    print("Resetting Bluetooth connection.")
+    logger.info("Reset Bluetooth connection.", extra={"clientId":""})
