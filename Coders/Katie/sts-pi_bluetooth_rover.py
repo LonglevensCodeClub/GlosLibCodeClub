@@ -234,6 +234,29 @@ def forwards():
                 extra={"clientId":clientInfo})
     move(speed, speed, duration)
 
+def turnRight():
+    """Moves the STS-PI forwards. The client is asked to provide the speed and
+    duration.
+    """
+    logger.info("turnRight command received",  extra={"clientId":clientInfo})
+    enquireSpeedAndDuration()
+    clientAck()
+    logger.info("turnRight at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
+    move(0, speed, duration)
+
+def turnLeft():
+    """Moves the STS-PI forwards. The client is asked to provide the speed and
+    duration.
+    """
+    logger.info("turnLeft command received",  extra={"clientId":clientInfo})
+    enquireSpeedAndDuration()
+    clientAck()
+    logger.info("turnLeft at {}% for {} seconds".format(speed, duration),
+                extra={"clientId":clientInfo})
+    move(speed, 0, duration)
+
+
 def backwards():
     """Moves the STS-PI backwards. The client is asked to provide the speed and
     duration.
@@ -256,7 +279,6 @@ def spinAntiClockwise():
 
     move(speed, speed * -1, duration)
 
-# Spins the STS-PI clockwise at the speed set and for the number of seconds selected
 def spinClockwise():
     """Spins the STS-PI clockwise. The client is asked to provide the speed and
     duration.
@@ -441,6 +463,10 @@ while True:
                     forwards()
                 elif data == "Backwards":
                     backwards()
+                elif data == "TurnRight":
+                    turnRight()
+                elif data == "TurnLeft":
+                    turnLeft()
                 elif (data == "SpinClockwise"):
                     spinClockwise()
                 elif data == "SpinAntiClockwise":

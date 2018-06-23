@@ -1,5 +1,15 @@
 #!/usr/bin/python3
 
+""" Simple GUI to test the operation of the STS-PI Rover.
+
+    The rover's yellow LED will light to indicate the program is running.
+
+    The green LED will flash when a photo is being taken, solid green when
+    a video is being recorded.
+
+    The red LED will light when the rover is moving.
+"""
+
 import sys
 import explorerhat
 from time import sleep
@@ -23,8 +33,10 @@ endTime = time.time()
 # Flag to indicate that the application is closing down
 exiting = False
 
-# Function to stop the STS-PI moving and re-enable the movement buttons.
 def stop():
+    """ Stop the STS-PI moving. Do not call directly. Use setStopTime(0) so that
+    the rover and the waitForStop thread are both stopped.
+    """
     print("Stopping STS-PI")
     explorerhat.motor.one.stop()
     explorerhat.motor.two.stop()
@@ -38,14 +50,20 @@ def stop():
         stopButton.disable()        
         print("STS-PI Stopped")
 
-# Sets the time at which the STS-PI will be stopped
 def setStopTime(duration):
+    """ Sets the time at which the STS-PI will be stopped. Use this method
+    instead with a duration of zero instead of calling stop directly to stop
+    the rover from moving. Otherwise the waitForStop thread will execute on
+    schedule after the stop has been executed and may interfere with later
+    movement commands.
+    """
     now = time.time()
     global endTime
     endTime = now + duration
 
-# Waits for the time to reach the stop time before stopping the STS-PI
 def waitForStop(duration):
+    """ Waits for the time to reach the stop time before stopping the STS-PI.
+    """    
     disableMotionButtons()
     explorerhat.light.red.blink(1)
     setStopTime(duration)
@@ -53,114 +71,151 @@ def waitForStop(duration):
         while (time.time() < endTime and not exiting):
             sleep(0.2)
         stop()
-
     except (KeyboardInterrupt, SystemExit):
         print("SystemExit Called")
         stop()
 
-# Sets up a new thread for stopping the STS-PI after motion has started.
 def threadForStopping(duration):
-    t = threading.Thread(target=waitForStop, args=[duration], daemon=True).start()
+    """ Sets up a new thread for stopping the STS-PI after motion has started.
+    """
+    t = threading.Thread(target=waitForStop, args=[duration], daemon=True)
+    t.start()
 
-# Moves the STS-PI forwards at the speed set and for the number of seconds selected
 def forwards():
-    print("Forwards at ",speed,"% for ",duration, "seconds")
+    """ Moves the STS-PI forwards at the speed set and for the number of seconds
+    selected.
+    """
+    print("Forwards at {}% for {} seconds".format(speed, duration))
     explorerhat.motor.one.forwards(speed)
     explorerhat.motor.two.forwards(speed)
     threadForStopping(duration)
 
-# Moves the STS-PI backwards at the speed set and for the number of seconds selected
 def backwards():
-    print("Backwards at ",speed,"% for ",duration, "seconds")
+    """ Moves the STS-PI backwards at the speed set and for the number of seconds
+    selected.
+    """    
+    print("Backwards at {}% for {} seconds".format(speed, duration))
     explorerhat.motor.one.backwards(speed)
     explorerhat.motor.two.backwards(speed)
     threadForStopping(duration)
     
-# Spins the STS-PI anti-clockwise at the speed set and for the number of seconds selected
 def spinAntiClockwise():
-    print("Spin anti-clockwise at", speed,"% for ", duration, "seconds")
+    """ Spins the STS-PI anti-clockwise at the speed set and for the number of
+    seconds selected.
+    """
+    print("Spin anti-clockwise at {}% for {} seconds".format(speed, duration))
     explorerhat.motor.one.speed(speed)
     explorerhat.motor.two.speed(speed * -1)
     threadForStopping(duration)
 
-# Spins the STS-PI clockwise at the speed set and for the number of seconds selected
 def spinClockwise():
-    print("Spin clockwise at", speed, "% for ", duration, "seconds")
+    """ Spins the STS-PI clockwise at the speed set and for the number of
+    seconds selected.
+    """    
+    print("Spin clockwise at {}% for {} seconds".format(speed, duration))
     explorerhat.motor.one.speed(speed * -1)
     explorerhat.motor.two.speed(speed)
     threadForStopping(duration)
     
-# Updates the global speed variable when the speed slider is adjusted
 def changeSpeed(slider_value):
+    """ Updates the global speed variable when the speed slider is adjusted.
+    """    
     global speed
     speed = int(slider_value)
-    print("New speed=", speed)
+    print("New speed =", speed)
 
-# Updates the global duration variable when the duration slider is adjusted
 def changeDuration(slider_value):
+    """ Updates the global duration variable when the duration slider is
+    adjusted.
+    """    
     global duration
     duration = int(slider_value)
     print("New duration =", duration)
 
-# Disables all the motion buttons and enables the stop button.
 def disableMotionButtons():
+    """ Disables all the motion buttons and enables the stop button.
+    """
     stopButton.enable()
     forwardButton.disable()
     backwardButton.disable()
     spinLeftButton.disable()
     spinRightButton.disable()
 
-# Takes a photo using the camera on the front of the STS-PI
+def getTimeStamp():
+    """ Returns a timestamp for photos and videos in the format: YYYY_MMDD_hhmmss
+    """
+    return time.strftime("%Y_%m%d_%H%M%S")
+
 def takePhoto():
-    print("Taking photo, image will be saved as /home/pi/Desktop/image.jpg") 
-    camera.start_preview()
-    explorerhat.light.green.blink()
-    sleep(3)
-    camera.capture('/home/pi/Desktop/image.jpg')
-    camera.stop_preview()
-    explorerhat.light.green.off()
+    """ Takes a photo using the camera on the front of the STS-PI.
+    """
+    filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_photo.jpg'
+    print("Taking photo, image will be saved as:", filename)
+    try:
+        camera.start_preview()
+        explorerhat.light.green.blink()
+        sleep(3)
+        camera.capture(filename)
+    finally:
+        camera.stop_preview()
+        explorerhat.light.green.off()
     
-
-# Takes a 10 second video using the camera on the front of the STS-PI
 def takeVideo():
-    print("Taking video, video will be saved as /home/pi/Desktop/video.h264") 
-    camera.start_preview()
-    explorerhat.light.green.blink(0.5)
-    camera.start_recording('/home/pi/Desktop/video.h264')
-    explorerhat.light.green.on()
-    sleep(10)
-    camera.stop_recording()
-    camera.stop_preview()
-    explorerhat.light.green.off()
+    """ Takes a video of length duration using the camera on the front of the
+    STS-PI.
+    """
+    filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_video.h264'
+    print("Taking video, video will be saved as:", filename)
+    try:
+        camera.start_preview()
+        explorerhat.light.green.blink(0.5)
+        camera.start_recording('/home/pi/Desktop/video.h264')
+        explorerhat.light.green.on()
+        sleep(duration)
+        camera.stop_recording()
+    except Exception as e:
+        print("Exception during recording:" + str(e))
+    finally:
+        camera.stop_preview()
+        explorerhat.light.green.off()
 
-# Closes down the application, stopping the STS-PI if it is moving.
 def closeDown():
+    """ Closes down the application, stopping the STS-PI if it is moving.
+    """
+    disableMotionButtons()
     global exiting
     exiting = True
     print("Exiting STS-PI application")
     setStopTime(0)
-    app.destroy()
     explorerhat.light.off()
-    raise SystemExit
+    app.destroy()
+    sys.exit()
     os._exit
     
-# Button pressed handler
 def buttonPressed(channel, event):
-    print("Channel=", channel, "Pressed Event=", event)
-    if (buttonWaffle.get_pixel(channel - 1, 0) != "red"):
-        buttonWaffle.set_pixel(channel - 1, 0, "red")
+    """ Button pressed handler. Note this still runs after exit due to separate
+    thread. Need to call sys.exit for the Explorer Hat thread.
+    """
+    if exiting:
+        sys.exit()
     else:
-        buttonWaffle.set_pixel(channel - 1, 0, "white")
-    sleep(0.1)
+        print("Button = {} Pressed Event = {}".format(channel, event))
+        if (buttonWaffle.get_pixel(channel - 1, 0) != "red"):
+            buttonWaffle.set_pixel(channel - 1, 0, "red")
+        else:
+            buttonWaffle.set_pixel(channel - 1, 0, "white")
+        sleep(0.1)
 
-# Button released handler - not reliable. Note held not working
 #def buttonReleased(channel, event):
+#     """Button released handler - not reliable. Note held not reporting.
+#     """
 #    print("Channel=", channel, "Released Event=", event)
 #    buttonWaffle.set_pixel(channel - 1, 0, "white")
 
 #Declare the GUI application
 app = App("STS Controller", layout="grid")
 
+#Indicate the rover is responsive to commands.
 explorerhat.light.yellow.on()
 
 #Create forwards and backwards buttons

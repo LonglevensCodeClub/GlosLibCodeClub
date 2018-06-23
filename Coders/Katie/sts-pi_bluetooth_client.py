@@ -5,7 +5,7 @@
 
 import sys
 from time import sleep
-from guizero import App, PushButton, Slider, Text, Waffle
+from guizero import App, ButtonGroup, PushButton, Slider, Text, Waffle
 import threading
 import time
 import os
@@ -13,8 +13,8 @@ import bluetooth
 import socket
 
 #Global speed and duration variables
-speed = 15
-duration = 1
+speed = 17
+duration = 2
 
 #Flag to indicate that the Bluetooth connection is working.
 connected = False
@@ -28,39 +28,124 @@ exiting = False
 # Flag to indicate that the current command should be stopped asap.
 abort = False
 
-#Declare the GUI application
-app = App("STS Controller", layout="grid")
+# Size of data buffer
+size = 1024
 
-# Bluetooth connection status waffle. Single cell, blue=connected, red=not.
-statusWaffle = Waffle(app, 1, 4, 10, 10, grid=[0,0])
-if connected:
-    statusWaffle.set_pixel(0, 0, "blue")
-    statusWaffle.set_pixel(1, 0, "white")
-    statusWaffle.set_pixel(2, 0, "white")
-    statusWaffle.set_pixel(3, 0, "white")
-  
+
+def setup_gui():
+    """ Create the GUI for controlling the STS-Pi Rover.
+    """
+
+    global app, statusWaffle, roverChoice, connectButton, exitButton
+    global forwardButton, stopButton, backwardButton, spdSlider, durationSlider
+    global spinRightButton, spinLeftButton, photoButton, videoButton
+    global buttonWaffle
+
+    # Declare the GUI application
+    app = App("STS Controller", layout="grid")
+
+    # Bluetooth connection status waffle. Single cell, blue=connected, red=not.
+    statusWaffle = Waffle(app, 1, 4, 10, 10, grid=[0,0])
+    if connected:
+        statusWaffle.set_pixel(0, 0, "blue")
+        statusWaffle.set_pixel(1, 0, "white")
+        statusWaffle.set_pixel(2, 0, "white")
+        statusWaffle.set_pixel(3, 0, "white")
+
+    # Choice of STS-PI Rover
+    roverChoice = ButtonGroup(app,
+                              options=["STS-Pi 2", "STS-Pi 3"],
+                              selected="STS-Pi 2",
+                              grid=[1,0])
+
+    # Reconnect button for when the Bluetooth connection has been lost or reset
+    connectButton = PushButton(app, connect, text="Connect", grid=[2,0])
+
+    #Create forwards and backwards buttons
+    forwardButton = PushButton(app, forwards, text="Forwards", grid=[1,1])
+    
+    #Create turn right button
+    turnRightButton = PushButton(app, turnRight, text="Turn Right", grid=[2,1])
+
+    #Create turn left button
+    turnLeftButton = PushButton(app, turnLeft, text="Turn Left", grid=[0,1])
+
+
+
+    #Create spin left and right buttons
+    spinLeftButton = PushButton(app,
+                                spinAntiClockwise,
+                                text="Spin Left",
+                                grid=[0,2])
+
+    #Button to stop the STS-PI in an emergency
+    stopButton = PushButton(app, stop, text="STOP", grid=[1,2])
+
+    spinRightButton = PushButton(app,
+                                 spinClockwise,
+                                 text="Spin Right",
+                                 grid=[2,2])
+
+    backwardButton = PushButton(app, backwards, text="Backwards", grid=[1,3])
+
+    #Create a slider to set the speed.
+    speedTitle = Text(app, "Speed %", grid=[0,4])
+    spdSlider = Slider(app, command=changeSpeed, grid=[1,4,3,1])
+    spdSlider.value = 15
+
+    #Create a slider to set the duration of the next movement
+    durationTitle = Text(app, "Duration (secs)", grid=[0,5], )
+    durationSlider = Slider(app,
+                            command=changeDuration,
+                            start=1,
+                            end=10,
+                            grid=[1,5,3,1])
+    durationSlider.value = 1
+
+    #Buttons to take videos and photos.
+    photoButton = PushButton(app, takePhoto, text="Photo", grid=[0,6])
+    videoButton = PushButton(app, takeVideo, text="Video", grid=[2,6])
+
+    #Waffle to display button presses
+    buttonWaffle = Waffle(app, 1, 8, grid=[0,7,3,2])
+
+    # Ids for the buttons on the STS-PI rover
+    buttonIds = Text(app, "1    2    3    4    5    6    7    8 ", grid=[0,9,3,1])
+
+    # This spacer text increases the gap below the controls and the exit button.
+    spacer = Text(app, "", grid=[0,10]) 
+
+    # Button to quit the application
+    exitButton = PushButton(app, closeDown, text="Exit", grid=[1,11])
+
 def connect():
     """Set up the Client BlueTooth connection.
     """
-    serverMACaddress = 'B8:27:EB:2B:AB:C0'
+    serverMACaddress2 = 'B8:27:EB:87:BC:83'
+    serverMACaddress3 = 'B8:27:EB:2B:AB:C0'
     port = 3
-    global roverSocket, connected
-    roverSocket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    print("socket=", roverSocket)
-    try:
+    global roverSocket, connected, roverChoice, commandInProgress
+    if roverChoice.value == "STS-Pi 3":
+        serverMACaddress = serverMACaddress3
+    else:
+        serverMACaddress = serverMACaddress2
+    print("Connecting to STS-PI with serverMACaddress:", serverMACaddress)
+    try:    
+        roverSocket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         roverSocket.connect((serverMACaddress, port))
-        size = 1024
+        print("Connected to ", roverSocket.getpeername())
         connected = True
         statusWaffle.set_pixel(0, 0, "blue")
-        reconnectButton.disable()
+        connectButton.disable()
+        roverChoice.disable()
+        enableMotionButtons()
+        enableCameraButtons()
+        commandInProgress = False
     except:
         connected = False
         statusWaffle.set_pixel(0, 0, "red")
-        reconnectButton.enable()
-
-# Reconnect button for when the Bluetooth connection has been lost or reset
-reconnectButton = PushButton(app, connect, text="Reconnect", grid=[2,0])
-reconnectButton.disable()
+        connectButton.enable()
+        roverChoice.enable()
 
 def sendCommand(command):
     """Function to send an instruction to the rover.
@@ -68,7 +153,7 @@ def sendCommand(command):
     Keyword arguments:
     command -- Instruction known to the rover.
     """
-    global commandInProgress
+    global commandInProgress, roverChoice
     while commandInProgress and not exiting:
         sleep(0.1)
         print("Waiting for previous command to be acknowledged")
@@ -78,7 +163,8 @@ def sendCommand(command):
         roverSocket.send(command)
         print("Command sent=", command)
     else:
-        reconnectButton.enable()
+        connectButton.enable()
+        roverChoice.enable()
         statusWaffle.set_pixel(0, 0, "red")
         print("ERROR: Not connected")
 
@@ -97,18 +183,18 @@ def receiveResponse():
     while not exiting:
         try:
             while connected:
-                global speed, duration, abort, commandInProgress 
+                global abort, commandInProgress 
 
-                print("Awaiting response from Rover")
+                print("Listening for a response from Rover")
                 data = roverSocket.recv(1024)
 
                 if data:
-                    print("Data received=", data)
+                    #print("Data received=", data)
                     rover = data.decode("utf-8")
                     if (rover.endswith("?")):
-                        print("Rover is asking for", rover)
+                        print("Rover is asking for:", rover)
                     else:
-                        print("Rover", rover)
+                        print("Rover:", rover)
                     if rover.startswith("Request refused:"):
                         print("Rover has responded with:", rover)
                         commandInProgress = False
@@ -147,15 +233,12 @@ def receiveResponse():
                         connected = False
                         roverSocket.close()
                         if not exiting:
-                            reconnectButton.enable()
+                            disableRoverButtons()
+                            connectButton.enable()
+                            roverChoice.enable()
                             statusWaffle.set_pixel(0, 0, "red")
-                            statusWaffle.set_pixel(1, 0, "white")
-                            statusWaffle.set_pixel(2, 0, "white")
-                            statusWaffle.set_pixel(3, 0, "white")
                             commandInProgress = False
                             abort = False
-                            enableMotionButtons()
-                            enableCameraButtons()
                     if commandInProgress:
                         statusWaffle.set_pixel(1, 0, "yellow")
                     else:
@@ -165,7 +248,10 @@ def receiveResponse():
             if not exiting:
                 print("Exception in receive response:", str(e))
                 connected = False
-                reconnectButton.enable()
+                commandInProgress = False
+                connectButton.enable()
+                roverChoice.enable()
+                disableRoverButtons()
                 statusWaffle.set_pixel(0, 0, "red")
 
 def stop():
@@ -176,8 +262,7 @@ def stop():
     abort = True
     sendCommand("Stop")
     print("Emergency Stop requested")
-    enableMotionButtons()
-            
+
 def forwards():
     """Moves the STS-PI forwards at the speed set and for the number of
     seconds selected.
@@ -185,6 +270,23 @@ def forwards():
     disableMotionButtons()
     print("Forwards at ", speed, "% for ", duration, "seconds")
     sendCommand("Forwards")
+
+def turnRight():
+    """Moves the STS-PI right at the speed set and for the number of
+    seconds selected.
+    """
+    disableMotionButtons()
+    print("Right at ", speed, "% for ", duration, "seconds")
+    sendCommand("TurnRight")
+
+def turnLeft():
+    """Moves the STS-PI left at the speed set and for the number of
+    seconds selected.
+    """
+    disableMotionButtons()
+    print("Left at ", speed, "% for ", duration, "seconds")
+    sendCommand("TurnLeft")
+
 
 def backwards():
     """Moves the STS-PI backwards at the speed set and for the number of
@@ -201,7 +303,6 @@ def spinAntiClockwise():
     disableMotionButtons()
     print("Spin anti-clockwise at", speed, "% for ", duration, "seconds")
     sendCommand("SpinAntiClockwise")
-
 
 def spinClockwise():
     """Spins the STS-PI clockwise at the speed set and for the number of
@@ -276,46 +377,61 @@ def closeDown():
     if connected:
         sendCommand("Bye")
         sleep(1)
-##        try:
-##            roverSocket.shutdown(socket.SHUT_RDWR)
-##        except Exception as e:
-##            print("Unable to shutdown socket:", str(e))
-##        finally:
-        roverSocket.close()
+        try:
+            roverSocket.close()
+        except Exception as e:
+            print("Unable to close socket:", str(e))
     app.destroy()
     raise SystemExit
     
 def buttonPressed(number):
-    """Button pressed notification handler.
+    """Button pressed notification handler. simply toggles the requisite Waffle
+    upon each press notification.
 
     Keyword arguments:
     number -- The number of the button pressed.
     """
-    print("Button ", number, "Pressed")
+    print("Button {} Pressed".format(number))
     if (buttonWaffle.get_pixel(number - 1, 0) != "red"):
         buttonWaffle.set_pixel(number - 1, 0, "red")
     else:
         buttonWaffle.set_pixel(number - 1, 0, "white")
 
+def disableRoverButtons():
+    """ Disable all buttons other than Connect and Exit. Also clears the Waffle
+    communication status and button pressed disaplays.
+    """
+    disableMotionButtons()
+    disableCameraButtons()
+    stopButton.disable()
+    statusWaffle.set_all("white")
+    buttonWaffle.set_all("white")
+
 def checkConnected():
     """Continuously checks the Bluetooth connection. Must be run in separate
     thread.
     """
-    global connected
+    global connected, commandInProgress
     while not exiting:
         try:
-            roverSocket.getpeername()
-            connected = True
+            if connected:
+                roverSocket.getpeername()
         except Exception as e:
             print("Rover not connected:", str(e))
             connected = False
+            disableRoverButtons()
 
-        print("Connected=", connected)
-        print("Command in progress=", commandInProgress)
+        if connected:
+            print("Rover is Connected")
+        else:
+            print("Rover is not Connected")
         sleep(2)
 
-# Connect to the server
-connect()
+
+setup_gui()
+
+# Await connection
+disableRoverButtons()
 
 # Thread to receive feedback questions and status
 t = threading.Thread(target=receiveResponse, daemon=True)
@@ -324,51 +440,6 @@ t.start()
 # Thread to monitor connection status
 t2 = threading.Thread(target=checkConnected, daemon=True)
 t2.start()
-
-#Create forwards and backwards buttons
-forwardButton = PushButton(app, forwards, text="Forwards", grid=[1,1])
-backwardButton = PushButton(app, backwards, text="Backwards", grid=[1,3])
-
-#Create spin left and right buttons
-spinLeftButton = PushButton(app,
-                            spinAntiClockwise,
-                            text="Spin Left",
-                            grid=[0,2])
-
-spinRightButton = PushButton(app,
-                             spinClockwise,
-                             text="Spin Right",
-                             grid=[2,2])
-
-#Create a slider to set the speed.
-speedTitle = Text(app, "Speed %", grid=[0,4])
-spdSlider = Slider(app, command=changeSpeed, grid=[1,4,3,1])
-spdSlider.value = 15
-
-#Create a slider to set the duration of the next movement
-durationTitle = Text(app, "Duration (secs)", grid=[0,5], )
-durationSlider = Slider(app,
-                        command=changeDuration,
-                        start=1,
-                        end=10,
-                        grid=[1,5,3,1])
-durationSlider.value = 1
-
-#Button to stop the STS-PI in an emergency
-stopButton = PushButton(app, stop, text="STOP", grid=[1,2])
-stopButton.disable()
-
-#Buttons to take videos and photos.
-photoButton = PushButton(app, takePhoto, text="Photo", grid=[0,6])
-videoButton = PushButton(app, takeVideo, text="Video", grid=[2,6])
-
-#Waffle to display button presses
-buttonWaffle = Waffle(app, 1, 8, grid=[0,7,3,2])
-
-#This spacer text increases the gap below the controls and the exit button.
-buttonIds = Text(app, "1    2    3    4    5    6    7    8 ", grid=[0,9,3,1])
-spacer = Text(app, "", grid=[0,10])
-exitButton = PushButton(app, closeDown, text="Exit", grid=[1,11])
 
 # Show the GUI reasonable central on the display
 app.tk.geometry("300x420+600+400")
