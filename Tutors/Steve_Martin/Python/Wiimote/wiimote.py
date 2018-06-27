@@ -26,14 +26,15 @@ except RuntimeError:
   print("Cannot connect to your Wiimote. Run again and make sure you are holding buttons 1 + 2!")
   quit()
 
+wii.led = 1
+
 print('Wiimote connection established!\n')
 print('Go ahead and press some buttons\n')
 print('Press PLUS and MINUS together to disconnect and quit.\n')
 
-time.sleep(3)
+time.sleep(2)
 
 wii.rpt_mode = cwiid.RPT_BTN
-wii.led = 1
 
 while True:
 
