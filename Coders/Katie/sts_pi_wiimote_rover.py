@@ -79,7 +79,7 @@ import sys
 import explorerhat
 from time import sleep
 import threading
-#from picamera import PiCamera
+from picamera import PiCamera
 import os
 from subprocess import check_call
 #import bluetooth
@@ -103,14 +103,14 @@ duration = 0
 clientInfo = ""
 
 #Pi Camera declaration
-#try:
-#    camera = PiCamera()
-#    camera.rotation = 180
-#except Exception as e:
-#    logger.exception("Camera already in use, check no other processes running " +
-#                     "(eg headless process on start up)",
-#                     extra={"clientId":clientInfo})
-#    raise SystemExit
+try:
+    camera = PiCamera()
+    camera.rotation = 180
+except Exception as e:
+    logger.exception("Camera already in use, check no other processes running " +
+                     "(eg headless process on start up)",
+                     extra={"clientId":clientInfo})
+    raise SystemExit
 
 #Time at which motion shall end.
 endTime = time.time()
