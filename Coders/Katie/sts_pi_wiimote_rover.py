@@ -79,7 +79,7 @@ import sys
 import explorerhat
 from time import sleep
 import threading
-#from picamera import PiCamera
+from picamera import PiCamera
 import os
 from subprocess import check_call
 #import bluetooth
@@ -103,14 +103,14 @@ duration = 0
 clientInfo = ""
 
 #Pi Camera declaration
-#try:
-#    camera = PiCamera()
-#    camera.rotation = 180
-#except Exception as e:
-#    logger.exception("Camera already in use, check no other processes running " +
-#                     "(eg headless process on start up)",
-#                     extra={"clientId":clientInfo})
-#    raise SystemExit
+try:
+    camera = PiCamera()
+    camera.rotation = 180
+except Exception as e:
+    logger.exception("Camera already in use, check no other processes running " +
+                     "(eg headless process on start up)",
+                     extra={"clientId":clientInfo})
+    raise SystemExit
 
 #Time at which motion shall end.
 endTime = time.time()
@@ -132,16 +132,16 @@ def sendMessage(message):
     Keyword arguments:
     message - The text to be sent to the client.
     """
-    if connected:
-        try:
-            clientSocket.send(message)
-            sleep(0.15)
-        except Exception as e:
-            logger.exception("ERROR: Unable to send {} to client".format(message),
-                             extra={"clientId":clientInfo})
-    else:
-        logger.error("Client is not connected. Unable to send {}".format(message),
-                     extra={"clientId":""})
+    #if connected:
+    #    try:
+    #        clientSocket.send(message)
+    #        sleep(0.15)
+    #    except Exception as e:
+    #        logger.exception("ERROR: Unable to send {} to client".format(message),
+    #                         extra={"clientId":clientInfo})
+    #else:
+    #    logger.error("Client is not connected. Unable to send {}".format(message),
+    #                 extra={"clientId":""})
 
 def clientAck():
     """Inform the client that the command has been accepted and that the rover
@@ -203,7 +203,8 @@ def waitForStop(duration):
 def threadForStopping(duration):
     """Sets up a new thread for stopping the STS-PI after motion has started.
     """
-    t = threading.Thread(target=waitForStop, args=[duration], daemon=True)
+    t = threading.Thread(target=waitForStop, args=[duration])
+    t.setDaemon(True)
     t.start()
 
 
@@ -216,7 +217,7 @@ def move(leftWheelSpeed, rightWheelSpeed, duration):
     duration -- The amount of time to apply the power.
     """
     if connected:
-        #sendMessage("Moving")
+        sendMessage("Moving")
         explorerhat.motor.one.speed(leftWheelSpeed)
         explorerhat.motor.two.speed(rightWheelSpeed)
         threadForStopping(duration)
@@ -229,7 +230,7 @@ def forwards():
     """
     logger.info("Forwards command received",  extra={"clientId":clientInfo})
     enquireSpeedAndDuration()
-    #clientAck()
+    clientAck()
     logger.info("Forwards at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(speed, speed, duration)
@@ -419,9 +420,9 @@ def enquireSpeedAndDuration():
     #logger.info("Speed={} Duration={}".format(speed, duration),
     #            extra={"clientId":clientInfo})
     speed = 10
-    duration = 2
+    duration = 0.3
 
-button_delay = 0.1
+button_delay = 0.3
 
 print('Please press buttons 1 + 2 on your Wiimote now ...')
 time.sleep(1)
@@ -467,6 +468,7 @@ while True:
 
   if (buttons & cwiid.BTN_UP):
     forwards()
+    time.sleep(button_delay)    
 
   if (buttons & cwiid.BTN_DOWN):
     print('Down pressed')
