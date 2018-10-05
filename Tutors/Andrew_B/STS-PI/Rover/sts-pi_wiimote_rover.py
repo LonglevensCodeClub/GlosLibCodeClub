@@ -1,80 +1,46 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
-""" Module to control the STS-PI rover using Bluetooth using the Raspberry Pi
-with Bluetooth MAC address: B8:27:EB:2D:16:29 (RPi 2) or B8:27:EB:2B:AB:C0 (Rpi
-3) using RFCOMM port 3. The rover and client Raspberry Pi should be BlueTooth
-paired before use.
+""" Module to use a Wii remote control control the STS-PI rover using
+the Raspberry Pi with Bluetooth MAC address: B8:27:EB:2D:16:29 (RPi 2)
+ or B8:27:EB:2B:AB:C0 (Rpi 3).
 
-To disconnect the rover from the client, press button 1.
+To disconnect the rover from the Wii controller , press buttons + and -
+at the same time.
 
-To stop the rover without using the client, press Button 3 (by the red LED).
+Always shutdown the rover before disconnecting power by pressing Button
+8 on the Raspberry Pi Explorer Hat on the Rover itself.
 
-Always shutdown the rover before disconnecting power by pressing Button 8.
-To reboot and restart when in headless mode, press button 7.
+To reboot and restart when in headless mode, press button 7 on the
+Explorer Hat.
 
-
-COMMANDS
+CONTROLS
 ========
-The following commands can be used to communicate with the rover:
+The following controls can be used to direct with the rover:
 
-Forwards
-Backwards
-SpinClockwise
-SpinAntiClockwise
-Stop
-Photo
-Video
-
-QUESTIONS
-=========
-For motion commands except Stop, the rover will respond with:
-Speed?
-Duration?
-Stop will interrupt the current motion in progress and stop the rover asap.
-
-For camera commands, the rover will respond with:
-Duration?
-
-Once the responses are complete, the rover will respond with:
-Acknowledged
-This means the rover is implementing the command and is ready to accept another
-command subject to no clash with the current command.
-
-If the rover cannot carry out the command, it will respond with:
-Request refused: <reason>
-The reason could be "Camera in use" if a second camera action has been
-requested before the first has been completed.
+Forwards - Up Button (Cross buttons)
+Backwards - Down Button (Cross buttons)
+Spin Clockwise - Right Button (Cross buttons)
+Spin Anti-clockwise - Left Button (Cross buttons)
+Accelerate - Button A
+Brake - Button B
+Stop  - No Wii buttons pressed. Button 3 on the Explorer Hat
+Photo - Button 1
+Video - Button 2
 
 STATUS
 ======
-While the rover is waiting for a Bluetooth connection, the blue LED will flash.
-Once a connection is made, the LED will be continuous blue.
+While the rover is waiting for a Wii controller connection, the blue LED
+will flash. Once a connection is made, the LED will be continuous blue.
 
-When the camera is in use, the green LED will be lit.
+When the camera is in use, the green LED will be lit. Camera photo or
+video requests cannot happen while the camera is already in use.
 
-When responses are being made to the client the yellow LED will be lit.
-
-When the rover is moving the red LED will be flashing.
-
-To inform the client when the camera is in use or not, the following status
-messages are used:
-Camera in use
-Camera available
-
-To inform the client when the rover is moving, the following status messages
-are used:
-Moving
-Stopped
-
-If either the rover or the client are about to break the Bluetooth connection
-they shall send the command:
-Bye
-The rover shall respond to Bye with:
-Bye
+When the rover is moving the red LED will flash.
 
 """
 
-import cwiid, time
+import cwiid
+import time
 import sys
 import explorerhat
 from time import sleep
@@ -82,12 +48,10 @@ import threading
 from picamera import PiCamera
 import os
 from subprocess import check_call
-#import bluetooth
-import socket
 import logging
 
 # Set up logging
-FORMAT = '%(asctime)s %(levelname)s %(clientId)s %(message)s'
+FORMAT = '%(asctime)s %(levelname)s %(clientId)s: %(message)s'
 formatter = logging.Formatter(FORMAT)
 consoleHandler = logging.StreamHandler(stream=sys.stdout)
 consoleHandler.setFormatter(formatter)
@@ -96,11 +60,17 @@ logger.addHandler(consoleHandler)
 logger.setLevel(logging.DEBUG)
 
 #Global speed and duration variables
-speed = 0
-duration = 0
+speed = 50
+duration = 1
 
 #Identity of the client
-clientInfo = ""
+clientInfo = "WiiRemote"
+
+# Flags to indicate motion is happening
+spinningRight = False
+spinningLeft = False
+goingForwards = False
+goingBackwards = False
 
 #Pi Camera declaration
 try:
@@ -127,39 +97,7 @@ stayConnected = True
 #Flag to indicate the camera is being used.
 cameraInUse = False
 
-def sendMessage(message):
-    """Sends a message to the client if the client is connected.
-    Keyword arguments:
-    message - The text to be sent to the client.
-    """
-    #if connected:
-    #    try:
-    #        clientSocket.send(message)
-    #        sleep(0.15)
-    #    except Exception as e:
-    #        logger.exception("ERROR: Unable to send {} to client".format(message),
-    #                         extra={"clientId":clientInfo})
-    #else:
-    #    logger.error("Client is not connected. Unable to send {}".format(message),
-    #                 extra={"clientId":""})
 
-def clientAck():
-    """Inform the client that the command has been accepted and that the rover
-    is ready to receive another command.
-    """
-    sendMessage("Acknowledged")
-    explorerhat.light.yellow.off()
-    logger.info("Client acknowledgement sent.", extra={"clientId":clientInfo})
-
-def clientRefuse(reason):
-    """Inform the client that the command has been accepted and that the rover
-    is ready to receive another command.
-    """
-    sendMessage("Request refused:" + reason)
-    explorerhat.light.yellow.off()
-    logger.warn("Client refusal sent with the reason: {}".format(reason),
-                extra={"clientId":clientInfo})
-    
 def stop():
     """Function to stop the STS-PI moving and re-enable the movement buttons.
     """
@@ -167,8 +105,6 @@ def stop():
     explorerhat.motor.one.stop()
     explorerhat.motor.two.stop()
     explorerhat.light.red.off()
-    if connected:
-        sendMessage("Stopped")
     if not exiting:
         logger.debug("STS-PI Stopped", extra={"clientId":clientInfo})
 
@@ -207,7 +143,6 @@ def threadForStopping(duration):
     t.setDaemon(True)
     t.start()
 
-
 def move(leftWheelSpeed, rightWheelSpeed, duration):
     """move the rover with given wheel speeds for the amount of time stated by
     duration.
@@ -217,7 +152,6 @@ def move(leftWheelSpeed, rightWheelSpeed, duration):
     duration -- The amount of time to apply the power.
     """
     if connected:
-        sendMessage("Moving")
         explorerhat.motor.one.speed(leftWheelSpeed)
         explorerhat.motor.two.speed(rightWheelSpeed)
         threadForStopping(duration)
@@ -229,8 +163,6 @@ def forwards():
     duration.
     """
     logger.info("Forwards command received",  extra={"clientId":clientInfo})
-    enquireSpeedAndDuration()
-    clientAck()
     logger.info("Forwards at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(speed, speed, duration)
@@ -241,7 +173,6 @@ def turnRight():
     """
     logger.info("turnRight command received",  extra={"clientId":clientInfo})
     enquireSpeedAndDuration()
-    clientAck()
     logger.info("turnRight at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(0, speed, duration)
@@ -252,7 +183,6 @@ def turnLeft():
     """
     logger.info("turnLeft command received",  extra={"clientId":clientInfo})
     enquireSpeedAndDuration()
-    clientAck()
     logger.info("turnLeft at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(speed, 0, duration)
@@ -262,8 +192,6 @@ def backwards():
     """Moves the STS-PI backwards. The client is asked to provide the speed and
     duration.
     """
-    enquireSpeedAndDuration()
-    clientAck()
     logger.info("Backwards at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(speed * -1, speed* -1, duration)
@@ -272,8 +200,6 @@ def spinAntiClockwise():
     """Spins the STS-PI anti-clockwise. The client is asked to provide the speed
     and duration.
     """
-    enquireSpeedAndDuration()
-    clientAck()
     logger.info("Spin anti-clockwise at {}% for {} seconds".format(speed,
                                                                    duration),
                 extra={"clientId":clientInfo})
@@ -284,8 +210,6 @@ def spinClockwise():
     """Spins the STS-PI clockwise. The client is asked to provide the speed and
     duration.
     """
-    enquireSpeedAndDuration()
-    clientAck()
     logger.info("Spin clockwise at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(speed * -1, speed, duration)
@@ -297,14 +221,12 @@ def getTimeStamp():
     
 def takePhoto():
     """Takes a photo using the camera on the front of the STS-PI. The photo
-    file is saved in the Rover folder on the Desktop.
+    file is saved in the Rover folder on the Desktop. The camera must not
+    currently be in use.
     """
     global cameraInUse
     cameraInUse = True
-    clientAck()
-    sendMessage("Camera in use")    
     filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_photo.jpg'
-    sendMessage("Creating photo with filename: " + filename)
     logger.info("Taking photo, image will be saved as: {}".format(filename),
                 extra={"clientId":clientInfo})
     try:
@@ -316,20 +238,16 @@ def takePhoto():
         camera.stop_preview()
         explorerhat.light.green.off()
         cameraInUse = False
-        sendMessage("Camera available")
         logger.info("Photo finished", extra={"clientId":clientInfo})
 
 def takeVideo(length):
     """Takes a video using the camera on the front of the STS-PI. The client is
     asked to provide the duration. The video file is saved in the Rover folder
-    on the Desktop.
+    on the Desktop. The camera must not currently be in use.
     """
     global cameraInUse
     cameraInUse = True
-    clientAck()
-    sendMessage("Camera in use")
     filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_video.h264'
-    sendMessage("Creating video with filename " + filename)
     logger.info("Taking video. Video will be saved as: {}".format(filename),
                 extra={"clientId":clientInfo})
 
@@ -344,7 +262,6 @@ def takeVideo(length):
         camera.stop_preview()
         explorerhat.light.green.off()
         cameraInUse = False
-        sendMessage("Camera available")
         logger.debug("Video finished", extra={"clientId":clientInfo})
 
 def closeDown():
@@ -369,140 +286,135 @@ def restart():
     explorerhat.light.off()
     os.system("sudo reboot")
 
-def buttonPressed(channel, event):
-    """Informs the client that a button has been pressed or released.
-    Keyword arguments:
-    channel -- The button number
-    event -- pressed or released.
+def wii_rumble(length):
+    """ This will vibrate the Wiimote.
+        length -- Amount of time to vibrate
     """
-    if connected:
-        sendMessage("Button" + str(channel))
-        logger.info("Button Channel={} Event={}".format(channel, event),
-                    extra={"clientId":clientInfo})
-    else:
-        logger.info("Button Channel={} Event={}".format(channel, event),
-                    extra={"clientId":""})
-    if channel == 1:
+    wii.rumble = 1
+    sleep(length)
+    wii.rumble = 0
+
+def buttonPressed(channel, event):
+    """ Action to be taken upon each button press
+    """
+    logger.debug("Button = {} Pressed Event = {}".format(channel, event),
+                 extra={"clientId":clientInfo})    
+
+    if (channel == 3):
         setStopTime(0)
-        global stayConnected
-        stayConnected = False
-    if channel == 3:
-        setStopTime(0)
+        logger.warn("Stopped - Button 3 pressed while moving.",
+                 extra={"clientId":clientInfo})
+
     if channel == 7:
         restart()
-    if channel == 8:
+        logger.warn("Reboot selected on Explorer Hat",
+                    extra={"clientId":clientInfo})
+
+    elif (channel == 8):
+        logger.warn("Shutdown selected on Explorer Hat",
+                    extra={"clientId":clientInfo})
         closeDown()
 
-def enquireValue(valueRequired):
-    """Asks the client for an integer value and returns it
+    sleep(0.1)
 
-    Keyword arguments:
-    valueRequired -- Prompt for which value is required from the client.
-    """
-    try:
-        sendMessage(valueRequired + "?")
-        logger.info(valueRequired + " requested", extra={"clientId":clientInfo})
-        val = clientSocket.recv(size)
-        value = int.from_bytes(val, byteorder="big")
-        logger.info("Value received = {}".format(value), extra={"clientId":clientInfo})
-        return value
-    except Exception as e:
-        logger.exception("Problem requesting value=",
-                         extra={"clientId":clientInfo})
+#Function to call if a button on the Explorer Hat is pressed.
+explorerhat.touch.pressed(buttonPressed)
 
-def enquireSpeedAndDuration():
-    """Asks the client for the speed and duration to be applied to the movement
-    requested by the client.
-    """
-    global speed, duration
-    #speed = enquireValue("Speed")
-    #duration = enquireValue("Duration")
-    #logger.info("Speed={} Duration={}".format(speed, duration),
-    #            extra={"clientId":clientInfo})
-    speed = 10
-    duration = 0.3
+# Set up the Wii Bluetooth connection
+explorerhat.light.blue.blink()
 
 button_delay = 0.3
 
 print('Please press buttons 1 + 2 on your Wiimote now ...')
 time.sleep(1)
 
-# This code attempts to connect to your Wiimote and if it fails the program quits
 try:
-  wii=cwiid.Wiimote()
+    wii=cwiid.Wiimote()
 except RuntimeError:
-  print("Cannot connect to your Wiimote. Run again and make sure you are holding buttons 1 + 2!")
-  quit()
+    logger.error("Cannot connect to your Wiimote. Run again and make sure" +
+                 " you are holding buttons 1 + 2!",
+                 extra={"clientId":clientInfo})
+    quit()
 
+explorerhat.light.blue.on()
 wii.led = 1
 
-print('Wiimote connection established!\n')
-print('Go ahead and press some buttons\n')
-print('Press PLUS and MINUS together to disconnect and quit.\n')
+logger.info('Wiimote connection established!', extra={"clientId":clientInfo})
+
+print('Press PLUS and MINUS together to disconnect and quit.')
 
 time.sleep(2)
 
 wii.rpt_mode = cwiid.RPT_BTN
 
-while True:
 
-  buttons = wii.state['buttons']
+while not exiting:
+ 
+    buttons = wii.state['buttons']
 
-  # Detects whether + and - are held down and if they are it quits the program
-  if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
-    print('\nClosing connection ...')
-    # NOTE: This is how you RUMBLE the Wiimote
-    wii.rumble = 1
-    time.sleep(1)
-    wii.rumble = 0
-    exit(wii)
+    # Detects whether + and - are held down and if they are it quits the program
+    if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):
+        logger.info('\nClosing connection ...', extra={"clientId":clientInfo})
+        exiting = True
+        try:
+            wii.close()
+            logger.info('Exiting program', extra={"clientId":clientInfo})
+            quit()
 
-  # The following code detects whether any of the Wiimotes buttons have been pressed and then prints a statement to the screen!
-  if (buttons & cwiid.BTN_LEFT):
-    print('Left pressed')
+        except SystemError as re:
+            print('ERROR:', re)
+
+    if (buttons & cwiid.BTN_LEFT):
+        spinAntiClockwise()
+    elif (buttons & cwiid.BTN_RIGHT):
+        spinClockwise()
+    elif (buttons & cwiid.BTN_UP):
+        forwards()
+    elif (buttons & cwiid.BTN_DOWN):
+        backwards()
+    else:
+        setStopTime(0)
+    
+    if (buttons & cwiid.BTN_1):
+        if (cameraInUse):
+            logger.info('Cannot take picture as camera is in use.',
+                        extra={"clientId":clientInfo})
+        else:
+            takePhoto()
+
+    if (buttons & cwiid.BTN_2):
+        if (cameraInUse):
+            logger.info('Cannot take video as camera is in use.',
+                        extra={"clientId":clientInfo})
+        else:
+            takeVideo(10)
+
+    if (buttons & cwiid.BTN_A):
+        speed += 10
+        if (speed > 100):
+            speed = 100
+            logger.debug('Max speed achieved.', extra={"clientId":clientInfo})
+        else:
+            logger.info('Speed increased to {}%'.format(speed),
+                        extra={"clientId":clientInfo})
+            
+    if (buttons & cwiid.BTN_B):
+        speed -= 10
+        if (speed < 0):
+            speed = 0
+            logger.debug('Minimum speed achieved.', extra={"clientId":clientInfo})
+
+        logger.info('Speed decreased to {}%'.format(speed),
+                    extra={"clientId":clientInfo})
+
+    # Test for wii controller motion sensing.
+    if (buttons & cwiid.BTN_HOME):
+        wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
+        check = 0
+        while check == 0:
+            print(wii.state['acc'])
+            time.sleep(0.01)
+            check = (buttons & cwiid.BTN_HOME)
+
     time.sleep(button_delay)
 
-  if(buttons & cwiid.BTN_RIGHT):
-    print('Right pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_UP):
-    forwards()
-    time.sleep(button_delay)    
-
-  if (buttons & cwiid.BTN_DOWN):
-    print('Down pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_1):
-    print('Button 1 pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_2):
-    print('Button 2 pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_A):
-    print('Button A pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_B):
-    print('Button B pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_HOME):
-    wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
-    check = 0
-    while check == 0:
-      print(wii.state['acc'])
-      time.sleep(0.01)
-      check = (buttons & cwiid.BTN_HOME)
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_MINUS):
-    print('Minus Button pressed')
-    time.sleep(button_delay)
-
-  if (buttons & cwiid.BTN_PLUS):
-    print('Plus Button pressed')
-    time.sleep(button_delay)
