@@ -1,0 +1,116 @@
+{
+	"objName": "Stage",
+	"sounds": [{
+			"soundName": "whistle",
+			"soundID": 3,
+			"md5": "6e061c55bfca8f466ff51db5c71711aa.wav",
+			"sampleCount": 32640,
+			"rate": 22050,
+			"format": ""
+		}],
+	"costumes": [{
+			"costumeName": "backdrop",
+			"baseLayerID": 3,
+			"baseLayerMD5": "a8f1a65985fea50f196f158575aea00f.png",
+			"bitmapResolution": 2,
+			"rotationCenterX": 480,
+			"rotationCenterY": 360
+		}],
+	"currentCostumeIndex": 0,
+	"penLayerMD5": "5c81a336fab8be57adc039a8a2b33ca9.png",
+	"penLayerID": 0,
+	"tempoBPM": 60,
+	"videoAlpha": 0.5,
+	"children": [{
+			"target": "Soccer Ball",
+			"cmd": "xpos",
+			"param": null,
+			"color": 4877524,
+			"label": "Soccer Ball: x position",
+			"mode": 1,
+			"sliderMin": 0,
+			"sliderMax": 100,
+			"isDiscrete": true,
+			"x": 5,
+			"y": 59,
+			"visible": false
+		},
+		{
+			"objName": "Goalie",
+			"sounds": [{
+					"soundName": "pop",
+					"soundID": 0,
+					"md5": "83a9787d4cb6f3b7632b4ddfebf74367.wav",
+					"sampleCount": 258,
+					"rate": 11025,
+					"format": ""
+				}],
+			"costumes": [{
+					"costumeName": "penguin1",
+					"baseLayerID": 1,
+					"baseLayerMD5": "c7c70d3934743de8973c992b8f295c1b.svg",
+					"bitmapResolution": 1,
+					"rotationCenterX": 33,
+					"rotationCenterY": 37
+				}],
+			"currentCostumeIndex": 0,
+			"scratchX": 0,
+			"scratchY": 50,
+			"scale": 1.3000000000000005,
+			"direction": 90,
+			"rotationStyle": "normal",
+			"isDraggable": false,
+			"indexInLibrary": 2,
+			"visible": true,
+			"spriteInfo": {
+			}
+		},
+		{
+			"objName": "Soccer Ball",
+			"sounds": [{
+					"soundName": "rattle",
+					"soundID": 1,
+					"md5": "74f1c07e0bcd7811fd9d456a5f8667f8.wav",
+					"sampleCount": 13184,
+					"rate": 22050,
+					"format": ""
+				},
+				{
+					"soundName": "cheer",
+					"soundID": 2,
+					"md5": "4b36eebf22be4667fc2f15b78c805b4c.wav",
+					"sampleCount": 62528,
+					"rate": 22050,
+					"format": ""
+				}],
+			"costumes": [{
+					"costumeName": "soccer ball",
+					"baseLayerID": 2,
+					"baseLayerMD5": "73d6bb77ce9b0b94ae6898b9e1f7a091.png",
+					"bitmapResolution": 2,
+					"rotationCenterX": 63,
+					"rotationCenterY": 66
+				}],
+			"currentCostumeIndex": 0,
+			"scratchX": -200,
+			"scratchY": -140,
+			"scale": 1,
+			"direction": 90,
+			"rotationStyle": "none",
+			"isDraggable": false,
+			"indexInLibrary": 1,
+			"visible": true,
+			"spriteInfo": {
+			}
+		}],
+	"info": {
+		"projectID": "109833197",
+		"scriptCount": 0,
+		"swfVersion": "v445.1",
+		"spriteCount": 2,
+		"flashVersion": "MAC 21,0,0,174",
+		"hasCloudData": false,
+		"videoOn": false,
+		"userAgent": "Scratch 2.0 Offline Editor"
+	}
+}
