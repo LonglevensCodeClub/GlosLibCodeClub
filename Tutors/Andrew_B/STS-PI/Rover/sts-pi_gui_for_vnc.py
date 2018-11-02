@@ -169,7 +169,7 @@ def takeVideo():
     try:
         camera.start_preview()
         explorerhat.light.green.blink(0.5)
-        camera.start_recording('/home/pi/Desktop/video.h264')
+        camera.start_recording(filename)
         explorerhat.light.green.on()
         sleep(duration)
         camera.stop_recording()
