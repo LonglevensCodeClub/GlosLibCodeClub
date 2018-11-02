@@ -229,7 +229,6 @@ def forwards():
     """
     logger.info("Forwards command received",  extra={"clientId":clientInfo})
     enquireSpeedAndDuration()
-    #clientAck()
     logger.info("Forwards at {}% for {} seconds".format(speed, duration),
                 extra={"clientId":clientInfo})
     move(speed, speed, duration)
