@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python2
 
 """ Module to use a Wii remote control control the STS-PI rover using
 the Raspberry Pi with Bluetooth MAC address: B8:27:EB:2D:16:29 (RPi 2)
@@ -17,25 +17,28 @@ CONTROLS
 ========
 The following controls can be used to direct with the rover:
 
-Forwards - Up Button (Cross buttons)
-Backwards - Down Button (Cross buttons)
-Spin Clockwise - Right Button (Cross buttons)
-Spin Anti-clockwise - Left Button (Cross buttons)
-Accelerate - Button A
-Brake - Button B
-Stop  - No Wii buttons pressed. Button 3 on the Explorer Hat
-Photo - Button 1
-Video - Button 2
+Forwards - Up Button (Wii Cross buttons)
+Backwards - Down Button (Wii Cross buttons)
+Spin Clockwise - Right Button (Wii Cross buttons)
+Spin Anti-clockwise - Left Button (Wii Cross buttons)
+Accelerate - Wii Button A
+Brake - Wii Button B
+Stop  - No Wii direction buttons pressed. Button 3 on the Explorer Hat
+Photo - Wii Button 1
+Video - Wii Button 2
+
 
 STATUS
 ======
-While the rover is waiting for a Wii controller connection, the blue LED
-will flash. Once a connection is made, the LED will be continuous blue.
+While the rover is waiting for a Wii controller connection, the blue Explorer
+Hat LED will flash. Once a connection is made, the LED will be continuous blue.
+The Wii Controller will have blue flashing LEDs until connection is made, when
+one blue LED will remain lit.
 
-When the camera is in use, the green LED will be lit. Camera photo or
-video requests cannot happen while the camera is already in use.
+When the camera is in use, the Explorer Hat green LED will be lit. Camera photo
+or video requests cannot happen while the camera is already in use.
 
-When the rover is moving the red LED will flash.
+When the rover is moving the Explorer Hat red LED will flash.
 
 """
 
@@ -61,16 +64,15 @@ logger.setLevel(logging.DEBUG)
 
 #Global speed and duration variables
 speed = 50
-duration = 1
+
+#Keep this fixed. Length of time for the main loop to process button commands. Any less and motion will be interrupted.
+duration = 0.4
 
 #Identity of the client
 clientInfo = "WiiRemote"
 
-# Flags to indicate motion is happening
-spinningRight = False
-spinningLeft = False
-goingForwards = False
-goingBackwards = False
+# Flag to indicate motion is happening
+moving = False
 
 #Pi Camera declaration
 try:
@@ -97,16 +99,17 @@ stayConnected = True
 #Flag to indicate the camera is being used.
 cameraInUse = False
 
-
 def stop():
     """Function to stop the STS-PI moving and re-enable the movement buttons.
     """
+    global moving
     logger.info("Stopping STS-PI", extra={"clientId":clientInfo})
     explorerhat.motor.one.stop()
     explorerhat.motor.two.stop()
     explorerhat.light.red.off()
     if not exiting:
         logger.debug("STS-PI Stopped", extra={"clientId":clientInfo})
+        moving = False
 
 def setStopTime(duration):
     """Sets the time at which the STS-PI will be stopped.
@@ -124,6 +127,7 @@ def waitForStop(duration):
     duration -- The amount of time in seconds from the current time when the
                 rover will be stopped.
     """
+    global endTime
     logger.info("Setting stop time in {} seconds".format(duration), 
                 extra={"clientId":clientInfo})
     explorerhat.light.red.blink(1)
@@ -139,9 +143,14 @@ def waitForStop(duration):
 def threadForStopping(duration):
     """Sets up a new thread for stopping the STS-PI after motion has started.
     """
-    t = threading.Thread(target=waitForStop, args=[duration])
-    t.setDaemon(True)
-    t.start()
+    global moving
+    if (not moving):
+        t = threading.Thread(target=waitForStop, args=[duration])
+        t.setDaemon(True)
+        moving = True
+        t.start()
+    else:
+        setStopTime(duration)
 
 def move(leftWheelSpeed, rightWheelSpeed, duration):
     """move the rover with given wheel speeds for the amount of time stated by
@@ -218,13 +227,25 @@ def getTimeStamp():
     """ Returns a timestamp in the format: YYYY_MMDD_hhmmss
     """
     return time.strftime("%Y_%m%d_%H%M%S")
-    
+
 def takePhoto():
+    """Sets up a new thread for taking a photo by STS-PI Rover.
+    """
+    t = threading.Thread(target=recordPhoto)
+    t.setDaemon(True)
+    t.start()
+    
+def recordPhoto():
     """Takes a photo using the camera on the front of the STS-PI. The photo
     file is saved in the Rover folder on the Desktop. The camera must not
-    currently be in use.
+    currently be in use. This function should not be called directly, use
+    TakePhoto instead to generate a thread so that the rover can keep moving.
     """
     global cameraInUse
+    if (cameraInUse):
+        logger.info("Camera is already in use, aborting photo request.",
+                        extra={"clientId":clientInfo})
+        return
     cameraInUse = True
     filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_photo.jpg'
     logger.info("Taking photo, image will be saved as: {}".format(filename),
@@ -240,15 +261,28 @@ def takePhoto():
         cameraInUse = False
         logger.info("Photo finished", extra={"clientId":clientInfo})
 
-def takeVideo(length):
+def takeVideo(duration):
+    """Sets up a new thread for taking a video by STS-PI Rover.
+    """
+    t = threading.Thread(target=recordVideo, args=[duration])
+    t.setDaemon(True)
+    t.start()
+
+def recordVideo(length):
     """Takes a video using the camera on the front of the STS-PI. The client is
     asked to provide the duration. The video file is saved in the Rover folder
-    on the Desktop. The camera must not currently be in use.
+    on the Desktop. The camera must not currently be in use. This function
+    should not be called directly, use TakeVideo instead to generate a thread so
+    that the rover can keep moving.
     """
     global cameraInUse
+    if (cameraInUse):
+        logger.info("Camera is already in use, aborting video request.",
+                    extra={"clientId":clientInfo})
+        return
     cameraInUse = True
     filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_video.h264'
-    logger.info("Taking video. Video will be saved as: {}".format(filename),
+    logger.info("Taking {} second video. Video will be saved as: {}".format(length, filename),
                 extra={"clientId":clientInfo})
 
     try:
@@ -376,17 +410,9 @@ while not exiting:
         setStopTime(0)
     
     if (buttons & cwiid.BTN_1):
-        if (cameraInUse):
-            logger.info('Cannot take picture as camera is in use.',
-                        extra={"clientId":clientInfo})
-        else:
             takePhoto()
 
     if (buttons & cwiid.BTN_2):
-        if (cameraInUse):
-            logger.info('Cannot take video as camera is in use.',
-                        extra={"clientId":clientInfo})
-        else:
             takeVideo(10)
 
     if (buttons & cwiid.BTN_A):
