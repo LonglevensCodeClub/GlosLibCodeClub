@@ -2,16 +2,16 @@
 	"objName": "Stage",
 	"sounds": [{
 			"soundName": "pop",
-			"soundID": 1,
+			"soundID": 0,
 			"md5": "83a9787d4cb6f3b7632b4ddfebf74367.wav",
 			"sampleCount": 258,
 			"rate": 11025,
 			"format": ""
 		}],
 	"costumes": [{
-			"costumeName": "background",
+			"costumeName": "backdrop1",
 			"baseLayerID": 2,
-			"baseLayerMD5": "6971c464666fa2b0e9623eeff18593b2.png",
+			"baseLayerMD5": "64c91cedb333f3e865f18ceb230075bb.png",
 			"bitmapResolution": 2,
 			"rotationCenterX": 480,
 			"rotationCenterY": 360
@@ -22,27 +22,27 @@
 	"tempoBPM": 60,
 	"videoAlpha": 0.5,
 	"children": [{
-			"objName": "Arrow",
+			"objName": "boat",
 			"sounds": [{
-					"soundName": "cheer",
+					"soundName": "pop",
 					"soundID": 0,
-					"md5": "4b36eebf22be4667fc2f15b78c805b4c.wav",
-					"sampleCount": 62528,
-					"rate": 22050,
+					"md5": "83a9787d4cb6f3b7632b4ddfebf74367.wav",
+					"sampleCount": 258,
+					"rate": 11025,
 					"format": ""
 				}],
 			"costumes": [{
-					"costumeName": "costume1",
+					"costumeName": "normal",
 					"baseLayerID": 1,
-					"baseLayerMD5": "87a30d562b883b0dfe2ed5069e6e2cc1.svg",
-					"bitmapResolution": 1,
-					"rotationCenterX": 12,
-					"rotationCenterY": 13
+					"baseLayerMD5": "bc94d08b8e0753eeff0f67c6e5abe107.png",
+					"bitmapResolution": 2,
+					"rotationCenterX": 183,
+					"rotationCenterY": 104
 				}],
 			"currentCostumeIndex": 0,
-			"scratchX": 32,
-			"scratchY": -23,
-			"scale": 1,
+			"scratchX": -190,
+			"scratchY": -150,
+			"scale": 0.20000000000000015,
 			"direction": 90,
 			"rotationStyle": "normal",
 			"isDraggable": false,
@@ -52,13 +52,13 @@
 			}
 		}],
 	"info": {
-		"videoOn": false,
-		"projectID": "114984085",
-		"flashVersion": "MAC 22,0,0,209",
-		"userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/52.0.2743.116 Safari\/537.36",
 		"scriptCount": 0,
-		"swfVersion": "v448",
+		"flashVersion": "LNX 19,0,0,245",
+		"userAgent": "Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/47.0.2526.73 Safari\/537.36",
 		"spriteCount": 1,
-		"hasCloudData": false
+		"hasCloudData": false,
+		"projectID": "63958014",
+		"swfVersion": "v449",
+		"videoOn": false
 	}
 }
