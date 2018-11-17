@@ -24,7 +24,7 @@ def init():
 
 def makeLamp(mc, x, y, z):
     mc.setBlocks(x, y, z, x, +5, z, block.FENCE.id)
-    mc.setBlocks(x, y+5, z, x, +6, z, block.GLOWSTONE_BLOCK.id)
+    mc.setBlocks(x, y+5, z, x, +5, z, block.GLOWSTONE_BLOCK.id)
 
 ###########################################################
 #
@@ -112,6 +112,7 @@ makeShop(mc, x+7, y, z+4)
 makeLamp(mc, x+4, y, z+9) 
 makeHouse(mc, x+7, y, z+14)
 makeShop(mc, x+14, y, z+4)
+makeLamp(mc, x-4, y, z+9)
 makeHouse(mc, x+14, y, z+14)
 makeShop(mc, x-7, y, z+4)
 makeHouse(mc, x-7, y, z+14)
