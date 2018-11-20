@@ -8,7 +8,7 @@ import time
 # URLs that provide JSON data containing information about the ISS.
 astronautsUrl    = 'http://api.open-notify.org/astros.json'
 positionUrl      = 'http://api.open-notify.org/iss-now.json'
-timesOverheadUrl = 'http://api.open-notify.org/iss-pass.json?lon={}&lat={}&n={}'
+timesOverheadUrl = 'http://api.open-notify.org/iss-pass.json?lat={}&lon={}&n={}'
 
 def loadJsonFromUrl(url):
     """ Returns the JSON provided by the given URL. """
