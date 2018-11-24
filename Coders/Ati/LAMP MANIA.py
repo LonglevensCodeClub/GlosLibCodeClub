@@ -16,7 +16,7 @@ def init():
         # We need room along the z axis for the steet
         z = 70
     mc.setBlocks(x-20, -1, z-2, x+20, 50, z+58, block.AIR.id)
-    mc.setBlocks(x-15, -1, z-2, x+15, -1, z+58, block.GRASS.id)
+    mc.setBlocks(x-15, -1, z-2, x+15, -1, z+58, block.FARMLAND.id)
     mc.setBlocks(x-2, -1, z-2, x+2, -1, z+58, block.STONE.id)
     mc.player.setPos(x, 0, z)
     return mc
@@ -36,6 +36,8 @@ def makeHouse(mc, x, y, z):
     # Build the shell
     mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.BRICK_BLOCK.id)
     mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
+    mc.setBlocks(x-2, y-1, z-3, x+3, y-1, z+3, block.STONE_SLAB_DOUBLE.id)
+    
 
     # Add the roof
     mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
@@ -69,6 +71,7 @@ def makeShop(mc, x, y, z):
     # Build the shell
     mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.STONE_SLAB_DOUBLE.id)
     mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
+    mc.setBlocks(x-2, y-1, z-3, x+3, y-1, z+3, block.STONE_SLAB_DOUBLE.id)
 
     # Add the roof
     mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
