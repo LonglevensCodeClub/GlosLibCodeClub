@@ -1,0 +1,81 @@
+{
+	"objName": "Stage",
+	"variables": [{
+			"name": "power",
+			"value": 0,
+			"isPersistent": false
+		}],
+	"costumes": [{
+			"costumeName": "backdrop1",
+			"baseLayerID": 3,
+			"baseLayerMD5": "b61b1077b0ea1931abee9dbbfa7903ff.png",
+			"bitmapResolution": 2,
+			"rotationCenterX": 480,
+			"rotationCenterY": 360
+		}],
+	"currentCostumeIndex": 0,
+	"penLayerMD5": "5c81a336fab8be57adc039a8a2b33ca9.png",
+	"penLayerID": 0,
+	"tempoBPM": 60,
+	"videoAlpha": 0.5,
+	"children": [{
+			"objName": "Snowball",
+			"sounds": [{
+					"soundName": "woosh_1",
+					"soundID": 0,
+					"md5": "41a268aacf607d0745e075b7b7b668c2.wav",
+					"sampleCount": 11520,
+					"rate": 22050,
+					"format": "adpcm"
+				}],
+			"costumes": [{
+					"costumeName": "snowball",
+					"baseLayerID": 1,
+					"baseLayerMD5": "d8e9397e13f2ad5f766594291a578022.png",
+					"bitmapResolution": 2,
+					"rotationCenterX": 33,
+					"rotationCenterY": 31
+				},
+				{
+					"costumeName": "snowball-aim",
+					"baseLayerID": 2,
+					"baseLayerMD5": "d52a61667c730241296e2b7d647134f2.png",
+					"bitmapResolution": 2,
+					"rotationCenterX": 33,
+					"rotationCenterY": 31
+				}],
+			"currentCostumeIndex": 0,
+			"scratchX": -200,
+			"scratchY": -150,
+			"scale": 0.65,
+			"direction": 52.624192504451834,
+			"rotationStyle": "normal",
+			"isDraggable": false,
+			"indexInLibrary": 1,
+			"visible": true,
+			"spriteInfo": {
+			}
+		},
+		{
+			"target": "Stage",
+			"cmd": "getVar:",
+			"param": "power",
+			"color": 15629590,
+			"label": "power",
+			"mode": 3,
+			"sliderMin": 0,
+			"sliderMax": 20,
+			"isDiscrete": true,
+			"x": 6.75,
+			"y": 240.8,
+			"visible": false
+		}],
+	"info": {
+		"videoOn": false,
+		"projectID": "35172420",
+		"scriptCount": 0,
+		"swfVersion": "v436",
+		"spriteCount": 1,
+		"flashVersion": "MAC 17,0,0,157"
+	}
+}

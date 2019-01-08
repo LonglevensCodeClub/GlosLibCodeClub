@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+function draw() {
+    // drawing code
+}
+setInterval(draw, 10);
+<html>
+
