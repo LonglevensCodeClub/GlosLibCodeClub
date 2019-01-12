@@ -1,8 +1,9 @@
 from turtle import *
 from random import randint
+import time
 
 #Lists of names and colours of the racing turtles
-names   = ['Ada','Ann',       'Kay',  'Aisha',  'Bob',  'Kev',   'Elliot', 'May',   'Andrew']
+names   = ['Ada','Ann',       'Kay',  'Aisha', 'Bob',  'Kev',   'Elliot', 'May',   'Andrew']
 colours = ['red','turquoise', 'pink', 'purple', 'blue', 'green', 'orange', 'black', 'yellow']
 
 # Show racing grid
@@ -50,6 +51,8 @@ for turn in range(100):
     i = 0
     for turtle in turtles :
         turtle.forward(randint(1, 5))
+        if (i == 3):
+            turtle.form
         [x, y] = turtle.position()
         if x > leaderXpos:
             leaderXpos = x
@@ -70,6 +73,9 @@ leader.forward(30)
 
 #Winner victory loops
 turtles[winningTurtle].penup()
-for p in range(360):
-    turtles[winningTurtle].right(2)
-    turtles[winningTurtle].forward(3)
+for p in range(80):
+    turtles[winningTurtle].left(90)
+    turtles[winningTurtle].right(90)
+    time.sleep(0.1)
+    turtles[winningTurtle].forward(20)
+    turtles[winningTurtle].backward(20)
