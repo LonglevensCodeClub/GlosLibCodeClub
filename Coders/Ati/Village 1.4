@@ -22,6 +22,9 @@ def init():
     return mc
 #make the lamp
 
+def makePalace(mc, x, y, z):
+    mc.setBlocks(x, y, z, x, +5, z, block.DAIMOND_blockid)
+
 def makeLamp(mc, x, y, z):
     mc.setBlocks(x, y, z, x, +5, z, block.FENCE.id)
     mc.setBlocks(x, y+5, z, x, +5, z, block.GLOWSTONE_BLOCK.id)
