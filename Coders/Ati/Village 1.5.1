@@ -15,16 +15,13 @@ def init():
     if z > 70:
         # We need room along the z axis for the steet
         z = 70
-    mc.setBlocks(x-1, -2, z-2, x+1, 50, z-1, block.AIR.id)
     mc.setBlocks(x-20, -1, z-2, x+20, 50, z+58, block.AIR.id)
     mc.setBlocks(x-15, -1, z-2, x+15, -1, z+58, block.GRASS.id)
-    mc.setBlocks(x-2, -1, z-2, x+2, -1, z+58, block.STONE.id)
+    mc.setBlocks(x-2, -1, z-2, x+2, -1, z+58, block.WOOD_PLANKS.id)
+    mc.setBlocks(x-1, -1, z-2, x+1, -1, z+58, block.STONE.id)
     mc.player.setPos(x, 0, z)
     return mc
 #make the lamp
-
-def makePalace(mc, x, y, z):
-    mc.setBlocks(x, y, z, x, +5, z, block.DAIMOND_blockid)
 
 def makeLamp(mc, x, y, z):
     mc.setBlocks(x, y, z, x, +5, z, block.FENCE.id)
@@ -38,9 +35,17 @@ def makeLamp(mc, x, y, z):
 ###########################################################
 def makeHouse(mc, x, y, z):
     # Build the shell
-    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.LAVA.id)
+    mc.setBlocks(x-2, y, z-3, x+3, y+2, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-2, y, z-3, x+3, y, z+3, block.WOOD_PLANKS.id)
     mc.setBlocks(x-1, y, z-2, x+2, y+2, z+2, block.AIR.id)
     mc.setBlocks(x-2, y-1, z-3, x+3, y-1, z+3, block.STONE_SLAB_DOUBLE.id)
+    mc.setBlocks(x-2, y, z-3, x-2, y+2, z-3, block.WOOD_PLANKS.id)
+    mc.setBlocks(x+3, y, z+3, x+3, y+2, z+3, block.WOOD_PLANKS.id)
+    mc.setBlocks(x-2, y, z+3, x+3, y+2, z+3, block.WOOD_PLANKS.id)
+    mc.setBlocks(x+3, y, z-3, x+3, y+2, z-3, block.WOOD_PLANKS.id)
+    
+    
+    
 
     # Add the roof
     mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
@@ -51,10 +56,10 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x+1, y+5, z-3, x+1, y+5, z+3, block.STAIRS_WOOD.id, 1)
 
     # Fill in each end of the roof
-    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.LAVA.id)
-    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.LAVA.id)
-    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.LAVAid)
-    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.LAVA.id)
+    mc.setBlocks(x-1, y+3, z-3, x+2, y+3, z-3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x, y+4, z-3, x+1, y+4, z-3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x-1, y+3, z+3, x+2, y+3, z+3, block.BRICK_BLOCK.id)
+    mc.setBlocks(x, y+4, z+3, x+1, y+4, z+3, block.BRICK_BLOCK.id)
     
     # Add doors front and rear and pathways
     mc.setBlock(x-2, y, z-1, block.DOOR_WOOD.id, 0)
@@ -123,13 +128,13 @@ makeShop(mc, x+14, y, z+4)
 makeLamp(mc, x+4, y, z+19) 
 makeHouse(mc, x+14, y, z+14)
 makeLamp(mc, x-4, y, z+29)
-makeShop(mc, x-7, y, z+4)
+makeShop(mc, x-8, y, z+4)
 makeLamp(mc, x+4, y, z+29) 
-makeHouse(mc, x-7, y, z+14)
+makeHouse(mc, x-8, y, z+14)
 makeLamp(mc, x-4, y, z+39) 
-makeShop(mc, x-14, y, z+4)
+makeShop(mc, x-15, y, z+4)
 makeLamp(mc, x+4, y, z+39) 
-makeHouse(mc, x-14, y, z+14)
+makeHouse(mc, x-15, y, z+14)
 makeLamp(mc, x-11, y, z+9) 
 makeShop(mc, x+7, y, z+24)
 makeLamp(mc, x+11, y, z+9) 
@@ -139,13 +144,13 @@ makeShop(mc, x+14, y, z+24)
 makeLamp(mc, x-11, y, z+19) 
 makeHouse(mc, x+14, y, z+34)
 makeLamp(mc, x-11, y, z+29) 
-makeShop(mc, x-7, y, z+24)
+makeShop(mc, x-8, y, z+24)
 makeLamp(mc, x+11, y, z+29) 
-makeHouse(mc, x-7, y, z+34)
+makeHouse(mc, x-8, y, z+34)
 makeLamp(mc, x-11, y, z+39) 
-makeShop(mc, x-14, y, z+24)
+makeShop(mc, x-15, y, z+24)
 makeLamp(mc, x+11, y, z+39) 
-makeHouse(mc, x-14, y, z+34)
+makeHouse(mc, x-15, y, z+34)
 
 
 
