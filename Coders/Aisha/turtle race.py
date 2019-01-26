@@ -49,10 +49,11 @@ winningTurtle = 0
 #Run the race
 for turn in range(100):
     i = 0
+
     for turtle in turtles :
         turtle.forward(randint(1, 5))
-        if (i == 3):
-            turtle.form
+#        if (i == 3):
+#            turtle.form
         [x, y] = turtle.position()
         if x > leaderXpos:
             leaderXpos = x
