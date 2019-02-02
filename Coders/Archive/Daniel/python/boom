@@ -2,10 +2,18 @@
 import time
 import math
 import mcpi.minecraft as minecraft
-from mcpi.block import *
+import mcpi.block as block
 mc = minecraft.Minecraft.create("localhost")
 
-while True:
-	if mc.events.pollBlockHits():
-		x,y,z = mc.player.getPos()
-		mc.setBlocks (x-10,y-10,z-10,x,y,z,46,1)
+x,y,z = mc.player.getPos()
+
+mc.setBlock (x, y, z, block.WOOD)
+
+print("Finished!")
+
+#while True:
+#	if mc.events.pollBlockHits():
+#		x,y,z = mc.player.getPos()
+#		mc.setBlocks (x-10, y-10, z-10,
+#		              x,    y,    z,
+#		              46, 1)
