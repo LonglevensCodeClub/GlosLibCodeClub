@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from mcpi.minecraft import Minecraft
 from mcpi import block
+from time import sleep
 
 ###########################################################
 #
@@ -44,9 +45,6 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x-2, y, z+3, x-2, y+2, z+3, block.WOOD_PLANKS.id)
     mc.setBlocks(x+3, y, z-3, x+3, y+2, z-3, block.WOOD_PLANKS.id)
     
-    
-    
-
     # Add the roof
     mc.setBlocks(x-2, y+3, z-3, x-2, y+3, z+3, block.STAIRS_WOOD.id, 0)
     mc.setBlocks(x+3, y+3, z-3, x+3, y+3, z+3, block.STAIRS_WOOD.id, 1)
@@ -74,6 +72,49 @@ def makeHouse(mc, x, y, z):
     mc.setBlocks(x+3, y+1, z, x+3, y+1, z-1, block.GLASS.id)
     mc.setBlocks(x, y+1, z-3, x+1, y+1, z-3, block.GLASS.id)
     mc.setBlocks(x, y+1, z+3, x+1, y+1, z+3, block.GLASS.id)
+    
+def makeTower(mc, x, y, z):
+    
+    floors = 4
+    floor_height = 4
+    
+    for floor in range(floors):
+        floor_base = y + floor_height * floor
+        # Build the shell for one floor
+        mc.setBlocks(x-2, floor_base, z-3, x+3, floor_base+3, z+3, block.BRICK_BLOCK.id)
+        mc.setBlocks(x-2, floor_base, z-3, x+3, floor_base, z+3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x-1, floor_base, z-2, x+2, floor_base+2, z+2, block.AIR.id)
+        mc.setBlocks(x-2, floor_base-1, z-3, x+3, floor_base-1, z+3, block.STONE_SLAB_DOUBLE.id)
+        #Pillars
+        mc.setBlocks(x-2, floor_base, z-3, x-2, floor_base+2, z-3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x+3, floor_base, z+3, x+3, floor_base+2, z+3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x-2, floor_base, z+3, x-2, floor_base+2, z+3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x+3, floor_base, z-3, x+3, floor_base+2, z-3, block.WOOD_PLANKS.id)
+        #Floor
+        mc.setBlocks(x-2, floor_base+3, z-3, x+3, floor_base+3, z+3, block.WOOD_PLANKS.id)
+        
+        # Add Windows
+        mc.setBlocks(x-2, floor_base+1, z, x-2, floor_base+1, z+1, block.GLASS.id)
+        mc.setBlocks(x+3, floor_base+1, z, x+3, floor_base+1, z-1, block.GLASS.id)
+        mc.setBlocks(x, floor_base+1, z-3, x+1, floor_base+1, z-3, block.GLASS.id)
+        mc.setBlocks(x, floor_base+1, z+3, x+1, floor_base+1, z+3, block.GLASS.id)
+        
+        print ("Pos:", x, y, z)
+        for step in range(floor_height):
+            print("step", step)
+            mc.setBlock(x+step, y+floor_base+step, z, block.STAIRS_WOOD.id, 0)
+        # For Ati next Week
+        # Make air blocks at top of stairs
+            
+    
+    # Add doors front and rear and pathways
+    mc.setBlock(x-2, y, z-1, block.DOOR_WOOD.id, 0)
+    mc.setBlock(x-2, y+1, z-1, block.DOOR_WOOD.id, 8)
+    mc.setBlock(x+3, y, z+1, block.DOOR_WOOD.id, 2)
+    mc.setBlock(x+3, y+1, z+1, block.DOOR_WOOD.id, 10)
+    mc.setBlocks(x-3, y-1, z-1, x-4, y-1, z-1, block.STONE.id)
+    mc.setBlocks(x+4, y-1, z+1, x+5, y-1, z+1, block.STONE.id)
+
 
 def makeShop(mc, x, y, z):
     # Build the shell
@@ -126,7 +167,7 @@ makeHouse(mc, x+7, y, z+14)
 makeLamp(mc, x-4, y, z+19)
 makeShop(mc, x+14, y, z+4)
 makeLamp(mc, x+4, y, z+19) 
-makeHouse(mc, x+14, y, z+14)
+makeTower(mc, x+14, y, z+14)
 makeLamp(mc, x-4, y, z+29)
 makeShop(mc, x-8, y, z+4)
 makeLamp(mc, x+4, y, z+29) 
