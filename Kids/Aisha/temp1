@@ -1,0 +1,7 @@
+from sense_hat import SenseHat
+sense = SenseHat()
+
+
+temp = round( sense.get_temperature(),1)
+
+sense.show_message( "hi i Aisha " +str(temp) )
