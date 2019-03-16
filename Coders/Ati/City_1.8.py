@@ -84,17 +84,17 @@ def makeTower(mc, x, y, z):
         mc.setBlocks(x-1, floors * floor_height, z-2, x-1, floors * floor_height+3, z-2, block.IRON_BLOCK.id)
         mc.setBlocks(x-1, floors * floor_height+3, z-2, x-1, floors * floor_height+3, z-2, block.FURNACE_ACTIVE.id)
         mc.setBlocks(x-2, floor_base, z-3, x+3, floor_base+3, z+3, block.IRON_BLOCK.id)
-        mc.setBlocks(x-2, floor_base, z-3, x+3, floor_base, z+3, block.BEDROCK.id)
+        mc.setBlocks(x-2, floor_base, z-3, x+3, floor_base, z+3, block.WOOD_PLANKS.id)
         mc.setBlocks(x-1, floor_base, z-2, x+2, floor_base+2, z+2, block.AIR.id)
-        mc.setBlocks(x-2, floor_base-1, z-3, x+3, floor_base-1, z+3, block.BEDROCK.id)
+        mc.setBlocks(x-2, floor_base-1, z-3, x+3, floor_base-1, z+3, block.WOOD_PLANKS.id)
         mc.setBlocks(x-2, y-1, z-3, x+3, y-1, z+3, block.STONE_SLAB_DOUBLE.id)
         # Pillars
-        mc.setBlocks(x-2, floor_base, z-3, x-2, floor_base+2, z-3, block.BEDROCK.id)
-        mc.setBlocks(x+3, floor_base, z+3, x+3, floor_base+2, z+3, block.BEDROCK.id)
-        mc.setBlocks(x-2, floor_base, z+3, x-2, floor_base+2, z+3, block.BEDROCK.id)
-        mc.setBlocks(x+3, floor_base, z-3, x+3, floor_base+2, z-3, block.BEDROCK.id)
+        mc.setBlocks(x-2, floor_base, z-3, x-2, floor_base+2, z-3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x+3, floor_base, z+3, x+3, floor_base+2, z+3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x-2, floor_base, z+3, x-2, floor_base+2, z+3, block.WOOD_PLANKS.id)
+        mc.setBlocks(x+3, floor_base, z-3, x+3, floor_base+2, z-3, block.WOOD_PLANKS.id)
         # Floor
-        mc.setBlocks(x-2, floor_base+3, z-3, x+3, floor_base+3, z+3, block.BEDROCK.id)
+        mc.setBlocks(x-2, floor_base+3, z-3, x+3, floor_base+3, z+3, block.WOOD_PLANKS.id)
         
         # Add Windows
         mc.setBlocks(x-2, floor_base+1, z, x-2, floor_base+1, z+1, block.GLASS.id)
