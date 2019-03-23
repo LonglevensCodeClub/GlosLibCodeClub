@@ -103,10 +103,18 @@ def makeTower(mc, x, y, z):
         mc.setBlocks(x, floor_base+1, z+3, x+1, floor_base+1, z+3, block.GLASS.id)
         
         print ("Pos:", x, y, z)
-        for step in range(floor_height-1):
-            print("step", step)
-            mc.setBlock(x+step, y+floor_base+step, z, block.STAIRS_WOOD.id, 0)
-            mc.setBlock(x+step, y+floor_base-1, z, block.AIR.id)
+        if floor < floors - 1:
+            for step in range(floor_height-1):
+                print("step", step)
+                mc.setBlock(x+step, y+floor_base+step, z, block.STAIRS_WOOD.id, 0)
+                mc.setBlock(x+step, y+floor_base-1, z, block.AIR.id)
+            mc.setBlock(x+floor_height-2, y+floor_base-1, z+1, block.STAIRS_WOOD.id, 2)
+            mc.setBlock(x+floor_height-2, y+floor_base-1, z-1, block.STAIRS_WOOD.id, 3)
+        else:
+            for step in range(floor_height-1):
+                print("step", step)
+                mc.setBlock(x+step, y+floor_base-1, z, block.AIR.id)
+            
             
         # For Ati next Week
         # Make air blocks at top of stairs
