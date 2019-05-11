@@ -2,12 +2,17 @@ import random
 
 chars = 'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!^&*()_+:@~}{;'
 
-password = ''
+lngth = input('password length')
+length = int(lngth)
 
 
-for c in range (10):
+for p in range(3):  
+  password = ''
+
+  
+  for c in range (length):
     password += random.choice(chars)
-print(password)
+  print(password)
 
 
 
