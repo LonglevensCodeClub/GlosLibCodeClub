@@ -1,0 +1,5 @@
+import turtle
+a=turtle.Turtle()
+write(0)
+forward(20)
+write(1)

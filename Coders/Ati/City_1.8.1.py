@@ -95,6 +95,8 @@ def makeTower(mc, x, y, z):
         mc.setBlocks(x+3, floor_base, z-3, x+3, floor_base+2, z-3, block.WOOD_PLANKS.id)
         # Floor
         mc.setBlocks(x-2, floor_base+3, z-3, x+3, floor_base+3, z+3, block.WOOD_PLANKS.id)
+        mc.setBlock(x-1, floor_base, z-2, block.BED.id)
+        mc.setBlock(x-1, floor_base, z-1, block.BED.id, 4)
         
         # Add Windows
         mc.setBlocks(x-2, floor_base+1, z, x-2, floor_base+1, z+1, block.GLASS.id)
