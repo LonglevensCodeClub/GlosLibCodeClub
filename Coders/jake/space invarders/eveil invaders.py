@@ -1,3 +1,4 @@
+## https://www.raspberrypi.org/magpi/pygame-zero-invaders/
 import pgzrun
 
 player = Actor("player", (400,550))
@@ -36,6 +37,35 @@ def updateAliens():
             aliens[a].image = "alien1b"
     moveseqence +=1
     if moveseqence == 40: moveseqence = 0
+    
+    def updateAliens():
+        global moveseaqence , moveDelay
+        movex = movey = 0
+        if movesequence < 10 or movesequnce >30: movex = -15
+        if movesequnce == 10 or movesequnce == 30:
+            movey = 50
+        if movesequnce >10 and movesequnce < 30: movex = 15
+        for a in range(len(aliens)):
+            animate(aliens[a], pos=(alien.x + movex, aliens[a].y + movey), duration=0.5,
+                    tween='linear')
+            if randint(0, 1) == 0:                                                                
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         
         
 
