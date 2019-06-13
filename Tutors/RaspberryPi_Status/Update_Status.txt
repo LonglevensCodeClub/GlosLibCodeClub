@@ -1,0 +1,19 @@
+
+Update Process:
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo rpi-update
+
+Last performed:
+
+ RPI |   Date
+ ===============
+  1. | 13-6-2019
+  2. | 13-6-2019
+  3. |  7-6-2019
+  4. |  2-5-2019
+  5. | 13-6-2019
+  6. |  7-6-2019
+  7. | 10-5-2019
