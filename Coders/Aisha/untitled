@@ -1,0 +1,17 @@
+from turtle import *
+
+screen = screen()
+screen.setup(400, 400)
+screen.bgcolour('white)
+
+from turtle import *
+
+screen =()
+screen.setup(400, 400)
+screen.bgcolour('#A7E30E')
+
+color('#FA057F')
+style = ('Arial', 40, 'bold')
+write('HELLO',font=style, align='center')
+
+screen = screen.setup
