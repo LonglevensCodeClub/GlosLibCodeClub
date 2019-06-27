@@ -4,7 +4,7 @@ Update Process:
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get dist-upgrade
-sudo rpi-update
+Do not do: sudo rpi-update  This is performed within the above commands automatically when the rpi-update has been thoroughly tested.
 
 Last performed:
 
@@ -13,7 +13,7 @@ Last performed:
   1. | 13-06-2019
   2. | 13-06-2019
   3. | 19-06-2019
-  4. | 19-05-2019
+  4. | 19-06-2019
   5. | 13-06-2019
   6. | 26-06-2019
   7. | 26-06-2019
