@@ -1,0 +1,9 @@
+Longlevens Library Code Club
+============================
+
+Longlevens Library Code Club is part of the https://CodeClub.org organisation. The club is aimed at children between the age of 9 and 13 years old who want to learn how ot write computer programs. The cllub will accept children outside of this age range if they have the interest and willingness to learn.
+
+For more details and how to book places, please see [Information for Parents](/docs/ParentsInfoSheet.pdf)
+
+
+
