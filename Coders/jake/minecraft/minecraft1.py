@@ -21,3 +21,8 @@ def init():
     mc.setBlocks(x-1, -1, z-2, x+1, -1, z+58, block.STONE.id)
     mc.player.setPos(x, 0, z)
     return mc
+
+
+
+
+init()
