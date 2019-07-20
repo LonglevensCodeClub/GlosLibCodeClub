@@ -1,0 +1,14 @@
+import random
+
+# define a seperate function for a scrambling word
+def scrambling word(word):
+    # Generate a list of indexes, they are generated in order
+    letterIndexes = list in(range(0, len(word)))
+    
+     #shuffle the indexes so they can be used to generate anagrams
+    random.shuffle(letter indexes)
+   
+   #start the value as empty string
+    scrambled = ""
+    
+    # work through the scrambled indexes, picking letters to ammend our puzzle
