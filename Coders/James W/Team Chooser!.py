@@ -1,8 +1,9 @@
+
 from random import choice 
 
 players = []
 file = open('player.txt', 'r')
-player = file.read().splitlines()
+players = file.read().splitlines()
 print(players)
 
 teamA= []
@@ -16,9 +17,12 @@ while len(players) > 0:
  print('Players Left:', players)
 
 
+ if players ==[]:
+   break
+
  playerB = choice(players)
  print(playerB)
- teamA.append(playerB)
+ teamB.append(playerB)
  players.remove(playerB)
  print('Players Left:', players)
  
@@ -26,7 +30,8 @@ while len(players) > 0:
  print('TeamB:', teamB)
  
  
- Harry
+Harry
 Hermione
 Neville
 Ginny
+Luna
