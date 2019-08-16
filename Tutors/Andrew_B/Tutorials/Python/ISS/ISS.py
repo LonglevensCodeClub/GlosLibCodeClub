@@ -12,10 +12,9 @@ timesOverheadUrl = 'http://api.open-notify.org/iss-pass.json?lat={}&lon={}&n={}'
 
 def loadJsonFromUrl(url):
     """ Returns the JSON provided by the given URL. """
-    #print("URL", url, "returned:")
-    html = urllib.request.urlopen(url).read()
-    result = json.loads(html.decode('utf-8'))
-    #print(result)
+    response = urllib.request.urlopen(url)
+    result = json.loads(response.read().decode('utf-8'))
+    print("URL", url, "returned:", result)
     return result
 
 def updatePositionOnMap(posData):
