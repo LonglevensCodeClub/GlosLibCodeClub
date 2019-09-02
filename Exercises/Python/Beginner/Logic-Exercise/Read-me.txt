@@ -1,0 +1,7 @@
+
+Logic Exercises
+===============
+
+Each Python file numbered 1 to 4 contains a sample function definition and an instruction to create a new function.
+
+The logicUtils.py file contains two function definitions to help with the 4 other Python files and should not be changed.
