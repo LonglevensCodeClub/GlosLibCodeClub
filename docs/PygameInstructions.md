@@ -1,3 +1,6 @@
+Pygame Zero
+===========
+
 ## Install
 * [Windows, Linux, Mac, RasPi install](https://pygame-zero.readthedocs.io/en/latest/installation.html)
 
