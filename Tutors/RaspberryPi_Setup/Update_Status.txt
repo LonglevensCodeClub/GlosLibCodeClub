@@ -4,16 +4,18 @@ Update Process:
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get dist-upgrade
-Do not do: sudo rpi-update  This is included within the above commands automatically once the latest rpi-update has been thoroughly tested.
+sudo apt-get clean
+
+NOTE: Do not run: sudo rpi-update  This is included within the above commands automatically once the latest rpi-update has been thoroughly tested. Running the command separately will install the latest potentially unstable version.
 
 Last performed:
 
  RPI |   Date
  ===============
-  1. | 17-07-2019
-  2. | 13-06-2019
-  3. | 19-06-2019
-  4. | 19-06-2019
-  5. | 13-06-2019
-  6. | 26-06-2019
-  7. | 26-06-2019
+  1. | 26-08-2019
+  2. | 26-08-2019
+  3. | 26-08-2019
+  4. | 06-09-2019
+  5. | 06-09-2019
+  6. | 06-09-2019
+  7. | 26-08-2019
