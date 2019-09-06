@@ -5,5 +5,7 @@ Longlevens Library Code Club is part of [CodeClub.org](https://codeclub.org). Th
 
 For more details and how to book places, please see [Information for Parents](ParentsInfoSheet.pdf)
 
+If your child or children are already participating in our Code Club, please see [Coding@Home](CodingAtHome.pdf) for how they can carry on their Code Club activities at home.
+
 
 

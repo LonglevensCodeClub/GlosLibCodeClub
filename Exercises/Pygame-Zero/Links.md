@@ -2,7 +2,7 @@
 * [Windows, Linux, Mac, RasPi install](https://pygame-zero.readthedocs.io/en/latest/installation.html)
 
 ## Documentation
-* [Index page for documetation](https://pygame-zero.readthedocs.io/en/latest/index.html)
+* [Index page for documentation](https://pygame-zero.readthedocs.io/en/latest/index.html)
 
 ## Examples (search pdfs for pygame zero)
 * [Part 1: Get Started With Pygame Zero](https://www.raspberrypi.org/magpi-issues/MagPi71.pdf)
