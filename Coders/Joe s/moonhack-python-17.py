@@ -21,3 +21,23 @@ print("Out of the items below, which do you bring? \n")
 
 
 print("Type the letter of the 4 items you would like to bring seperated by commas. Do not add spaces \n Ex: A,B,C,D")
+user_choice =input("Enter your choice: ")
+#print(user_choice)
+user_list= list(user_choice.split(','))
+#print(user_list)
+if "A" not in user_list:
+    print("Without a litre of water a day you will dehydrate")
+
+if "E" not in user_list:
+        
+    print ("Without oxygen you will not have any air to breathe!")
+
+if "F" not in user_list:
+    print("Without solar panels your lunar rover will not have enough power to make it to the base")
+
+if "I" not in user_list:
+    print("You will not be able to make it to the moon base without food you need your energy to drive the rover.")
+if "A" in user_list and "E" in user_list and "F" in user_list and "I" in user_list:
+    print ("Hooray! You picked the correct 4 items. You wi
+
+
