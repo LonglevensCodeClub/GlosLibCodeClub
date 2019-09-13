@@ -10,12 +10,12 @@ NOTE: Do not run: sudo rpi-update  This is included within the above commands au
 
 Last performed:
 
- RPI |   Date
- ===============
-  1. | 26-08-2019
-  2. | 26-08-2019
-  3. | 26-08-2019
-  4. | 06-09-2019
-  5. | 06-09-2019
-  6. | 06-09-2019
-  7. | 26-08-2019
+ RPI |   Date     |     OS 
+ =============================
+  1. | 12-09-2019 |  Stretch
+  2. | 12-09-2019 |  Stretch
+  3. | 12-09-2019 |  Stretch
+  4. | 06-09-2019 |  Stretch
+  5. | 06-09-2019 |  Stretch
+  6. | 06-09-2018 |  Stretch
+  7. | 12-09-2019 |  Stretch

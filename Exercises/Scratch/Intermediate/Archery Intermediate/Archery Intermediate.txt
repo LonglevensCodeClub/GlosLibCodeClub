@@ -1,0 +1,17 @@
+Start by following the Archery beginner project instructions if you haven't done that project previously.
+
+Then modify your code to do the following:
+
+1. Use the cursor keys to move the arrow around before firing.
+
+2. Add in a random wobble to the archer's aim as an archer cannot stand perfectly still.
+
+3. Change the code for releasing the arrow so that the arrow is fired virtually immediately when the space bar is pressed.
+
+4. Leave a mark on the target where an arrow has struck it so a player can see where their previous arrows hit the targe.
+
+5. Add in the player's current score, number of arrows they have fired and a record of the highest score by any player.
+
+6. Add in a "Game Over" message once all arrows in the player's turn have been fired.
+
+View the ArcheryEnhanced.flv video to see a completed version of this project.
