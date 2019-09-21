@@ -104,7 +104,7 @@ class Dungeon:
                 elif (direction.upper() == "U"):
                     y += self._ROOM_HEIGHT+2
                 else:
-					y -= self._ROOM_HEIGHT+2
+                    y -= self._ROOM_HEIGHT+2
                 if (x > self._MAX_X-self._ROOM_LENGTH
                  or x < self._MIN_X
                  or z < self._MIN_Z
@@ -113,24 +113,24 @@ class Dungeon:
                  or y < self._MIN_Y):
                     raise DungeonError.RoomError("Not enough space in direction \"" + direction + "\" from room " + str(start))
                 else:
-					if (self._mc.getBlock(x+1, y, z+2) == block.AIR.id):
-						raise DungeonError.RoomError("There is already a room in direction \"" + direction + "\" from room " + str(start))
-					else:
-						self.MakeRoom(x, y, z, x+self._ROOM_LENGTH, y+self._ROOM_HEIGHT, z+self._ROOM_WIDTH)
-						self._rooms[handle] = [x, y, z]
-						# Create the ajoining corridore or steps
-						if (direction.upper() == "N"):
-							self._mc.setBlocks(x-2, y, z+self._ROOM_WIDTH/2, x, y+1, z+self._ROOM_WIDTH/2, block.AIR)
-						elif (direction.upper() == "S"):
-							self._mc.setBlocks(x+self._ROOM_LENGTH, y, z+self._ROOM_WIDTH/2, x+self._ROOM_LENGTH+2, y+1, z+self._ROOM_WIDTH/2, block.AIR)
-						elif (direction.upper() == "E"):
-							self._mc.setBlocks(x+self._ROOM_LENGTH/2, y, z-2, x+self._ROOM_LENGTH/2, y+1, z, block.AIR)
-						elif (direction.upper() == "W"):
-							self._mc.setBlocks(x+self._ROOM_LENGTH/2, y, z+self._ROOM_WIDTH, x+self._ROOM_LENGTH/2, y+1, z+self._ROOM_WIDTH+2, block.AIR)
-						elif (direction.upper() == "U"):
-							self.StepsDown(x+1, y, z+2)
-						else:
-							self.StepsDown(x+1, y+self._ROOM_HEIGHT+2, z+2)
+                    if (self._mc.getBlock(x+1, y, z+2) == block.AIR.id):
+                        raise DungeonError.RoomError("There is already a room in direction \"" + direction + "\" from room " + str(start))
+                    else:
+                        self.MakeRoom(x, y, z, x+self._ROOM_LENGTH, y+self._ROOM_HEIGHT, z+self._ROOM_WIDTH)
+                        self._rooms[handle] = [x, y, z]
+                        # Create the ajoining corridore or steps
+                        if (direction.upper() == "N"):
+                            self._mc.setBlocks(x-2, y, z+self._ROOM_WIDTH/2, x, y+1, z+self._ROOM_WIDTH/2, block.AIR)
+                        elif (direction.upper() == "S"):
+                            self._mc.setBlocks(x+self._ROOM_LENGTH, y, z+self._ROOM_WIDTH/2, x+self._ROOM_LENGTH+2, y+1, z+self._ROOM_WIDTH/2, block.AIR)
+                        elif (direction.upper() == "E"):
+                            self._mc.setBlocks(x+self._ROOM_LENGTH/2, y, z-2, x+self._ROOM_LENGTH/2, y+1, z, block.AIR)
+                        elif (direction.upper() == "W"):
+                            self._mc.setBlocks(x+self._ROOM_LENGTH/2, y, z+self._ROOM_WIDTH, x+self._ROOM_LENGTH/2, y+1, z+self._ROOM_WIDTH+2, block.AIR)
+                        elif (direction.upper() == "U"):
+                            self.StepsDown(x+1, y, z+2)
+                        else:
+                            self.StepsDown(x+1, y+self._ROOM_HEIGHT+2, z+2)
         return handle
 
 
