@@ -82,7 +82,9 @@ from picamera import PiCamera
 import time
 import os
 from subprocess import check_call
+from subprocess import call
 import bluetooth
+import subprocess
 import socket
 import logging
 
@@ -404,9 +406,13 @@ size = 1024
 ##     STS-Pi2 : Bluetooth MAC Address = 'B8:27:EB:87:BC:83'
 ##     STS-Pi3 : Bluetooth MAC Address = 'B8:27:EB:2B:AB:C0'
 
+#Make Bluetooth discoverable
+subprocess.call(['sudo','hciconfig','hci0', 'piscan'])
+
 #Action to be taken if any button is pressed.
 explorerhat.touch.pressed(buttonPressed)
 
+#Main Loop
 while True:
     try:
         connected = False
