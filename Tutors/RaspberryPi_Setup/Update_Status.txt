@@ -12,9 +12,9 @@ Last performed:
 
  RPI |   Date     |  OS Vers
  =============================
-  1. | 12-09-2019 |  Stretch
-  2. | 12-09-2019 |  Stretch
-  3. | 20-09-2019 |  Stretch
+  1. | 08-11-2019 |  Stretch
+  2. | 08-11-2019 |  Stretch
+  3. | 08-11-2019 |  Stretch
   4. | 06-09-2019 |  Stretch
   5. | 06-09-2019 |  Stretch
   6. | 06-09-2018 |  Stretch
