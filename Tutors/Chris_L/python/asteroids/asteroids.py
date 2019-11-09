@@ -108,8 +108,7 @@ class SpaceShip(Turtle):
     self.dy = dy
     self.screen = screen   
     self.bullets = []
-    screen.addshape("rocketship.gif")
-    self.shape("rocketship.gif")
+    self.shape("ship")
     
 
   def move(self):
