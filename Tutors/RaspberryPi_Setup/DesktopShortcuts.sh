@@ -36,10 +36,10 @@ ln -sfn $javascript/              $desktop/Javascript
 #4. HTML CSS
 #-----------
 htmlcss=$exercises/HTML-CSS
-ln -sfn $htmlcss/                 $desktop/HTML\ CSS
-#ln -sfn $htmlcss/Beginner/        $desktop/HTML\ CSS\ Beginner
-#ln -sfn $htmlcss/Intermediate/    $desktop/HTML\ CSS\ Intermediate
-#ln -sfn $htmlcss/Advanced/        $desktop/HTML\ CSS\ Advanced
+ln -sfn $htmlcss/                 $desktop/HTML-CSS
+#ln -sfn $htmlcss/Beginner/        $desktop/HTML-CSS\ Beginner
+#ln -sfn $htmlcss/Intermediate/    $desktop/HTML-CSS\ Intermediate
+#ln -sfn $htmlcss/Advanced/        $desktop/HTML-CSS\ Advanced
 
 #Help
 #====
