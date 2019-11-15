@@ -8,8 +8,13 @@ screenMaxX = screen.window_width() / 2
 screenMaxY = screen.window_height() / 2
 screen.setworldcoordinates(screenMinX,screenMinY,screenMaxX,screenMaxY)
 
+screen.register_shape("ship",((-10,-10),(0,-5),(10,-10),(0,10)))
+
 screen.bgcolor("black")
+
+t.shape("ship")
 t.color('red')
+
 
 def doLeft():
     t.left(10)
