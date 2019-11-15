@@ -234,9 +234,9 @@ ht()
 
 screen.tracer(0);
 
-screen.onkey(turnLeft, 'left')
-screen.onkey(turnRight, 'right')
-screen.onkey(go, 'up')
+screen.onkey(turnLeft, 'Left')
+screen.onkey(turnRight, 'Right')
+screen.onkey(go, 'Up')
 screen.onkey(fire, 'space')
 screen.listen()
 
