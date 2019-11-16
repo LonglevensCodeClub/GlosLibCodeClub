@@ -1,3 +1,5 @@
+#!/bin/python3 
+
 from turtle import *
 from random import *
 
@@ -15,6 +17,7 @@ def randomplace():
   pendown()
 
 shape("turtle")
+speed(0)
 
 #for i in range(30):
 #randomcolour()
@@ -22,30 +25,34 @@ shape("turtle")
 #randomheading()
 #stamp()
 
-def drawrectangle()
-hideturtle()
-length = randint(10, 100)
+def drawrectangle():
+  hideturtle()
+  length = randint(10, 100)
 
 
 def drawrectangle():
-    hideturtle()
-    length = randint(10, 100)
-    height = randint(10, 100)
-    begin_fill()
-    forward(length)
-    right(90)
-    forward(height)
-    right(90)
-    forawrd(length)
-    right(90)
-    forward(height)
-    right(90)
-    end_fill()
+  randomcolour()
+  randomplace()
+  hideturtle()
+  length = randint(10, 100)
+  height = randint(10, 100)
+  begin_fill()
+  forward(length)
+  right(90)
+  forward(height)
+  right(90)
+  forward(length)
+  right(90)
+  forward(height)
+  right(90)
+  end_fill()
 
- clear()
- setheading(0)
+clear()
+setheading(0)
 
- drawrectangle()
+for i in range(20):
+  drawrectangle()
+
  
     
     
