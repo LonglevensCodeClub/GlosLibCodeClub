@@ -12,5 +12,5 @@ def slanted_rectangle(length,width,angle):
         t.fd(length)
         t.left(90)
  
-for angle in range(5): 
- slanted_rectangle(length=212,angle=angle,width=234)
+for angle in range(360): 
+ slanted_rectangle(length=200,angle=angle,width=210)
