@@ -10,12 +10,12 @@ NOTE: Do not run: sudo rpi-update  This is included within the above commands au
 
 Last performed:
 
- RPI |   Date     |  OS Vers
- =============================
-  1. | 08-11-2019 |  Stretch
-  2. | 08-11-2019 |  Stretch
-  3. | 08-11-2019 |  Stretch
-  4. | 06-09-2019 |  Stretch
-  5. | 06-09-2019 |  Stretch
-  6. | 11-11-2018 |  Stretch
-  7. | 12-09-2019 |  Stretch
+ RPI |   Date     |  OS Vers  | Notes
+ ===========================================================
+  1. | 19-11-2019 |  Stretch  | Corrupted repo recloned 19/11/19
+  2. | 08-11-2019 |  Stretch  | Rover
+  3. | 08-11-2019 |  Stretch  | Rover
+  4. | 19-11-2019 |  Stretch  |
+  5. | 19-11-2019 |  Stretch  |
+  6. | 11-11-2018 |  Stretch  | Corrupted repo recloned 11/11/19
+  7. | 12-09-2019 |  Stretch  |
