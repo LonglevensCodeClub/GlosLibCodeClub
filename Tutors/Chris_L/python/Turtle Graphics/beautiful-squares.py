@@ -13,4 +13,3 @@ for x in range(300):
   t.left(90)
 
 t.screen.exitonclick()
-t.screen.mainloop()

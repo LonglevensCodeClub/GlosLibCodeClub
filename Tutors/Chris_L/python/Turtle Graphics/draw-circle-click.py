@@ -1,13 +1,15 @@
-from turtle import Turtle
+from turtle import Turtle, Screen
+
+window = Screen()
+
 t=Turtle()
-t.screen.bgcolor("black")
+window.bgcolor("black")
 t.color("orange")
 
 def circle(x,y):
-  t.gotoxy(0,0)
+  t.goto(x,y)
   t.circle(60)
 
-t.onclick(circle)
-t.screen.listen()
+window.onclick(circle)
 
-t.screen.mainloop()
+window.mainloop()
