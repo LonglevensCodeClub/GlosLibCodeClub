@@ -1,6 +1,9 @@
-from turtle import Turtle
+from turtle import Turtle, Screen
+
 t = Turtle()
-t.screen.bgcolor("black")
+window = Screen()
+
+window.bgcolor("black")
 t.color("white")
 
 
@@ -44,4 +47,4 @@ draw_square(-135, -20, 20)
 draw_square(-135, 30, 20)
 draw_square(-170, 0, 30)
 
-t.screen.exitonclick()
+window.exitonclick()
