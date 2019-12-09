@@ -95,7 +95,7 @@ consoleHandler = logging.StreamHandler(stream=sys.stdout)
 consoleHandler.setFormatter(formatter)
 logger = logging.getLogger("sts-pi_bluethooth_rover")
 logger.addHandler(consoleHandler)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 #Global speed and duration variables
 speed = 0
@@ -403,8 +403,11 @@ port = 3
 backlog = 1
 size = 1024
 ## For info:
+##     STS-Pi1 : Bluetooth MAC Address = 'B8:27:EB:2B:AB:C0'
 ##     STS-Pi2 : Bluetooth MAC Address = 'B8:27:EB:87:BC:83'
-##     STS-Pi3 : Bluetooth MAC Address = 'B8:27:EB:2B:AB:C0'
+
+#Allow a few seconds as boot up may override making Bluetooth discoverable.
+sleep(5)
 
 #Make Bluetooth discoverable
 subprocess.call(['sudo','hciconfig','hci0', 'piscan'])
@@ -435,11 +438,12 @@ while True:
         while connected and stayConnected:
             logger.debug("Checking for incoming data",
                          extra={"clientId":clientInfo})
+            sleep(0.1)
             try:
                 data = clientSocket.recv(size)
                 explorerhat.light.yellow.on()
                 data = data.decode("utf-8")
-                logger.debug("received = {}".format(data),
+                logger.info("received = {}".format(data),
                              extra={"clientId":clientInfo})
                 data_end=data.find('\n')
                 if data == "Forwards":
@@ -483,18 +487,17 @@ while True:
                     sendMessage("Bye")
                     sleep(1)
                     connected = False
-            except Exception:
+            except Exception as e:
                 # Expected exception when the client is not sending messages
-                logger.debug("Socket timed out", extra={"clientId":clientInfo})
+                logger.debug(e, extra={"clientId":clientInfo})
             
-    except Exception as e:
-        logger.exception("Communications Error with client",
-                         extra={"clientId":clientInfo})
+    except Exception as e1:
+        logger.exception(e1, extra={"clientId":clientInfo})
         if connected:
             try:
                 sendMessage("Bye")
-            except Exception as e:
-                logger.debug("Unable to say Bye", extra={"clientId":clientInfo})
+            except Exception:
+                logger.error("message", extra={"clientId":clientInfo}, exc_info=True)
 
     logger.info("Resetting connection", extra={"clientId":clientInfo})
     setStopTime(0)
