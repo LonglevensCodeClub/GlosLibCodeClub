@@ -39,7 +39,7 @@ def setup_gui():
     global app, statusWaffle, roverChoice, connectButton, exitButton
     global forwardButton, stopButton, backwardButton, spdSlider, durationSlider
     global spinRightButton, spinLeftButton, photoButton, videoButton
-    global buttonWaffle
+    global buttonWaffle, disconnectButton
 
     # Declare the GUI application
     app = App("STS Controller", layout="grid")
@@ -54,8 +54,8 @@ def setup_gui():
 
     # Choice of STS-PI Rover
     roverChoice = ButtonGroup(app,
-                              options=["STS-Pi 2", "STS-Pi 3"],
-                              selected="STS-Pi 2",
+                              options=["STS-Pi 1", "STS-Pi 2"],
+                              selected="STS-Pi 1",
                               grid=[1,0])
 
     # Reconnect button for when the Bluetooth connection has been lost or reset
@@ -108,17 +108,19 @@ def setup_gui():
     spacer = Text(app, "", grid=[0,10]) 
 
     # Button to quit the application
-    exitButton = PushButton(app, closeDown, text="Exit", grid=[1,11])
+    disconnectButton = PushButton(app, disconnect, text="Disconnect", grid=[0,11])
+    disconnectButton.disable()
+    exitButton = PushButton(app, closeDown, text="Exit", grid=[2,11])
 
 def connect():
     """Set up the Client BlueTooth connection.
     """
+    serverMACaddress1 = 'B8:27:EB:2B:AB:C0'
     serverMACaddress2 = 'B8:27:EB:87:BC:83'
-    serverMACaddress3 = 'B8:27:EB:2B:AB:C0'
     port = 3
     global roverSocket, connected, roverChoice, commandInProgress
-    if roverChoice.value == "STS-Pi 3":
-        serverMACaddress = serverMACaddress3
+    if roverChoice.value == "STS-Pi 1":
+        serverMACaddress = serverMACaddress1
     else:
         serverMACaddress = serverMACaddress2
     print("Connecting to STS-PI with serverMACaddress:", serverMACaddress)
@@ -130,15 +132,35 @@ def connect():
         statusWaffle.set_pixel(0, 0, "blue")
         connectButton.disable()
         roverChoice.disable()
+        disconnectButton.enable()
         enableMotionButtons()
         enableCameraButtons()
         commandInProgress = False
-    except:
+    except bluetooth.btcommon.BluetoothError as bte:
+        print("Bluetooth Error:", bte )
         connected = False
         statusWaffle.set_pixel(0, 0, "red")
         connectButton.enable()
         roverChoice.enable()
 
+def disconnect():
+    """Disconnect from the currently connected rover.
+    """
+    if stopButton.enabled:
+        stop()
+    global exiting, roverSocket
+    print("Disconnecting from STS-PI")
+    if connected:
+        sendCommand("Bye")
+        sleep(1)
+        try:
+            roverSocket.shutdown(socket.SHUT_RDWR)
+            connectButton.enable()
+            disconnectButton.disable()
+            statusWaffle.set_pixel(0, 0, "white")
+        except Exception as e:
+            print("Unable to close socket:", str(e))
+        
 def sendCommand(command):
     """Function to send an instruction to the rover.
 
@@ -350,8 +372,7 @@ def closeDown():
     exiting = True
     print("Exiting STS-PI application")
     if connected:
-        sendCommand("Bye")
-        sleep(1)
+        disconnect()
         try:
             roverSocket.close()
         except Exception as e:
@@ -417,5 +438,11 @@ t2 = threading.Thread(target=checkConnected, daemon=True)
 t2.start()
 
 # Show the GUI reasonable central on the display
-app.tk.geometry("300x420+600+400")
+screen_width = app.tk.winfo_screenwidth()
+screen_height = app.tk.winfo_screenheight()
+window_width = 300
+window_height = 440
+x_cordinate = int((screen_width/2) - (window_width/2))
+y_cordinate = int((screen_height/2) - (window_height/2))
+app.tk.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
 app.display()
