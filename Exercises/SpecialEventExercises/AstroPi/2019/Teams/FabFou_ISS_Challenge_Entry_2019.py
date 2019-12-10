@@ -4,12 +4,12 @@ sense = SenseHat()
 sense.set_rotation(270)
 
 red = (255,0,0)
-sense.show_message("Whats the temperature ", scroll_speed= 0.05,text_colour=red)
+sense.show_message("Whats the temperature?", scroll_speed= 0.05,text_colour=red)
 
 b=0,0,0
 w=255,255,255
 temp = round (sense.get_temperature(), 1)
-sense.show_message("It is " +str(temp)+" degress",scroll_speed= 0.05)
+sense.show_message("It is " +str(temp)+" degrees",scroll_speed= 0.05)
 
 h= (255,255,0)
 hot = [b,b,h,h,b,h,h,b,
