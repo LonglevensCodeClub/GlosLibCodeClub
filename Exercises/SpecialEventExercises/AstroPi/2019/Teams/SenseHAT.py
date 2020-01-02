@@ -65,6 +65,20 @@ bye = [r,r,r,b,b,b,r,r,
        r,r,b,b,r,b,r,r]
 
 sense.set_pixels(bye)
+sleep(3)
+
+blank = [b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b,
+         b,b,b,b,b,b,b,b]
+
+sense.set_pixels(blank)
+
+
 system("shutdown now -h")
 exit(0)
 

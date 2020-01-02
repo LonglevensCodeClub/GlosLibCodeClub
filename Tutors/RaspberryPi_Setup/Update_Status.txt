@@ -10,15 +10,15 @@ NOTE: Do not run: sudo rpi-update  This is included within the above commands au
 
 Last performed:
 
-   RPI   |   Date     |  OS Vers  | Notes
+   RPi   |   Date     |  OS Vers  | Notes
 ===========================================================
-    1.   | 13-12-2019 |  Buster   | Pi 4
-    2.   | 13-12-2019 |  Buster   | Pi 4
-    3.   | 13-12-2019 |  Stretch  | SenseHAT installed. Previously RPI 1. Corrupted repo recloned 19/11/19
+    1.   | 02-01-2020 |  Buster   | Pi v4
+    2.   | 02-01-2020 |  Buster   | Pi v4
+    3.   | 02-01-2020 |  Stretch  | SenseHAT installed. Previously RPi 1. Corrupted repo recloned 19/11/19
     4.   | 19-11-2019 |  Stretch  |
     5.   | 19-11-2019 |  Stretch  |
-    6.   | 24-11-2018 |  Stretch  | Corrupted repo recloned 11/11/19
-    7.   | 24-11-2019 |  Stretch  | PHP.ini replaced during update. Copy stored in home dir
-STS-Pi-1 | 13-12-2019 |  Stretch  | Rover. Previously RPI 3
-STS-Pi-2 | 13-12-2019 |  Stretch  | Rover. Previously RPI 2
+    6.   | 02-01-2020 |  Stretch  | Corrupted repo recloned 11/11/19
+    7.   | 02-01-2020 |  Buster   | 
+STS-Pi-1 | 02-01-2020 |  Stretch  | Rover. Previously RPi 3
+STS-Pi-2 | 02-01-2020 |  Stretch  | Rover. Previously RPi 2
 
