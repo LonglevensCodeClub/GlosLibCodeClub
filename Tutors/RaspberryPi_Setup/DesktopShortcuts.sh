@@ -46,4 +46,10 @@ ln -sfn $htmlcss/                 $desktop/HTML-CSS
 
 ln -sfn $exercises/Help $desktop/Help
 
+# Special Events
+#===============
+
+#Astro Pi 2020
+ln -sfn $exercises/SpecialEventExercises/AstroPi/2020/Docs/AstroPi_Challenge.pdf $desktop/AstroPi\ Challenge.pdf
+
 exit
