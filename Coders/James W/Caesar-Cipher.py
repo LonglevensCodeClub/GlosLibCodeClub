@@ -2,7 +2,7 @@ class CaesarCipher:
     def _init_(self, key):
         self.key = key
 
-        def encryptLetter(self, plainLetter)
+        def encryptLetter(self, plainLetter):
             return 'a'
 
         def decryptLetter(self, cipherLetter):
@@ -26,7 +26,7 @@ def encryptWord(self, plainText):
     cipherText = ""
 
     for p in plainText:
-        c self.encryptLetter(p)
+        c = self.encryptLetter(p)
         ciphertext += c
 
         return cipherText
@@ -36,14 +36,14 @@ def encryptWord(self, plainText):
         plainText = ""
         return plainText
     
-    def testEncryptWord(plainText, key, expected):
-        # When
-        c = CaesarCipher(key)
-        result = c.encryptWord(plainText)
+def testEncryptWord(plainText, key, expected):
+    # When
+    c = CaesarCipher(key)
+    result = c.encryptWord(plainText)
 
-        # Then
-        assert expected == result, "Incorrect '{}'!0'".format(expected, result)
-        
+    # Then
+    assert expected == result, "Incorrect '{}'!0'".format(expected, result)
+    
 
-testEncryptWord("hello", 5, mjqqt")
+testEncryptWord("hello", 5, "mjqqt")
                 
