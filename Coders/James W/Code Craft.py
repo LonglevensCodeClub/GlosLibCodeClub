@@ -281,10 +281,10 @@ screen.bgcolor(BACKGROUNDCOLOUR)
 screen.listen()
 
 #register the player image  
-screen.register_shape(playerImg)
+#screen.register_shape(playerImg)
 #register each of the resource images
-for texture in textures.values():
-  screen.register_shape(texture)
+#for texture in textures.values():
+#  screen.register_shape(texture)
   
 #create a new player object
 playerT = turtle.Turtle()
