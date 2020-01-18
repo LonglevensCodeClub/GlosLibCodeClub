@@ -36,8 +36,6 @@ size = 1024
 def setup_gui():
     """ Create the GUI for controlling the STS-Pi Rover.
     """
-    global app
-    app = App("STS Controller", layout="grid")
 
 
     
@@ -226,9 +224,6 @@ def buttonPressed(number):
     """
 
     
-# Await connection
-disableRoverButtons()
-
 # Thread to receive feedback questions and status
 t = threading.Thread(target=receiveResponse, daemon=True)
 t.start()

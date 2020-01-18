@@ -12,13 +12,13 @@ Last performed:
 
    RPi   |   Date     |  OS Vers  | Notes
 ===========================================================
-    1.   | 10-01-2020 |  Buster   | Pi v4
-    2.   | 10-01-2020 |  Buster   | Pi v4
-    3.   | 10-01-2020 |  Stretch  | SenseHAT installed. Previously RPi 1. Corrupted repo recloned 19/11/19
-    4.   | 19-11-2019 |  Stretch  |
-    5.   | 19-11-2019 |  Stretch  |
-    6.   | 10-01-2020 |  Stretch  | Corrupted repo recloned 11/11/19
-    7.   | 10-01-2020 |  Buster   | 
-STS-Pi-1 | 10-01-2020 |  Stretch  | Rover. Previously RPi 3
-STS-Pi-2 | 10-01-2020 |  Stretch  | Rover. Previously RPi 2
+    1    | 10-01-2020 |  Buster   | Pi v4
+    2    | 10-01-2020 |  Buster   | Pi v4
+    3    | 10-01-2020 |  Stretch  | Pi v3 SenseHAT installed. Previously RPi 1. Corrupted repo, recloned 19/11/19
+    4    | 17-01-2020 |  Buster   | Pi v4
+    5    | 17-01-2020 |  Buster   | Pi v4
+    6    | 10-01-2020 |  Stretch  | Pi v3 Corrupted repo, recloned 11/11/19
+    7    | 17-01-2020 |  Buster   | Pi v3
+STS-Pi-1 | 17-01-2020 |  Stretch  | Pi v3 ExplorerHAT Rover. Previously RPi 3
+STS-Pi-2 | 10-01-2020 |  Stretch  | Pi v3 ExplorerHAT Rover. Previously RPi 2
 
