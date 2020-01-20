@@ -8,17 +8,17 @@ sudo apt-get clean
 
 NOTE: Do not run: sudo rpi-update  This is included within the above commands automatically once the latest rpi-update has been thoroughly tested. Running the command separately will install the latest potentially unstable version.
 
-Last performed:
+Update last performed:
 
-   RPi   |   Date     |  OS Vers  | Notes
-===========================================================
-    1    | 10-01-2020 |  Buster   | Pi v4
-    2    | 10-01-2020 |  Buster   | Pi v4
-    3    | 10-01-2020 |  Stretch  | Pi v3 SenseHAT installed. Previously RPi 1. Corrupted repo, recloned 19/11/19
-    4    | 17-01-2020 |  Buster   | Pi v4
-    5    | 17-01-2020 |  Buster   | Pi v4
-    6    | 10-01-2020 |  Stretch  | Pi v3 Corrupted repo, recloned 11/11/19
-    7    | 17-01-2020 |  Buster   | Pi v3
-STS-Pi-1 | 17-01-2020 |  Stretch  | Pi v3 ExplorerHAT Rover. Previously RPi 3
-STS-Pi-2 | 10-01-2020 |  Stretch  | Pi v3 ExplorerHAT Rover. Previously RPi 2
+   RPi   |   Date     |  OS Vers  | Model| Notes
+===============================================================================
+    1    | 10-01-2020 |  Buster   |  v4  |
+    2    | 10-01-2020 |  Buster   |  v4  |
+    3    | 20-01-2020 |  Buster   |  v4  | SenseHAT installed.
+    4    | 17-01-2020 |  Buster   |  v4  |
+    5    | 17-01-2020 |  Buster   |  v4  |
+    6    | 20-01-2020 |  Buster   |  v3  |
+    7    | 20-01-2020 |  Buster   |  v3  |
+STS-Pi-1 | 20-01-2020 |  Stretch  |  v3  | ExplorerHAT Rover. Previously RPi 3
+STS-Pi-2 | 10-01-2020 |  Stretch  |  v3  | ExplorerHAT Rover. Previously RPi 2
 
