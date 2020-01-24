@@ -98,15 +98,18 @@ def disconnect():
     global roverSocket, connected
     print("Disconnecting from STS-PI")
     if connected:
-        sendCommand("Bye")
-        sleep(1)
         try:
-            rover1Button.enable()
-            rover2Button.enable()
-            connected = False
-            roverSocket.shutdown(socket.SHUT_RDWR)
+            sendCommand("Bye")
         except Exception as e:
-            print("Unable to close socket:", str(e))
+            print("Exception", e)
+        sleep(1)
+    try:
+        rover1Button.enable()
+        rover2Button.enable()
+        connected = False
+        roverSocket.shutdown(socket.SHUT_RDWR)
+    except Exception as e:
+        print("Unable to close socket:", str(e))
         
 def sendCommand(command):
     """Function to send an instruction to the rover.

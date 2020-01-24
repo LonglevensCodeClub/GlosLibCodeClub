@@ -1,4 +1,5 @@
-from sense_emu import SenseHat
+from sense_hat import SenseHat
+#from sense_emu import SenseHat
 sense = SenseHat()
 sense.set_rotation(270)
 
