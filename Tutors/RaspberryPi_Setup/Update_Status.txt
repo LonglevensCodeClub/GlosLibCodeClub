@@ -14,13 +14,13 @@ Update last performed:
 ===============================================================================
     1    | 10-01-2020 |  Buster   |  v4  |  16MB   |
     2    | 10-01-2020 |  Buster   |  v4  |  16MB   |
-    3    | 24-01-2020 |  Buster   |  v4  |   8MB   | SenseHAT installed.
-    4    | 17-01-2020 |  Buster   |  v4  |   8MB   |
-    5    | 17-01-2020 |  Buster   |  v4  |   8MB   |
+    3    | 28-01-2020 |  Buster   |  v4  |   8MB   | SenseHAT installed.
+    4    | 28-01-2020 |  Buster   |  v4  |   8MB   |
+    5    | 28-01-2020 |  Buster   |  v4  |   8MB   |
     6    | 24-01-2020 |  Buster   |  v3  |   8MB   |
     7    | 24-01-2020 |  Buster   |  v3  |   8MB   |
-STS-Pi-1 | 20-01-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover. Previously RPi 3
-STS-Pi-2 | 10-01-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover. Previously RPi 2
-   x3    |     -      |     -     |  v3  |    0    | Spare
-   x4    |     -      |     -     |  v3  |    0    | Spare
-   x5    |     -      |     -     |  v3  |    0    | Spare
+STS-Pi-1 | 28-01-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
+STS-Pi-2 | 10-01-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
+   x3    |     -      |     -     |  v3  |    -    | Spare
+   x4    |     -      |     -     |  v3  |    -    | Spare
+   x5    |     -      |     -     |  v3  |    -    | Spare
