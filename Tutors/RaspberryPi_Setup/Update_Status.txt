@@ -6,20 +6,22 @@ sudo apt-get upgrade
 sudo apt-get dist-upgrade
 sudo apt-get clean
 
-NOTE: Do not run: sudo rpi-update  This is included within the above commands automatically once the latest rpi-update has been thoroughly tested. Running the command separately will install the latest potentially unstable version.
+NOTE: Do not run: sudo rpi-update  This is included within the above commands automatically
+once the latest rpi-update has been thoroughly tested. Running the command separately will
+install the latest version which may be unstable.
 
 Update last performed:
 
    RPi   |   Date     |  OS Vers  | Model| SD Card | Notes
 ===============================================================================
-    1    | 10-01-2020 |  Buster   |  v4  |  16MB   |
-    2    | 10-01-2020 |  Buster   |  v4  |  16MB   |
+    1    | 07-02-2020 |  Buster   |  v4  |  16MB   |
+    2    | 07-02-2020 |  Buster   |  v4  |  16MB   |
     3    | 28-01-2020 |  Buster   |  v4  |   8MB   | SenseHAT installed.
     4    | 28-01-2020 |  Buster   |  v4  |   8MB   |
     5    | 28-01-2020 |  Buster   |  v4  |   8MB   |
     6    | 24-01-2020 |  Buster   |  v3  |   8MB   |
     7    | 24-01-2020 |  Buster   |  v3  |   8MB   |
-STS-Pi-1 | 28-01-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
+STS-Pi-1 | 07-02-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
 STS-Pi-2 | 10-01-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
    x3    |     -      |     -     |  v3  |    -    | Spare
    x4    |     -      |     -     |  v3  |    -    | Spare
