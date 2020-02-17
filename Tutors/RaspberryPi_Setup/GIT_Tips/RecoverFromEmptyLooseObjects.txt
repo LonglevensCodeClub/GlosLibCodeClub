@@ -1,0 +1,38 @@
+If git status results in the following type of message then the repo has become corrupted due to an object file becoming zero length.
+
+error: object file .git/objects/ff/b056f306aec48d6210c748fc55b8a284e30e37 is empty
+error: object file .git/objects/ff/b056f306aec48d6210c748fc55b8a284e30e37 is empty
+fatal: loose object ffb056f306aec48d6210c748fc55b8a284e30e37 (stored in .git/objects/ff/b056f306aec48d6210c748fc55b8a284e30e37) is corrupt
+
+Make a back up copy of the local corrupt repo before commencing:
+
+  cd
+  mkdir GlosLibCodeClub_backup
+  cp -r GlosLibCodeClub/ GlosLibCodeClub_backup/
+
+This recovery technique comes from: https://stackoverflow.com/questions/11706215/how-to-fix-git-error-object-file-is-empty#31110176
+
+Use the following commands:
+
+  find .git/objects/ -type f -empty | xargs rm
+  git fetch -p
+  git fsck --full
+
+First line removes any empty loose objects.
+Second replaces the now missing objects
+Third checks the repository is all correct and there should be no errors. Do not continue with this procedure. (You may have to reclone the repo. Further help can be found on the referenced URL above.)
+
+Then perform:
+
+  git status
+
+Files listed under "Changes not staged for commit" are those affected by the corruption of the repo. For all those files that are zero length perform:
+
+  git checkout <each file listed>
+
+If any are not zero length, compare the file details with those in the main repository. Do not checkout if you are not sure which is best to keep. Change the filename to keep a copy if you want the child to decide which to keep.
+
+Once you have cleared the "changes not staged for commit", you can add as normal any files that are listed under "Untracked files".
+
+Andrew B
+17 February 2020
