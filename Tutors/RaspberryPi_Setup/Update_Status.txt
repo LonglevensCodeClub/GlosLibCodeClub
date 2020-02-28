@@ -16,13 +16,13 @@ Update last performed:
 ===============================================================================
     1    | 07-02-2020 |  Buster   |  v4  |  16MB   |
     2    | 07-02-2020 |  Buster   |  v4  |  16MB   |
-    3    | 28-01-2020 |  Buster   |  v4  |   8MB   | Faulty, awaiting replacement.
+    3    | 28-01-2020 |  Buster   |  v4  |   8MB   | Faulty, replacement received by Chris.
     4    | 28-01-2020 |  Buster   |  v4  |   8MB   |
-    5    | 17-02-2020 |  Buster   |  v4  |   8MB   | Corrupted GIT repo 8/2/20 (repaired)
-    6    | 17-02-2020 |  Buster   |  v3  |   8MB   | SenseHAT Fitted 17/2/20. Corrupted GIT repo 8/2/20 (repaired)
+    5    | 28-02-2020 |  Buster   |  v4  |   8MB   | Corrupted GIT repo 8/2/20 (repaired)
+    6    | 28-02-2020 |  Buster   |  v3  |   8MB   | SenseHAT Fitted 17/2/20. Corrupted GIT repo 8/2/20 (repaired)
     7    | 24-01-2020 |  Buster   |  v3  |   8MB   |
-STS-Pi-1 | 17-02-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
-STS-Pi-2 | 17-02-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
+STS-Pi-1 | 28-02-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
+STS-Pi-2 | 28-02-2020 |  Stretch  |  v3  |   8MB   | ExplorerHAT Rover.
    x3    |     -      |     -     |  v3  |    -    | Spare
    x4    |     -      |     -     |  v3  |    -    | Spare
    x5    |     -      |     -     |  v3  |    -    | Spare
