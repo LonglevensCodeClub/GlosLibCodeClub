@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 """ Module to control the STS-PI rover using Bluetooth using the Raspberry Pi
-with Bluetooth MAC address: B8:27:EB:2D:16:29 (RPi 2) or B8:27:EB:2B:AB:C0 (Rpi
-3) using RFCOMM port 3. The rover and client Raspberry Pi should be BlueTooth
-paired before use.
+with Bluetooth MAC address: B8:27:EB:2B:AB:C0 (STS-PI-1) or B8:27:EB:2D:16:29
+(STS-PI-2) using RFCOMM port 3. The rover and client Raspberry Pi do not need
+to be Bluetooth paired before use.
 
 To disconnect the rover from the client, press button 1 by the blue LED.
 
@@ -42,7 +42,7 @@ For the "Video" command, the rover will respond with:
 "Duration?"
 
 If the value received is not a valid value, the rover will respond:
-"Bad Value. Restart command."
+"Bad Value: <Name of value and value received>. Restart command."
 
 Once the responses are complete, the rover will respond with: "Acknowledged"
 The rover will then carry out the command and is ready to accept another
@@ -91,7 +91,7 @@ import sys
 import explorerhat
 from time import sleep
 import threading
-from picamera import PiCamera
+#from picamera import PiCamera
 import time
 import os
 from subprocess import check_call
@@ -108,7 +108,7 @@ consoleHandler = logging.StreamHandler(stream=sys.stdout)
 consoleHandler.setFormatter(formatter)
 logger = logging.getLogger("sts-pi_bluethooth_rover")
 logger.addHandler(consoleHandler)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 #Global speed and duration variables
 speedLeft = 0
@@ -122,14 +122,14 @@ abortCommand = False
 clientInfo = ""
 
 #Pi Camera declaration
-try:
-    camera = PiCamera()
-    camera.rotation = 180
-except Exception as e:
-    logger.exception("Camera already in use, check no other processes running " +
-                     "(eg headless process on start up)",
-                     extra={"clientId":clientInfo})
-    raise SystemExit
+##try:
+##    camera = PiCamera()
+##    camera.rotation = 180
+##except Exception as e:
+##    logger.exception("Camera already in use, check no other processes running " +
+##                     "(eg headless process on start up)",
+##                     extra={"clientId":clientInfo})
+##    raise SystemExit
 
 #Time at which motion shall end.
 endTime = time.time()
@@ -144,11 +144,13 @@ connected = False
 stayConnected = True
 
 #Flag to indicate the camera is being used.
-cameraInUse = False
+cameraInUse = True #False
 
 def resetAll():
     """Resets all the global variables to their default values.
     """
+    global speedLeft, speedRight, duration, endTime, exiting
+    global connected, stayConnected, CameraInUse
     speedLeft = 0
     speedRight = 0
     duration = 0
@@ -163,16 +165,35 @@ def sendMessage(message):
     Keyword arguments:
     message - The text to be sent to the client.
     """
-    if connected:
+    global connected
+    attempts = 3
+    while attempts > 0:
         try:
-            clientSocket.send(message)
+            attempts = attempts - 1
+            logger.debug("Attempts to send message left: {}".format(attempts),
+                         extra={"clientId":clientInfo})
+            if connected:
+                clientSocket.send(message)
+                attempts = -1
+            else:
+                logger.error("Client is not connected. Unable to send {}"
+                                 .format(message),
+                             extra={"clientId":clientInfo},
+                             exc_info=True)
             sleep(0.15)
         except Exception as e:
-            logger.exception("ERROR: Unable to send {} to client".format(message),
-                             extra={"clientId":clientInfo})
+            logger.exception("ERROR: Unable to send {} to client"
+                                 .format(message),
+                             extra={"clientId":clientInfo},
+                             exc_info=True)
+            connected = False
+    if attempts == 0:
+        logger.debug("ERROR: Unsuccessfully sent:{}".format(message),
+                     extra={"clientId":clientInfo})
+        disconnect()
     else:
-        logger.error("Client is not connected. Unable to send {}".format(message),
-                     extra={"clientId":""})
+        logger.debug("Successfully sent:{}".format(message),
+                     extra={"clientId":clientInfo})
 
 def clientAck():
     """Inform the client that the command has been accepted and that the rover
@@ -186,10 +207,12 @@ def clientRefuse(reason):
     """Inform the client that the command has been aborted and that the rover
     is ready to receive another command.
     """
+    global abortCommand
     sendMessage("Request refused:" + reason)
     explorerhat.light.yellow.off()
     logger.warn("Client refusal sent with the reason: {}".format(reason),
                 extra={"clientId":clientInfo})
+    abortCommand = True
 
 def stop():
     """Function to stop the STS-PI moving.
@@ -258,56 +281,57 @@ def getTimeStamp():
     """
     return time.strftime("%Y_%m%d_%H%M%S")
 
-def takePhoto():
-    """Takes a photo using the camera on the front of the STS-PI. The photo
-    file is saved in the Rover folder on the Desktop.
-    """
-    global cameraInUse
-    cameraInUse = True
-    clientAck()
-    sendMessage("Camera in use")
-    filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_photo.jpg'
-    sendMessage("Creating photo with filename: " + filename)
-    logger.info("Taking photo, image will be saved as: {}".format(filename),
-                extra={"clientId":clientInfo})
-    try:
-        camera.start_preview()
-        explorerhat.light.green.on()
-        sleep(2)
-        camera.capture(filename)
-    finally:
-        camera.stop_preview()
-        explorerhat.light.green.off()
-        cameraInUse = False
-        sendMessage("Camera available")
-        logger.info("Photo finished", extra={"clientId":clientInfo})
+##def takePhoto():
+##    """Takes a photo using the camera on the front of the STS-PI. The photo
+##    file is saved in the Rover folder on the Desktop.
+##    """
+##    global cameraInUse
+##    cameraInUse = True
+##    clientAck()
+##    sendMessage("Camera in use")
+##    filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_photo.jpg'
+##    sendMessage("Creating photo with filename: " + filename)
+##    logger.info("Taking photo, image will be saved as: {}".format(filename),
+##                extra={"clientId":clientInfo})
+##    try:
+##        camera.start_preview()
+##        explorerhat.light.green.on()
+##        sleep(2)
+##        camera.capture(filename)
+##    finally:
+##        camera.stop_preview()
+##        explorerhat.light.green.off()
 
-def takeVideo(length):
-    """Takes a video using the camera on the front of the STS-PI. The client is
-    asked to provide the duration. The video file is saved in the Rover folder
-    on the Desktop.
-    """
-    global cameraInUse
-    cameraInUse = True
-    clientAck()
-    sendMessage("Camera in use")
-    filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_video.h264'
-    sendMessage("Creating video with filename " + filename)
-    logger.info("Taking video. Video will be saved as: {}".format(filename),
-                extra={"clientId":clientInfo})
+##        cameraInUse = False
+##        sendMessage("Camera available")
+##        logger.info("Photo finished", extra={"clientId":clientInfo})
 
-    try:
-        camera.start_preview()
-        explorerhat.light.green.on()
-        camera.start_recording(filename)
-        sleep(length)
-        camera.stop_recording()
-    finally:
-        camera.stop_preview()
-        explorerhat.light.green.off()
-        cameraInUse = False
-        sendMessage("Camera available")
-        logger.debug("Video finished", extra={"clientId":clientInfo})
+##def takeVideo(length):
+##    """Takes a video using the camera on the front of the STS-PI. The client is
+##    asked to provide the duration. The video file is saved in the Rover folder
+##    on the Desktop.
+##    """
+##    global cameraInUse
+##    cameraInUse = True
+##    clientAck()
+##    sendMessage("Camera in use")
+##    filename = '/home/pi/Desktop/Rover/' + getTimeStamp() + '_video.h264'
+##    sendMessage("Creating video with filename " + filename)
+##    logger.info("Taking video. Video will be saved as: {}".format(filename),
+##                extra={"clientId":clientInfo})
+##
+##    try:
+##        camera.start_preview()
+##        explorerhat.light.green.on()
+##        camera.start_recording(filename)
+##        sleep(length)
+##        camera.stop_recording()
+##    finally:
+##        camera.stop_preview()
+##        explorerhat.light.green.off()
+##        cameraInUse = False
+##        sendMessage("Camera available")
+##        logger.debug("Video finished", extra={"clientId":clientInfo})
 
 def closeDown():
     """Closes down the application, stopping the STS-PI if it is moving.
@@ -327,11 +351,31 @@ def restart():
     """
     global exiting
     exiting = True
-    logger.info("Exiting STS-PI application and rebooting", extra={"clientId":clientInfo})
+    logger.info("Exiting STS-PI application and rebooting",
+                extra={"clientId":clientInfo})
     setStopTime(0)
     stop()
     explorerhat.light.off()
     os.system("sudo reboot")
+
+def getIpAddress():
+    global ip_address
+    sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't have to be reachable
+        sk.connect(('10.255.255.255', 1))
+        ip_address = sk.getsockname()[0]
+    except Exception as e1:
+        logger.exception(e1, extra={"clientId":clientInfo}) 
+
+        try:
+            ip_address = socket.gethostbyname(socket.gethostname())
+        except Exception as e2:
+            logger.exception(e2, extra={"clientId":clientInfo}) 
+            ip_address = '127.0.0.1'
+    finally:
+        sk.close()
+    return ip_address
 
 def buttonPressed(channel, event):
     """Informs the client that a button has been pressed or released.
@@ -339,14 +383,14 @@ def buttonPressed(channel, event):
     channel -- The button number
     event -- pressed or released.
     """
-    global stayConnected
+    global connected, stayConnected, ip_address
     if connected:
         sendMessage("Button" + str(channel) + "pressed")
         logger.info("Button Channel={} Event={}".format(channel, event),
                     extra={"clientId":clientInfo})
     else:
         logger.info("Button Channel={} Event={}".format(channel, event),
-                    extra={"clientId":""})
+                    extra={"clientId":clientInfo})
     if channel == 1:
         setStopTime(0)
         stop()
@@ -354,6 +398,8 @@ def buttonPressed(channel, event):
     if channel == 3:
         setStopTime(0)
         stop()
+    if channel == 5:
+        print("IP Address = ", getIpAddress())
     if channel == 7:
         stayConnected = False
         restart()
@@ -376,10 +422,14 @@ def enquireValue(valueRequired):
                     extra={"clientId":clientInfo})
         return value
     except Exception as e:
-        logger.exception("Problem requesting value=",
+        logger.exception("Problem requesting value:" + valueRequired,
                          extra={"clientId":clientInfo})
-        clientRefuse("Bad Value for" + valueRequired + ":" + val + "Restart command.")
-        abortCommand = True
+        if val is None:
+            clientRefuse("Bad value for " + valueRequired
+                         + ":null. Restart command.")
+        else:
+            clientRefuse("Bad Value for " + valueRequired + ":"
+                         + val + "Restart command.")
 
 def enquireSpeedsAndDuration():
     """Asks the client for the speeds and duration to be applied to the movement
@@ -394,7 +444,16 @@ def enquireSpeedsAndDuration():
     logger.info("Wheel speed left={}, Wheel speed right={}, Duration={}"
                     .format(speedLeft, speedRight, duration),
                 extra={"clientId":clientInfo})
-
+    if duration > 5 or duration < 1:
+        clientRefuse("Bad Value: Duration:" + str(duration)
+                     + ". Min:1 Max:5 seconds. Restart command.")
+    if speedLeft > 100 or speedLeft < -100:
+        clientRefuse("Bad Value. Left wheel speed:" + str(speedLeft)
+                     + ". Min:-100 Max:100. Restart command.")
+    if speedRight > 100 or speedRight < -100:
+        clientRefuse("Bad Value. Right wheel speed:" + str(speedRight)
+                     + ". Min:-100 Max:100. Restart command.")
+        
 ## Set up the server connection:
 port = 3
 backlog = 1
@@ -413,7 +472,8 @@ subprocess.call(['sudo','hciconfig','hci0', 'piscan'])
 explorerhat.touch.pressed(buttonPressed)
 
 clientInfo = ""
-connected = False
+ip = getIpAddress()
+logger.info("Rover IP Address={}".format(ip), extra={"clientId":clientInfo})
 
 def connect():
     """Waits for a connection request from a client and then sets up the two way
@@ -423,12 +483,13 @@ def connect():
     global clientInfo, connected, clientSocket, roverSocket
     connected = False
     explorerhat.light.blue.blink()
-    logger.info("Setting up Bluetooth connection", extra={"clientId":""})
+    logger.info("Setting up Bluetooth connection",
+                extra={"clientId":clientInfo})
     roverSocket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
     roverSocket.bind(("", port)) #Mac Address not required, default is local
     roverSocket.listen(backlog)
     logger.info("Bluetooth connection ready. Waiting client connection",
-                extra={"clientId":""})
+                extra={"clientId":clientInfo})
     clientSocket, clientInfo = roverSocket.accept()
     logger.debug("Client info={}".format(clientInfo),
                  extra={"clientId":clientInfo})
@@ -437,23 +498,37 @@ def connect():
     logger.info("Client connection made to: {}".format(clientInfo),
                 extra={"clientId":clientInfo})
     explorerhat.light.blue.on()
+    ip_address = getIpAddress()
+    logger.info("Local IP address = " + ip_address, extra={"clientId":clientInfo})
+    sendMessage("Connected to rover with ip_address " + ip_address)
 
 def disconnect():
     """Stops and disconnects from the current client. Sets the Blue light off.
     """
     global clientInfo, connected, clientSocket, roverSocket
+    logger.debug("Disconnecting from Client", extra={"clientId":clientInfo})
     setStopTime(0)
     stop()
-    sendMessage("Bye")
-    sleep(1)
-    logger.info("Closing sockets", extra={"clientId":clientInfo})
-    clientSocket.shutdown(socket.SHUT_RD)
-    roverSocket.shutdown(socket.SHUT_WR)
-    clientSocket.close()
-    roverSocket.close()
+    if connected:
+        sendMessage("Bye")
+        sleep(1)
+        logger.info("Closing sockets", extra={"clientId":clientInfo})
+        try:
+            roverSocket.shutdown(socket.SHUT_WR)
+            roverSocket.close()
+        except Exception as e:
+            logger.error(e, extra={"clientId":clientInfo}, exc_info=True)
+        try:
+            clientSocket.shutdown(socket.SHUT_RD)
+            clientSocket.close()
+        except Exception as e:
+            logger.error(e, extra={"clientId":clientInfo}, exc_info=True)
+
+
     connected = False
     explorerhat.light.blue.off()
-    logger.info("Bluetooth connection disconnected from", extra={"clientId":""})
+    logger.info("Bluetooth connection disconnected",
+                extra={"clientId":clientInfo})
 
 #Main Loop
 while True:
@@ -530,8 +605,11 @@ while True:
             try:
                 sendMessage("Bye")
             except Exception:
-                logger.error("message", extra={"clientId":clientInfo}, exc_info=True)
+                logger.error("message",
+                             extra={"clientId":clientInfo},
+                             exc_info=True)
 
     logger.info("Resetting connection", extra={"clientId":clientInfo})
+    stayConnected = True
     if connected:
         disconnect()
