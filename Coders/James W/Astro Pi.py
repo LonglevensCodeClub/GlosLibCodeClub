@@ -1,4 +1,4 @@
-rom time import sleep
+from time import sleep
 from sense_hat import SenseHat
 sense = SenseHat()
 sense.set_rotation(270)
@@ -35,34 +35,39 @@ hot = [
   b, b, b, b, b, b, b, b,
   g, g, g, g, g, g, g, g,
   g, g, g, g, g, g, g, g ]
-
-cold = [
-  b,b,w,b,b,b,w,b,
-  b,b,b,b,b,w,b,b,
-  b,w,b,b,b,b,b,w,
-  b,b,b,b,w,b,b,b,
-  w,b,b,w,b,b,w,b,
-  b,b,b,b,b,b,b,b,
-  w,w,w,w,w,w,w,w,
-  w,w,w,w,w,w,w,w ]
-
-cold2 = [
-  b,b,b,b,b,b,b,b,
-  b,b,w,b,b,b,w,b,
-  b,b,b,b,b,w,b,b,
-  b,w,b,b,b,b,b,w,
-  b,b,b,b,w,b,b,b,
-  w,b,b,w,b,b,w,b,
-  w,w,w,w,w,w,w,w,
-  w,w,w,w,w,w,w,w ]
   
+a = w
+d = b
+c = b
+cold = [
+  a,d,c,a,d,c,a,d,
+  d,c,a,d,c,a,d,c,
+  a,d,c,a,d,c,a,d,
+  c,a,d,c,a,d,c,a,
+  d,c,a,d,c,a,d,c,
+  a,d,c,a,d,c,a,d,
+  c,a,d,c,a,d,c,a,
+  a,d,c,a,d,c,a,d ] 
+
+
 if temp >= 20:
     sleep(1)
     sense.set_pixels(hot)
 else:
-  for i in range(0,5):
+  for i in range(0,4):
+    print("i =", i)
     sense.set_pixels(cold) 
-    sleep(0.1)
-    sense.set_pixels(cold2)
-    sleep(0.1)
-  
+    sleep(0.5)
+    if i == 0:
+      a = w
+      d = b
+      c = b
+    elif i == 1:
+      a = b
+      d = w
+      c = b
+    elif i == 2:
+      a = b
+      d = b
+      c = w
+        
