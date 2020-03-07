@@ -30,11 +30,11 @@ names = {
 
 #a dictionary linking resources to images.
 textures = {
-  DIRT    : 'dirt.png',
-  GRASS   : 'grass.png',
-  WATER   : 'water.png',
-  BRICK   : 'brick.png',
-  WOOD    : 'wood.png'
+  DIRT    : 'dirt.gif',
+  GRASS   : 'grass.gif',
+  WATER   : 'water.gif',
+  BRICK   : 'brick.gif',
+  WOOD    : 'wood.gif'
 }
 #the number of each resource the player has.
 inventory = {
@@ -45,7 +45,7 @@ inventory = {
   WOOD    :200
 }
 #the player image.
-playerImg = 'player.png'
+playerImg = 'player.gif'
 
 #the player position. 
 playerX = 0
