@@ -50,12 +50,12 @@ cold = [
   a,d,c,a,d,c,a,d ] 
 
 
-if temp >= 50:
+if temp >= 20:
     sleep(1)
     sense.set_pixels(hot)
 else:
-  for i in range(0,4):
-    for i in range(0,3):
+  for i in range(0,5):
+    for i in range(0,2):
       print("i =", i)
       cold = [
   a,c,c,a,c,d,a,c,
@@ -67,7 +67,7 @@ else:
   a,c,d,a,c,d,a,c,
   d,a,c,d,a,c,d,a ] 
       sense.set_pixels(cold)
-      sleep(0.5)
+      sleep(0.2)
       if i == 0:
         a = w
         d = b
@@ -80,4 +80,4 @@ else:
         a = b
         d = b
         c = w
-        
+      
