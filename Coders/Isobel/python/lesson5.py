@@ -9,7 +9,7 @@ t.end_fill()
 t.hideturtle()
 t.shapesize(5)
 t.pensize(7)
-         
+      
                  
                  
                  
@@ -77,6 +77,7 @@ t.pensize(7)
                  
                  
                  
+                
                  
                  
                  
@@ -185,49 +186,10 @@ t.pensize(7)
                  
                  
                  
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
+t.screen.bgcolor("black")
+t.color("hot pink")
+t.goto(100,50)
+t.circle(50)
+t.hideturtle()
+
+>>>>>>> 675a76b43bf469b732f1a63c55dc137c0f179c4b
