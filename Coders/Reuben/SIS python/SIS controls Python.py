@@ -1,8 +1,4 @@
 #!/usr/bin/python3
-# Controls forthe SIS
-# touch the numbers
-#8 to shut down 
-#7 Reboot/start 
 
 """ Provides a GUI to control a STS-PI rover using Bluetooth for communication.
 """
@@ -19,8 +15,8 @@ import socket
 
 
 #Global speed and duration variables
-leftSpeed = 0
-rightSpeed = 0
+speedLeft = 0
+speedRight = 0
 duration = 1
 
 #Flag to indicate that the Bluetooth connection is working.
@@ -48,32 +44,21 @@ def setup_gui():
                                command=connect,
                                args=[1],
                                text="connect to STS-Pi 1",
-                               grid = [1,0])
+                               grid = [1,0]
 
-    rover2Button = PushButton (app,
-                               command=connect,
-                               args=[2],
-                               text="connect to STS-Pi 2",
-                               grid = [2,0])
-    disconnectButton= PushButton(app, command=disconnect,text ="Disconnect",grid=[3,0])
-                                 
-
-    LeftDirection = Text(app,"Direction deg",grid=[1,4]) 
-    directionSlider = Slider(app,command = changeDirection, start = -180, end = 180, grid = [2,4])
-    
-    leftSliderText= Text(app, "Left Wheel Speed %", grid=[1, 2])
+                               )
+    leftSliderText = Text(app, "Left Wheel Speed %", grid=[1, 2])
     leftSlider = Slider(app, command=changeLeftSpeed, start = -100, end = 100, grid=[2, 2] )
 
     rightSliderText = Text(app, "Right Wheel Speed %", grid=[1, 3])
     rightSlider = Slider(app, command=changeRightSpeed, start = -100, end = 100, grid=[2,3] )
 
- 
+    durationText = Text(app, "Duration (secs)", grid=[1, 4])
+    durationSlider = Slider(app, command=changeDuration, start=1, end= 5, grid=[2, 4])
 
-    durationText = Text(app, "Duration (secs)", grid=[1, 5])
-    durationSlider = Slider(app, command=changeDuration, start=1, end= 5, grid=[2, 5])
-
-    moveButton=PushButton(app,move,text='Move',grid =[1,6])
-    stopButton=PushButton(app, stop, text='Stop',grid=[2,6])
+    moveButton=PushButton(app,move,text='Move',grid =[1,5])
+    moveButton=PushButton(app,photo,text='Taking Photo',grid =[2,5])
+    stopButton=PushButton(app, stop, text='Stop',grid=[3,5])
     
                                
     
@@ -109,11 +94,11 @@ def disconnect():
     if connected:
         sendCommand("Bye")
         sleep(1)
-    try:
-        connected = False
-        roverSocket.shutdown(socket.SHUT_RDWR)
-    except Exception as e:
-        print("Unable to close socket:", str(e))
+        try:
+            connected = False
+            roverSocket.shutdown(socket.SHUT_RDWR)
+        except Exception as e:
+            print("Unable to close socket:", str(e))
         
 def sendCommand(command):
     """Function to send an instruction to the rover.
@@ -160,7 +145,7 @@ def receiveResponse():
     while not exiting:
         try:
             while connected:
-                global abort, commandInProgress, rightSpeed, leftSpeed
+                global abort, commandInProgress, speedRight, speedLeft
 
                 print("Listening for a response from Rover")
                 data = roverSocket.recv(1024)
@@ -176,9 +161,9 @@ def receiveResponse():
                         print("Rover has responded with:", rover)
                         commandInProgress = False
                     elif rover == "Wheel Speed Left?":
-                            sendInteger(leftSpeed)
+                            sendInteger(speedLeft)
                     elif rover == "Wheel Speed Right?":
-                            sendInteger(rightSpeed)
+                            sendInteger(speedRight)
                     elif rover == "Duration?":
                         if not abort:
                             sendInteger(duration)
@@ -227,16 +212,26 @@ def stop():
     """Stop the rover moving asap.
     """
 
+    sendCommand('Stop')
+
 
 def move():
     """Moves the STS-PI forwards at the speed set and for the number of
     seconds selected.
     """
-    global leftSpeed,rightSpeed
+    global speedLeft,speedRight
     print('Move for',
           duration,
-          'seconds at speed of {}% left and {}% right'.format(leftSpeed, rightSpeed))
+          'seconds at speed of {}% left and {}% right'.format(speedLeft, speedRight))
     sendCommand('Move')
+
+
+
+def photo():
+    """Tells the STS-PI to take photo.
+    """
+    print('Taking Photo')
+    sendCommand('Photo')
 
 
 
@@ -245,9 +240,9 @@ def changeLeftSpeed(slider_value):
     Keyword arguments:
     slider_value - The value representing the position of the Speed slider.
     """
-    global leftSpeed
-    leftSpeed = int(slider_value)
-    print("New left wheel speed=",leftSpeed)                  
+    global speedLeft
+    speedLeft = int(slider_value)
+    print("New left wheel speed=",speedLeft)                  
 
 
 def changeRightSpeed(slider_value):
@@ -255,13 +250,12 @@ def changeRightSpeed(slider_value):
     Keyword arguments:
     slider_value - The value representing the position of the Speed slider.
     """
-    global rightSpeed
+    global speedRight
     
-    rightSpeed = int(slider_value)
-    print("New right wheel speed=",rightSpeed) 
+    speedRight = int(slider_value)
+    print("New right wheel speed=",speedRight)
      
-def changeDirection(slider_value):
-    print("New directions for left wheel =" ,slider_value)
+
 
 def changeDuration(slider_value):
     """Updates the global duration variable when the duration slider is
