@@ -10,9 +10,11 @@ The Club is moving Online
 -------------------------
 We are going to be providing online support to children working at home (see below). Hopefully parents of recent attendees will have had an email from the library with details how to request support for their child or children. 
 
-Parents who have responded to our email address contained in the message from the library should now all have had details of how to join us on online at 11:30am on 28 March 2020. If you have not received instructions or having difficulty getting online, please email us asap.
+Parents who respond to our email address contained in the message from the library will receive details of how to join us on online. If you have mailed us and not received instructions please email us again asap
 
-We are limited to attendees who recently attended the club who have been contacted by the GCC Library Service. Unfortunately the volunteers do not have access to contact details for parents. We hope with the help of the library service that we can extend the invite out to other parents in the coming weeks. In the meantime, all children can continue to access their work and carry on completing our exercises using the information below.
+Our next session will be at 11:30am on 4 April 2020.
+
+We are limited to attendees who have been contacted by the GCC Library Service. Unfortunately the volunteers do not have access to contact details for parents. We hope with the help of the library service that we can extend the invite out to other parents in the coming weeks but this of course depends on staff availability. In the meantime, all children can continue to access their work and carry on completing our exercises using the information below.
 
 Coding@Home
 -----------
